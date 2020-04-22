@@ -4,13 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
+using moneyucab_portalweb_back.Data;
 using moneyucab_portalweb_back.Models;
+using moneyucab_portalweb_back.Models.Entities;
 
 namespace moneyucab_portalweb_back
 {
@@ -27,8 +31,12 @@ namespace moneyucab_portalweb_back
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddEntityFrameworkNpgsql().AddDbContext<MoneyUCABWebAPIContext>(optionsAction: opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("MoneyUCABWebAPIConnection")));
+
+            services.AddDbContext<AuthenticationContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
+
+            services.AddIdentity<Usuario, IdentityRole>()
+                .AddEntityFrameworkStores<AuthenticationContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +46,8 @@ namespace moneyucab_portalweb_back
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseRouting();
 
