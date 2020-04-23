@@ -46,6 +46,8 @@ namespace moneyucab_portalweb_back
                 options.Password.RequireUppercase = false;
             }
             );
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +57,12 @@ namespace moneyucab_portalweb_back
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+            );
 
             app.UseAuthentication();
 
