@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace moneyucab_portalweb_back.Models.Entities
     public class Usuario : IdentityUser
     {
         [Column(TypeName="date")]
+        [Required]
         public DateTime SignupDate { get; set; }
     }
 }

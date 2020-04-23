@@ -13,7 +13,6 @@ namespace moneyucab_portalweb_back.Data
     {
         public AuthenticationContext(DbContextOptions options) : base(options)
         {
-
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
