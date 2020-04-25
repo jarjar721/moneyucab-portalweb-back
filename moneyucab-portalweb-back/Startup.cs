@@ -37,12 +37,14 @@ namespace moneyucab_portalweb_back
 
             services.AddControllers();
 
+            // Servicio que realiza la enlace con la BD por medio de un string de conexión.
             services.AddDbContext<AuthenticationContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
 
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<AuthenticationContext>();
 
+            // Servicio que configura las validaciones que deben cumplir las contraseñas de los usuarios
             services.Configure<IdentityOptions>(options => 
             {
                 options.Password.RequireDigit = false;
@@ -84,7 +86,8 @@ namespace moneyucab_portalweb_back
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
+            // Permite el enlance entre requests del front al servidor
             app.UseCors(builder =>
                 builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
                 .AllowAnyHeader()
