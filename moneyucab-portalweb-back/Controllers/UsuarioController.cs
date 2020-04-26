@@ -64,17 +64,22 @@ namespace moneyucab_portalweb_back.Controllers
         //Post : /api/Usuario/Login
         public async Task<IActionResult> Login(LoginModel model)
         {
+            // Busco el usuario en la base de datos - Get user in database
             // var user = await _userManager.FindByNameAsync(model.UserName); En caso de que se quiera hacer login con username
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
+                
+                // Check if email has been confirmed
+
+                // Generar un nuevo token - Generate a new token
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
                         new Claim("UserID", user.Id.ToString())
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(15), // El token expira luego de este tiempo
+                    Expires = DateTime.UtcNow.AddMinutes(_appSettings.Token_ExpiredTime), // El token expira luego de este tiempo
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
                 };
 

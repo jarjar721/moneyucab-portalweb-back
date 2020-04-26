@@ -9,5 +9,6 @@ namespace moneyucab_portalweb_back.Models
     {
         public string JWT_Secret { get; set; }
         public string Client_URL { get; set; }
+        public string Token_ExpiredTime { get; set; }
     }
 }
