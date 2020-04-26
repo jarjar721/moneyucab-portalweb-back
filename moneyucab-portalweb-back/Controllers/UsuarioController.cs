@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+
 using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.Entities;
 
@@ -33,7 +34,7 @@ namespace moneyucab_portalweb_back.Controllers
         [HttpPost]
         [Route("Register")]
         //Post : /api/Usuario/Register
-        public async Task<Object> PostUsuario(WebAppUserModel userModel)
+        public async Task<Object> Register(RegistrationModel userModel)
         {
             var usuario = new Usuario()
             {
@@ -45,11 +46,13 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
                 var result = await _userManager.CreateAsync(usuario, userModel.Password);
+
+                // Send Confirmation Email
+
                 return Ok(result);
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
 
@@ -71,7 +74,7 @@ namespace moneyucab_portalweb_back.Controllers
                     {
                         new Claim("UserID", user.Id.ToString())
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(5), // El token expira luego de este tiempo
+                    Expires = DateTime.UtcNow.AddMinutes(15), // El token expira luego de este tiempo
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
                 };
 
@@ -83,7 +86,9 @@ namespace moneyucab_portalweb_back.Controllers
 
             }
             else
+            {
                 return BadRequest(new { message = "¡Email o contraseña incorrecta!" });
+            }
 
         }
 
