@@ -81,7 +81,7 @@ namespace moneyucab_portalweb_back.Controllers
                         new Claim("LoggedOn", DateTime.Now.ToString())
                         //Aqui se agrega el rol o roles que tiene el usuario que inicia sesion
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(_appSettings.Token_ExpiredTime), // El token expira luego de este tiempo
+                    Expires = DateTime.UtcNow.AddMinutes(Convert.ToInt32(_appSettings.Token_ExpiredTime)), // El token expira luego de este tiempo
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
                 };
 
