@@ -69,7 +69,7 @@ namespace moneyucab_portalweb_back.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                
+
                 // Check if email has been confirmed
 
                 // Generar un nuevo token - Generate a new token
@@ -77,7 +77,9 @@ namespace moneyucab_portalweb_back.Controllers
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserID", user.Id.ToString())
+                        new Claim("UserID", user.Id.ToString()),
+                        new Claim("LoggedOn", DateTime.Now.ToString())
+                        //Aqui se agrega el rol o roles que tiene el usuario que inicia sesion
                     }),
                     Expires = DateTime.UtcNow.AddMinutes(_appSettings.Token_ExpiredTime), // El token expira luego de este tiempo
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
