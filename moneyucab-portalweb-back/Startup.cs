@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 using moneyucab_portalweb_back.Data;
+using moneyucab_portalweb_back.Email;
 using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.Entities;
 
@@ -33,17 +34,22 @@ namespace moneyucab_portalweb_back
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Inject App Settings
+            // Inject App Settings
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
             services.AddControllers();
 
+            // Connect to Database
             services.AddDbContext<AuthenticationContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
 
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<AuthenticationContext>();
 
+            // SendGrid services
+            services.AddSendGridEmailSender();
+
+            // Configure password validations for login/signup
             services.Configure<IdentityOptions>(options => 
             {
                 options.Password.RequireDigit = false;
@@ -55,7 +61,7 @@ namespace moneyucab_portalweb_back
 
             services.AddCors();
 
-            //JWT Authentication
+            // JWT Authentication
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
             services.AddAuthentication(x => 
             {
