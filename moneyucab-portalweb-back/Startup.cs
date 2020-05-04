@@ -44,7 +44,8 @@ namespace moneyucab_portalweb_back
                 options.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
 
             services.AddIdentity<Usuario, IdentityRole>()
-                .AddEntityFrameworkStores<AuthenticationContext>();
+                .AddEntityFrameworkStores<AuthenticationContext>()
+                .AddDefaultTokenProviders(); // test
 
             // SendGrid services
             services.AddSendGridEmailSender();

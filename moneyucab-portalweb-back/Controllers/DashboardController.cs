@@ -28,10 +28,18 @@ namespace moneyucab_portalweb_back.Controllers
         {
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
             var user = await _userManager.FindByIdAsync(userId);
+            var emailConfirmed = false;
+
+            // Check if email has been confirmed
+            if (await _userManager.IsEmailConfirmedAsync(user))
+            {
+                emailConfirmed = true;
+            }
 
             return new
             {
-                user.UserName
+                user.UserName,
+                emailConfirmed
                 //aqui se agregan ls campos que quieres devolver al front
             };
 

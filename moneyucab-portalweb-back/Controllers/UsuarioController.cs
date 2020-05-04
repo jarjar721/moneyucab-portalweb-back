@@ -5,12 +5,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-
+using moneyucab_portalweb_back.Email;
 using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.Entities;
 
@@ -23,12 +24,19 @@ namespace moneyucab_portalweb_back.Controllers
         private UserManager<Usuario> _userManager;
         private SignInManager<Usuario> _signInManager;
         private readonly ApplicationSettings _appSettings;
+        private IEmailSender _emailSender; 
 
-        public UsuarioController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager, IOptions<ApplicationSettings> appSettings)
+        public UsuarioController(
+            UserManager<Usuario> userManager,
+            SignInManager<Usuario> signInManager,
+            IOptions<ApplicationSettings> appSettings,
+            IEmailSender emailSender
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _appSettings = appSettings.Value;
+            _emailSender = emailSender;
         }
 
         [HttpPost]
@@ -48,6 +56,10 @@ namespace moneyucab_portalweb_back.Controllers
                 var result = await _userManager.CreateAsync(usuario, userModel.Password);
 
                 // Send Confirmation Email
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
+                var callbackURL = Url.Action("ConfirmEmail", "Usuario", new { UserId = usuario.Id, Code = code }, protocol: HttpContext.Request.Scheme);
+
+                await _emailSender.SendEmailAsync(usuario.Email, "MoneyUCAB - Confirma tu correo electrónico", "Confirma tu correo haciendo click en este enlace: <a href=\""+callbackURL+"\">Confirmar email</a>");
 
                 return Ok(result);
             }
@@ -69,8 +81,6 @@ namespace moneyucab_portalweb_back.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
-
-                // Check if email has been confirmed
 
                 // Generar un nuevo token - Generate a new token
                 var tokenDescriptor = new SecurityTokenDescriptor
@@ -99,5 +109,40 @@ namespace moneyucab_portalweb_back.Controllers
 
         }
 
+
+        [HttpGet]
+        [Route("ConfirmedEmail")]
+        [AllowAnonymous]
+        //Get : /api/Usuario/ConfirmedEmail
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("", "User Id and Code are required");
+                return BadRequest(ModelState);
+            }
+
+            var usuario = await _userManager.FindByIdAsync(userId);
+            if (usuario == null)
+            {
+                return new JsonResult("ERROR: User Id not found");
+            }
+            if (usuario.EmailConfirmed)
+            {
+                return Redirect("/login");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(usuario, code);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { userId, code });
+            }
+            else
+            {
+                return BadRequest(new { message = "¡No se pude confimar el email del usuario!" });
+            }
+
+        }
     }
 }
