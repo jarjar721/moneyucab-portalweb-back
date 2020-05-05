@@ -57,9 +57,10 @@ namespace moneyucab_portalweb_back.Controllers
 
                 // Send Confirmation Email
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
+                var templateID = _appSettings.ConfirmAccountTemplateID;
                 var callbackURL = Url.Action("ConfirmEmail", "Usuario", new { UserId = usuario.Id, Code = code }, protocol: HttpContext.Request.Scheme);
 
-                await _emailSender.SendEmailAsync(usuario.Email, "MoneyUCAB - Confirma tu correo electrónico", "Confirma tu correo haciendo click en este enlace: <a href=\""+callbackURL+"\">Confirmar email</a>");
+                await _emailSender.SendEmailAsync(templateID, usuario.Email, usuario.UserName, "MoneyUCAB - Confirma tu correo electrónico", callbackURL);
 
                 return Ok(result);
             }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using moneyucab_portalweb_back.Email;
 using moneyucab_portalweb_back.Models;
+using Newtonsoft.Json;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
@@ -18,17 +19,40 @@ namespace moneyucab_portalweb_back.Services
             _applicationSettings = applicationSettings.Value;
         }
 
-        public async Task<SendEmailResponse> SendEmailAsync(string userEmail, string emailSubject, string message)
+        private class EmailData
+        {
+            [JsonProperty("name")]
+            public string Name { get; set; }
+            [JsonProperty("URL")]
+            public string URL { get; set; }
+        }
+
+        public async Task<SendEmailResponse> SendEmailAsync(string templateID, string userEmail, string userName, string emailSubject, string url)
         {
             var apiKey = _applicationSettings.SendGridKey;
+
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("moneyucab@gmail.com", "MoneyUCAB");
-            var subject = emailSubject;
-            var to = new EmailAddress(userEmail, "Example User");
-            var plainTextContent = message;
-            var htmlContent = message;
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
+            var sendGridMessage = new SendGridMessage();
+
+            sendGridMessage.SetFrom("moneyucab@gmail.com", "MoneyUCAB");
+            sendGridMessage.AddTo(userEmail, userName);
+            sendGridMessage.SetSubject(emailSubject);
+            sendGridMessage.SetTemplateId(templateID);
+            sendGridMessage.SetTemplateData(new EmailData
+            {
+                Name = userName,
+                URL = url
+            });
+
+            //var from = new EmailAddress("moneyucab@gmail.com", "MoneyUCAB");
+            //var subject = emailSubject;
+            //var to = new EmailAddress(userEmail, "Example User");
+
+            //var plainTextContent = url;
+            //var htmlContent = url;
+            //var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            //var response = await client.SendEmailAsync(msg);
+            var response = await client.SendEmailAsync(sendGridMessage);
 
             return new SendEmailResponse();
         }

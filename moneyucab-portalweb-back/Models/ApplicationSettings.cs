@@ -15,5 +15,6 @@ namespace moneyucab_portalweb_back.Models
         // Properties for SendGrid
         public string SendGridUser { get; set; }
         public string SendGridKey { get; set; }
+        public string ConfirmAccountTemplateID { get; set; }
     }
 }
