@@ -19,6 +19,8 @@ namespace moneyucab_portalweb_back.Services
             _applicationSettings = applicationSettings.Value;
         }
 
+        // Model Class para enviar el Json que contiene la info del mesaje.
+        // Podría ser creada en un archivo aparte
         private class EmailData
         {
             [JsonProperty("name")]
@@ -27,13 +29,19 @@ namespace moneyucab_portalweb_back.Services
             public string URL { get; set; }
         }
 
+
         public async Task<SendEmailResponse> SendEmailAsync(string templateID, string userEmail, string userName, string emailSubject, string url)
         {
+            // Busco código de la API de SendGrid
             var apiKey = _applicationSettings.SendGridKey;
 
+            // Se crea el cliente
             var client = new SendGridClient(apiKey);
+
+            // Se crea un nuevo mensaje de SendGrid
             var sendGridMessage = new SendGridMessage();
 
+            // Se prepara el mensaje con la info necesaria
             sendGridMessage.SetFrom("moneyucab@gmail.com", "MoneyUCAB");
             sendGridMessage.AddTo(userEmail, userName);
             sendGridMessage.SetSubject(emailSubject);
@@ -44,14 +52,7 @@ namespace moneyucab_portalweb_back.Services
                 URL = url
             });
 
-            //var from = new EmailAddress("moneyucab@gmail.com", "MoneyUCAB");
-            //var subject = emailSubject;
-            //var to = new EmailAddress(userEmail, "Example User");
-
-            //var plainTextContent = url;
-            //var htmlContent = url;
-            //var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            //var response = await client.SendEmailAsync(msg);
+            // Se envía el mensaje
             var response = await client.SendEmailAsync(sendGridMessage);
 
             return new SendEmailResponse();
