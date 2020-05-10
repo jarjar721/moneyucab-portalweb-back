@@ -56,7 +56,6 @@ namespace moneyucab_portalweb_back.Controllers
             {
                 // Se crea el usuario en la base de datos
                 var result = await _userManager.CreateAsync(usuario, userModel.Password);
-
                 // Se genera el codigo para confirmar el email del usuario recien creado
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
                 // Busco el ID del template que será usado en el correo a enviar.
@@ -64,8 +63,28 @@ namespace moneyucab_portalweb_back.Controllers
                 // Se crea el link que será anexado al template del correo
                 var callbackURL = Url.Action("ConfirmEmail", "Usuario", new { UserId = usuario.Id, Code = code }, protocol: HttpContext.Request.Scheme);
 
+                // Se crea el mensaje con sus detalles para el envío
+                var emailDetails = new SendEmailDetails 
+                { 
+                    FromName = "MoneyUCAB",
+                    FromEmail = "moneyucab@gmail.com",
+                    ToName = usuario.UserName,
+                    ToEmail = usuario.Email,
+                    Subject = "MoneyUCAB - Confirma tu correo electrónico",
+                    TemplateID = templateID,
+                    TemplateData = new EmailData
+                    {
+                        Name = usuario.UserName,
+                        URL = callbackURL,
+                        Message = "¡Nos emociona muchísimo tenerte en la familia! " +
+                                  "Para ello, es indispensable que confirmes tu cuenta para gozar de nuestros servicios. " +
+                                  "Solo haz click en el botón.",
+                        ButtonTitle = "Confirmar cuenta"
+                    }
+                };
+
                 // Se envía el mensaje al correo del usuario registrado
-                await _emailSender.SendEmailAsync(templateID, usuario.Email, usuario.UserName, "MoneyUCAB - Confirma tu correo electrónico", callbackURL);
+                await _emailSender.SendEmailAsync(emailDetails);
 
                 return Ok(result);
             }

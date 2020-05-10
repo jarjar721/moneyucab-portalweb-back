@@ -19,19 +19,9 @@ namespace moneyucab_portalweb_back.Services
             _applicationSettings = applicationSettings.Value;
         }
 
-        // Model Class para enviar el Json que contiene la info del mesaje.
-        // Podría ser creada en un archivo aparte
-        private class EmailData
+        public async Task<SendEmailResponse> SendEmailAsync(SendEmailDetails emailDetails)
         {
-            [JsonProperty("name")]
-            public string Name { get; set; }
-            [JsonProperty("URL")]
-            public string URL { get; set; }
-        }
-
-
-        public async Task<SendEmailResponse> SendEmailAsync(string templateID, string userEmail, string userName, string emailSubject, string url)
-        {
+            
             // Busco código de la API de SendGrid
             var apiKey = _applicationSettings.SendGridKey;
 
@@ -42,15 +32,11 @@ namespace moneyucab_portalweb_back.Services
             var sendGridMessage = new SendGridMessage();
 
             // Se prepara el mensaje con la info necesaria
-            sendGridMessage.SetFrom("moneyucab@gmail.com", "MoneyUCAB");
-            sendGridMessage.AddTo(userEmail, userName);
-            sendGridMessage.SetSubject(emailSubject);
-            sendGridMessage.SetTemplateId(templateID);
-            sendGridMessage.SetTemplateData(new EmailData
-            {
-                Name = userName,
-                URL = url
-            });
+            sendGridMessage.SetFrom(emailDetails.FromEmail, emailDetails.FromName);
+            sendGridMessage.AddTo(emailDetails.ToEmail, emailDetails.ToName);
+            sendGridMessage.SetSubject(emailDetails.Subject);
+            sendGridMessage.SetTemplateId(emailDetails.TemplateID);
+            sendGridMessage.SetTemplateData(emailDetails.TemplateData);
 
             // Se envía el mensaje
             var response = await client.SendEmailAsync(sendGridMessage);
