@@ -43,9 +43,10 @@ namespace moneyucab_portalweb_back.Controllers
             _emailSender = emailSender;
         }
 
+
         [HttpPost]
         [Route("Register")]
-        //Post : /api/Usuario/Register
+        //Post: /api/Usuario/Register
         public async Task<Object> Register(RegistrationModel userModel)
         {
             // Se crea el objeto del usuario a registrar
@@ -62,10 +63,12 @@ namespace moneyucab_portalweb_back.Controllers
                 var result = await _userManager.CreateAsync(usuario, userModel.Password);
                 // Se genera el codigo para confirmar el email del usuario recien creado
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
+                // Se codifica el token para poder enviarlo por parametro
+                var encodedToken = code.Replace("/", "_").Replace("+", "-").Replace("=", ".");
                 // Busco el ID del template que será usado en el correo a enviar.
                 var templateID = _appSettings.ConfirmAccountTemplateID;
                 // Se crea el link que será anexado al template del correo
-                var callbackURL = Url.Action("ConfirmEmail", "Usuario", new { UserId = usuario.Id, Code = code }, protocol: HttpContext.Request.Scheme);
+                var callbackURL = clientBaseURI + "account-confirmed/" + usuario.Id + "/" + encodedToken;
 
                 // Se crea el mensaje con sus detalles para el envío
                 var emailDetails = new SendEmailDetails 
@@ -102,7 +105,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost]
         [Route("Login")]
-        //Post : /api/Usuario/Login
+        //Post: /api/Usuario/Login
         public async Task<IActionResult> Login(LoginModel model)
         {
             // Busco el usuario en la base de datos - Get user in database
@@ -138,21 +141,21 @@ namespace moneyucab_portalweb_back.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [Route("ConfirmedEmail")]
-        [AllowAnonymous]
-        //Get : /api/Usuario/ConfirmedEmail
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        //[AllowAnonymous]
+        //Post: /api/Usuario/ConfirmedEmail
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailModel model)
         {
             // Reviso que los parametros no sean nulos o con errores
-            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            if (string.IsNullOrWhiteSpace(model.UserID) || string.IsNullOrWhiteSpace(model.ConfirmationToken))
             {
                 ModelState.AddModelError("", "User Id and Code are required");
                 return BadRequest(ModelState);
             }
 
             //Busco al usuario por su ID
-            var usuario = await _userManager.FindByIdAsync(userId);
+            var usuario = await _userManager.FindByIdAsync(model.UserID);
 
             if (usuario == null) // Si el usuario no está en la BD
             {
@@ -160,15 +163,18 @@ namespace moneyucab_portalweb_back.Controllers
             }
             if (usuario.EmailConfirmed) //Si ya es un usuario con email confirmado
             {
-                return Redirect("/login"); // Look into this!
+                return BadRequest(new { message = "La cuenta ya ha sido confirmada" });
             }
 
+            // Decodificando el token
+            var decodedToken = model.ConfirmationToken.Replace("_", "/").Replace("-", "+").Replace(".", "=");
+
             // Cambia en la BD el "ConfirmEmail" a TRUE
-            var result = await _userManager.ConfirmEmailAsync(usuario, code);
+            var result = await _userManager.ConfirmEmailAsync(usuario, decodedToken);
 
             if (result.Succeeded)
             {
-                return Ok(new { userId, code });
+                return Ok(new { message = "Email confirmado por el usuario" + usuario.UserName });
             }
             else
             {
@@ -177,9 +183,10 @@ namespace moneyucab_portalweb_back.Controllers
 
         }
 
+
         [HttpPost]
         [Route("ForgotPasswordEmail")]
-        //Post : /api/Usuario/ForgotPasswordEmail
+        //Post: /api/Usuario/ForgotPasswordEmail
         public async Task<IActionResult> SendForgotPasswordEmail(ForgotPasswordModel model)
         {
             // Busco el usuario en la base de datos - Get user in database
@@ -231,7 +238,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost]
         [Route("ResetPassword")]
-        //Post : /api/Usuario/ResetPassword
+        //Post: /api/Usuario/ResetPassword
         public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
         {
             // Reviso que los parametros no sean nulos o con errores
@@ -265,6 +272,7 @@ namespace moneyucab_portalweb_back.Controllers
             }
 
         }
+
 
     }
 }
