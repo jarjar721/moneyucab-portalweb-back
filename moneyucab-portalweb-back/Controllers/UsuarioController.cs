@@ -57,48 +57,52 @@ namespace moneyucab_portalweb_back.Controllers
                 SignupDate = DateTime.Now
             };
 
-            try
+            // Chequeo que el username no este registrado
+            if (await _userManager.FindByNameAsync(usuario.UserName) != null)
             {
-                // Se crea el usuario en la base de datos
-                var result = await _userManager.CreateAsync(usuario, userModel.Password);
-                // Se genera el codigo para confirmar el email del usuario recien creado
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
-                // Se codifica el token para poder enviarlo por parametro
-                var encodedToken = code.Replace("/", "_").Replace("+", "-").Replace("=", ".");
-                // Busco el ID del template que será usado en el correo a enviar.
-                var templateID = _appSettings.ConfirmAccountTemplateID;
-                // Se crea el link que será anexado al template del correo
-                var callbackURL = clientBaseURI + "account-confirmed/" + usuario.Id + "/" + encodedToken;
-
-                // Se crea el mensaje con sus detalles para el envío
-                var emailDetails = new SendEmailDetails 
-                { 
-                    FromName = "MoneyUCAB",
-                    FromEmail = "moneyucab@gmail.com",
-                    ToName = usuario.UserName,
-                    ToEmail = usuario.Email,
-                    Subject = "MoneyUCAB - Confirma tu correo electrónico",
-                    TemplateID = templateID,
-                    TemplateData = new EmailData
-                    {
-                        Name = usuario.UserName,
-                        URL = callbackURL,
-                        Message = "¡Nos emociona muchísimo tenerte en la familia! " +
-                                  "Para ello, es indispensable que confirmes tu cuenta para gozar de nuestros servicios. " +
-                                  "Solo haz click en el botón.",
-                        ButtonTitle = "Confirmar cuenta"
-                    }
-                };
-
-                // Se envía el mensaje al correo del usuario registrado
-                await _emailSender.SendEmailAsync(emailDetails);
-
-                return Ok(result);
+                return BadRequest(new { key = "DuplicateUserName", message = "Intente ingresar un username distinto" });
             }
-            catch (Exception ex)
+            // Chequeo que el email no este registrado
+            if (await _userManager.FindByEmailAsync(usuario.Email) != null)
             {
-                throw ex;
+                return BadRequest(new { key = "DuplicateEmail", message = "Intente ingresar un correo electrónico distinto" });
             }
+
+            // Se crea el usuario en la base de datos
+            var result = await _userManager.CreateAsync(usuario, userModel.Password);
+            // Se genera el codigo para confirmar el email del usuario recien creado
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
+            // Se codifica el token para poder enviarlo por parametro
+            var encodedToken = code.Replace("/", "_").Replace("+", "-").Replace("=", ".");
+            // Busco el ID del template que será usado en el correo a enviar.
+            var templateID = _appSettings.ConfirmAccountTemplateID;
+            // Se crea el link que será anexado al template del correo
+            var callbackURL = clientBaseURI + "account-confirmed/" + usuario.Id + "/" + encodedToken;
+
+            // Se crea el mensaje con sus detalles para el envío
+            var emailDetails = new SendEmailDetails 
+            { 
+                FromName = "MoneyUCAB",
+                FromEmail = "moneyucab@gmail.com",
+                ToName = usuario.UserName,
+                ToEmail = usuario.Email,
+                Subject = "MoneyUCAB - Confirma tu correo electrónico",
+                TemplateID = templateID,
+                TemplateData = new EmailData
+                {
+                    Name = usuario.UserName,
+                    URL = callbackURL,
+                    Message = "¡Nos emociona muchísimo tenerte en la familia! " +
+                                "Para ello, es indispensable que confirmes tu cuenta para gozar de nuestros servicios. " +
+                                "Solo haz click en el botón.",
+                    ButtonTitle = "Confirmar cuenta"
+                }
+            };
+
+            // Se envía el mensaje al correo del usuario registrado
+            await _emailSender.SendEmailAsync(emailDetails);
+
+            return Ok(result);
 
         }
 
@@ -112,8 +116,7 @@ namespace moneyucab_portalweb_back.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("UnknownUser", "Usuario no encontrado");
-                return BadRequest(ModelState);
+                return BadRequest(new { key = "UnknownUser", message = "No existe un usuario registrado con ese email"});
             }
 
             // Obtengo el resultado de iniciar sesión 
@@ -145,13 +148,13 @@ namespace moneyucab_portalweb_back.Controllers
 
             if (result.IsLockedOut)
             {
-                ModelState.AddModelError("UserLockedOut", "La cuenta está bloqueada");
-                return BadRequest(ModelState);
+                var lockoutDateTime = await _userManager.GetLockoutEndDateAsync(user); // Obtengo datetime de cuando se levanta la restriccion del lockout
+                return BadRequest(new { key = "UserLockedOut", message = "Ha agotado sus intentos.", lockoutDateTime });
             }
             else
             {
-                ModelState.AddModelError("WrongPassword", "Contraseña inválida");
-                return BadRequest(ModelState);
+                var remainingAttempts = 3 - await _userManager.GetAccessFailedCountAsync(user); // Obtengo la cantidad de intentos restantes le quedan al usuario
+                return BadRequest(new { key = "WrongPassword", message = "Contraseña inválida", remainingAttempts });
             }
 
         }
@@ -166,8 +169,7 @@ namespace moneyucab_portalweb_back.Controllers
             // Reviso que los parametros no sean nulos o con errores
             if (string.IsNullOrWhiteSpace(model.UserID) || string.IsNullOrWhiteSpace(model.ConfirmationToken))
             {
-                ModelState.AddModelError("EmptyFields", "No se recibieron parámetros");
-                return BadRequest(ModelState);
+                return BadRequest(new { key = "EmptyFields", message = "No se recibieron parámetros"});
             }
 
             //Busco al usuario por su ID
@@ -175,13 +177,11 @@ namespace moneyucab_portalweb_back.Controllers
 
             if (usuario == null) // Si el usuario no está en la BD
             {
-                ModelState.AddModelError("UnknownUser", "Usuario no encontrado");
-                return BadRequest(ModelState);
+                return BadRequest(new { key = "UnknownUser", message = "Usuario no encontrado"});
             }
             if (usuario.EmailConfirmed) //Si ya es un usuario con email confirmado
             {
-                ModelState.AddModelError("ConfirmedAccount", "La cuenta ya ha sido confirmada");
-                return BadRequest(ModelState);
+                return BadRequest(new { key = "ConfirmedAccount", message = "La cuenta ya ha sido confirmada"});
             }
 
             // Decodificando el token
@@ -192,12 +192,11 @@ namespace moneyucab_portalweb_back.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(new { message = "Email confirmado por el usuario: " + usuario.UserName });
+                return Ok(new { key = "AccountConfirmed", message = "Email confirmado por el usuario: " + usuario.UserName });
             }
             else
             {
-                ModelState.AddModelError("ConfirmationFailed", "¡No se pudo confimar el email del usuario!");
-                return BadRequest(ModelState);
+                return BadRequest(new { key = "ConfirmationFailed", message = "¡No se pudo confimar el email del usuario!"});
             }
 
         }
@@ -245,12 +244,11 @@ namespace moneyucab_portalweb_back.Controllers
                 // Se envía el mensaje al correo del usuario registrado
                 await _emailSender.SendEmailAsync(emailDetails);
 
-                return Ok(new { message = "¡Email enviado!", URL = callbackURL });
+                return Ok(new { key = "ForgotPasswordEmailSent", message = "Un mensaje ha sido enviado a su email con instrucciones para restablecer su contraseña" });
             } 
             else
             {
-                ModelState.AddModelError("ForgotPasswordEmailFailed", "¡Ocurrió un error! El email no fue enviado.");
-                return BadRequest(ModelState);
+                return BadRequest(new { key = "ForgotPasswordEmailFailed", message = "El email no fue enviado." });
             }
 
         }
@@ -264,8 +262,7 @@ namespace moneyucab_portalweb_back.Controllers
             // Reviso que los parametros no sean nulos o con errores
             if (string.IsNullOrWhiteSpace(model.UserID) || string.IsNullOrWhiteSpace(model.ResetPasswordToken))
             {
-                ModelState.AddModelError("EmptyFields", "No se recibieron parámetros");
-                return BadRequest(ModelState);
+                return BadRequest(new { key = "EmptyFields", message = "No se recibieron parámetros"});
             }
 
             // Busco al usuario por su ID
@@ -273,8 +270,7 @@ namespace moneyucab_portalweb_back.Controllers
 
             if (usuario == null) // Si el usuario no está en la BD
             {
-                ModelState.AddModelError("UnknownUser", "Usuario no encontrado");
-                return BadRequest(ModelState);
+                return BadRequest(new { key = "UnknownUser", message = "Usuario no encontrado"});
             }
 
             // Decodificando el token
@@ -285,12 +281,11 @@ namespace moneyucab_portalweb_back.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(new { message = "¡Contraseña restablecida!" });
+                return Ok(new { key = "ResetPasswordSuccess", message = "¡Contraseña restablecida!" });
             }
             else
             {
-                ModelState.AddModelError("ResetPasswordFailed", "¡No se pudo restablecer la contraseña del usuario!");
-                return BadRequest(ModelState);
+                return BadRequest(new { key = "ResetPasswordFailed", message = "¡No se pudo restablecer la contraseña del usuario!"});
             }
 
         }
