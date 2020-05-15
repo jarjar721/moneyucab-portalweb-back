@@ -110,7 +110,16 @@ namespace moneyucab_portalweb_back.Controllers
         {
             // Busco el usuario en la base de datos - Get user in database
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            if (user == null)
+            {
+                ModelState.AddModelError("UnknownUser", "Usuario no encontrado");
+                return BadRequest(ModelState);
+            }
+
+            // Obtengo el resultado de iniciar sesión 
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, true);
+
+            if (result.Succeeded)
             {
 
                 // Generar un nuevo token - Generate a new token
@@ -133,9 +142,16 @@ namespace moneyucab_portalweb_back.Controllers
                 return Ok(new { token });
 
             }
+
+            if (result.IsLockedOut)
+            {
+                ModelState.AddModelError("UserLockedOut", "La cuenta está bloqueada");
+                return BadRequest(ModelState);
+            }
             else
             {
-                return BadRequest(new { message = "¡Email o contraseña incorrecta!" });
+                ModelState.AddModelError("WrongPassword", "Contraseña inválida");
+                return BadRequest(ModelState);
             }
 
         }
@@ -150,7 +166,7 @@ namespace moneyucab_portalweb_back.Controllers
             // Reviso que los parametros no sean nulos o con errores
             if (string.IsNullOrWhiteSpace(model.UserID) || string.IsNullOrWhiteSpace(model.ConfirmationToken))
             {
-                ModelState.AddModelError("", "User Id and Code are required");
+                ModelState.AddModelError("EmptyFields", "No se recibieron parámetros");
                 return BadRequest(ModelState);
             }
 
@@ -159,11 +175,13 @@ namespace moneyucab_portalweb_back.Controllers
 
             if (usuario == null) // Si el usuario no está en la BD
             {
-                return new JsonResult("ERROR: User Id not found");
+                ModelState.AddModelError("UnknownUser", "Usuario no encontrado");
+                return BadRequest(ModelState);
             }
             if (usuario.EmailConfirmed) //Si ya es un usuario con email confirmado
             {
-                return BadRequest(new { message = "La cuenta ya ha sido confirmada" });
+                ModelState.AddModelError("ConfirmedAccount", "La cuenta ya ha sido confirmada");
+                return BadRequest(ModelState);
             }
 
             // Decodificando el token
@@ -174,11 +192,12 @@ namespace moneyucab_portalweb_back.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(new { message = "Email confirmado por el usuario" + usuario.UserName });
+                return Ok(new { message = "Email confirmado por el usuario: " + usuario.UserName });
             }
             else
             {
-                return BadRequest(new { message = "¡No se pudo confimar el email del usuario!" });
+                ModelState.AddModelError("ConfirmationFailed", "¡No se pudo confimar el email del usuario!");
+                return BadRequest(ModelState);
             }
 
         }
@@ -230,7 +249,8 @@ namespace moneyucab_portalweb_back.Controllers
             } 
             else
             {
-                return BadRequest(new { message = "El email no fue enviado. ¡Ocurrió un error!" });
+                ModelState.AddModelError("ForgotPasswordEmailFailed", "¡Ocurrió un error! El email no fue enviado.");
+                return BadRequest(ModelState);
             }
 
         }
@@ -244,7 +264,7 @@ namespace moneyucab_portalweb_back.Controllers
             // Reviso que los parametros no sean nulos o con errores
             if (string.IsNullOrWhiteSpace(model.UserID) || string.IsNullOrWhiteSpace(model.ResetPasswordToken))
             {
-                ModelState.AddModelError("", "User Id and Code are required");
+                ModelState.AddModelError("EmptyFields", "No se recibieron parámetros");
                 return BadRequest(ModelState);
             }
 
@@ -253,7 +273,8 @@ namespace moneyucab_portalweb_back.Controllers
 
             if (usuario == null) // Si el usuario no está en la BD
             {
-                return new JsonResult("ERROR: User Id not found");
+                ModelState.AddModelError("UnknownUser", "Usuario no encontrado");
+                return BadRequest(ModelState);
             }
 
             // Decodificando el token
@@ -268,7 +289,8 @@ namespace moneyucab_portalweb_back.Controllers
             }
             else
             {
-                return BadRequest(new { message = "¡No se pudo restablecer la contraseña del usuario!" });
+                ModelState.AddModelError("ResetPasswordFailed", "¡No se pudo restablecer la contraseña del usuario!");
+                return BadRequest(ModelState);
             }
 
         }

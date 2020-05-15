@@ -45,7 +45,8 @@ namespace moneyucab_portalweb_back
 
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<AuthenticationContext>()
-                .AddDefaultTokenProviders(); // test
+                .AddDefaultTokenProviders();
+              
 
             // SendGrid services
             services.AddSendGridEmailSender();
@@ -53,10 +54,17 @@ namespace moneyucab_portalweb_back
             // Servicio que configura las validaciones que deben cumplir las contraseñas de los usuarios
             services.Configure<IdentityOptions>(options => 
             {
+                // Password options
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
+
+                // Lockout options
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 3;
+
             }
             );
 
