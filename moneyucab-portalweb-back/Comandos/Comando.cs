@@ -1,6 +1,6 @@
 ﻿
 
-namespace ServicioLotoUCAB.Servicio.Logica.Comandos
+namespace moneyucab_portalweb_back.Comandos
 {
     public abstract class Comando<TSalida> : IComando<TSalida>
     {

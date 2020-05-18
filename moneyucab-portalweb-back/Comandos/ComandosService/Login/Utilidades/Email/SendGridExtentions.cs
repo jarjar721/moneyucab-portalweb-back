@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace moneyucab_portalweb_back.Email
+namespace moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email
 {
     public static class SendGridExtentions
     {

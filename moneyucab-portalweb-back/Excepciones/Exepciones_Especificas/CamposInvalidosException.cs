@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServicioLotoUCAB.Servicio.Excepciones.Login
+namespace moneyucab_portalweb_back.Excepciones.Excepciones_Especificas
 {
     /// <summary>
     /// Class <c>CamposInvalidosException</c>

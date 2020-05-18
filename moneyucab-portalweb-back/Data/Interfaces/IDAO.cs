@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServicioLotoUCAB.Servicio.AccesoDatos.Dao.Interfaces
+namespace moneyucab_portalweb_back.Data.Interfaces
 {
     /// <summary>
     /// Interface <c>IDAOLogin</c>

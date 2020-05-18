@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServicioLotoUCAB.Servicio.Excepciones
+namespace moneyucab_portalweb_back.Excepciones
 {
     public class MoneyUcabException : Exception
     {

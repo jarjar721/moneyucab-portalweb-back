@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServicioLotoUCAB.Servicio.Logica.Comandos.ComandosService.Login
+namespace moneyucab_portalweb_back.Comandos.ComandosService.Simples.Email
 {
     /// <summary>
     /// Clase <c>ComandoVerificarStatusUsuario</c>.

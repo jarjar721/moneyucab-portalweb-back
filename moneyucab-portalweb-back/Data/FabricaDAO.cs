@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServicioLotoUCAB.Servicio.AccesoDatos
+namespace moneyucab_portalweb_back.Data
 {
     /// <summary>
     /// Class <c>FabricaDAO</c>

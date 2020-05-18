@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace ServicioLotoUCAB.Servicio.AccesoDatos.Dao.Base
+namespace moneyucab_portalweb_back.Data
 {
     /// <summary>
     /// Class <c>DAOLogin</c>

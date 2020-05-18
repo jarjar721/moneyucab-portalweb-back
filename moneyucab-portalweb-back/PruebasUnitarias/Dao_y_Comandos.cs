@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PruebasUnitarias
+namespace moneyucab_portalweb_back.PruebasUnitarias
 {
     [TestClass]
     public class Dao_y_Comandos

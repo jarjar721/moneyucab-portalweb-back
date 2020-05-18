@@ -3,7 +3,7 @@ using ServicioLotoUCAB.Servicio.Logica.Comandos.ComandosService;
 using ServicioLotoUCAB.Servicio.Logica.Comandos.ComandosService.Login;
 using ServicioLotoUCAB.Servicio.Logica.Comandos.ComandosService.Login.Simples;
 
-namespace ServicioLotoUCAB.Servicio.Logica.Comandos
+namespace moneyucab_portalweb_back.Comandos
 {
     /// <summary>
     /// Class <c>FabricaComandos</c>

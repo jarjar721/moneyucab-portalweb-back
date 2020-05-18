@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using ServicioLotoUCAB.Servicio.Excepciones;
 using ServicioLotoUCAB.Servicio.AccesoDatos.Dao.Login.Utilidades;
 
-namespace ServicioLotoUCAB.Servicio.PruebasUnitarias
+namespace moneyucab_portalweb_back.PruebasUnitarias
 {
     [TestClass]
     public class Utilidades

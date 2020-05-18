@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServicioLotoUCAB.Servicio.Logica.Comandos.Utilidades
+namespace moneyucab_portalweb_back.Comandos.ComandosService.Utilidades
 {
     /// <summary>
     /// Clase <c>MD5Encrypth</c>.
