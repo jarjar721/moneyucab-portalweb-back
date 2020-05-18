@@ -102,14 +102,35 @@ AS $$
 DECLARE
 	monedero_destino monedero%rowtype;
 	monedero_origen monedero%rowtype;
+	suma_operaciones_entrada FLOAT;
+	suma_operaciones_salida FLOAT;
 BEGIN
 	SELECT * FROM MONEDERO into monedero_destino WHERE MO_PK = NEW.OP_MONEDERO_DESTINO_PK;
 	SELECT * FROM MONEDERO into monedero_origen WHERE MO_PK = NEW.OP_MONEDERO_ORIGEN_PK;
-    IF (NEW.ST_FK = 'TR') THEN
-		IF(monedero_destino.)
+    SELECT SUM(op.op_monto) FROM operacion op into suma_operaciones_entrada WHERE op.OP_MONEDERO_DESTINO_PK = monedero_destino.mo_pk
+				AND op.op_fecha = current_Date AND op.st_fk = 'TR';
+	SELECT SUM(op.op_monto) FROM operacion op into suma_operaciones_salida WHERE op.OP_MONEDERO_ORIGEN_PK = monedero_destino.mo_pk
+				AND op.op_fecha = current_Date AND op.st_fk IN ('TR','RE');
+	--Comprobaciones para las transferencias
+	IF (NEW.ST_FK = 'TR') THEN
+		--Comprobación dell imite de operación
+		IF(monedero_origen.mo_limite_operacion) THEN
+			RAISE EXCEPTION 'Operacion supera al limite de monedero origen';
+		END IF;
+		--Comprobación del limite de transferencias para un monto diario
+		IF(monedero_destino.mo_limite_monto_diario >
+		  	( suma_operaciones_Entrada + NEW.OP_MONTO - suma_operaciones_salida )) THEN
+			RAISE EXCEPTION 'Operacion supera el limite de monto diario';
+		END IF;
+		--Comprobaciones para el limite para el monedero de origen para adeudarse
+		IF (monedero_origen.mo_saldo - NEW.OP_MONTO < monedero_origen.mo_limite_deuda) THEN
+			RAISE EXCEPTION 'No se puede adeudar más el monedero origen';
+		END IF;
 	END IF;
+	--Comprobaciones para una recarga
 	IF (NEW.ST_FK = 'RC') THEN
 	END IF;
+	--Comprobaciones para un reintegro
 	IF (NEW.ST_FK = 'RE') THEN
 	END IF;
 END;
