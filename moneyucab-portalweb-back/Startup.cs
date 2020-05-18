@@ -43,11 +43,11 @@ namespace moneyucab_portalweb_back
             services.AddDbContext<AuthenticationContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
 
+            // Servicio que convierte a la clase Usuario una extensión de Identity
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<AuthenticationContext>()
                 .AddDefaultTokenProviders();
               
-
             // SendGrid services
             services.AddSendGridEmailSender();
 
