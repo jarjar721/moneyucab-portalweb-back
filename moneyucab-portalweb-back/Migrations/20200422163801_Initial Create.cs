@@ -191,6 +191,17 @@ namespace moneyucab_portalweb_back.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            //Sección de código para cambio de nombres y manejo de atributos
+
+            migrationBuilder.RenameTable("AspNetRoles", "Rol");
+            migrationBuilder.RenameTable("AspNetRoleClaims", "Rol_Cont");
+            migrationBuilder.RenameTable("AspNetUserClaims", "Usuario_Cont");
+            migrationBuilder.RenameTable("AspNetUserLogins", "Usuario_Logins");
+            migrationBuilder.RenameTable("AspNetUserRoles", "Usuario_Rol");
+            migrationBuilder.RenameTable("AspNetUserTokens", "Usuario_Token");
+            migrationBuilder.RenameTable("AspNetUsers", "Usuario");
+            migrationBuilder.RenameColumn("ReportPages", "Group_Id", "Section_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
