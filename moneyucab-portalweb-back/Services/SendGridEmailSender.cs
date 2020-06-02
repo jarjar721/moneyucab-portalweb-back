@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using moneyucab_portalweb_back.Email;
+using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.Models;
 using Newtonsoft.Json;
 using SendGrid;

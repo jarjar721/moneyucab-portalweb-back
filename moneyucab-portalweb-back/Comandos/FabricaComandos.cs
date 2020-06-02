@@ -1,8 +1,4 @@
-﻿using ServicioLotoUCAB.Servicio.Comunes;
-using ServicioLotoUCAB.Servicio.Logica.Comandos.ComandosService;
-using ServicioLotoUCAB.Servicio.Logica.Comandos.ComandosService.Login;
-using ServicioLotoUCAB.Servicio.Logica.Comandos.ComandosService.Login.Simples;
-
+﻿
 namespace moneyucab_portalweb_back.Comandos
 {
     /// <summary>

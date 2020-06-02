@@ -1,5 +1,4 @@
-﻿using ServicioLotoUCAB.Servicio.Excepciones.Login;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -33,7 +32,8 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Utilidades
             }
             catch (Exception ex)
             {
-                throw new MD5Exception(ex);
+                //throw new MD5Exception(ex);
+                throw new Exception();
             }
 
             return hash;

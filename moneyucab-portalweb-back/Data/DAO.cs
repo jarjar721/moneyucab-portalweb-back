@@ -1,12 +1,5 @@
-﻿using MySql.Data.MySqlClient;
-using ServicioLotoUCAB.Servicio.Comunes;
-using ServicioLotoUCAB.Servicio.Excepciones;
-using ServicioLotoUCAB.Servicio.Excepciones.Login;
+﻿using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Data
 {
@@ -20,7 +13,7 @@ namespace moneyucab_portalweb_back.Data
         /// <summary>
         /// Establece la conexión con la base de datos.
         /// </summary>
-        private NpgsqlConnection _conector;
+        private Npgsql.NpgsqlConnection _conector;
 
         /// <summary>
         /// Establece el dato y el medio por el cuaal se conforma la conexión de la base de datos.
@@ -64,9 +57,10 @@ namespace moneyucab_portalweb_back.Data
         /// <summary>
         /// Establece el método para realizar la apertura de conexión contra la base de datos.
         /// </summary>
-        public void Conectar() {
+        public void Conectar()
+        {
 
-            try
+            /*try
             {
                 Conector = new NpgsqlConnection(StringConexion);
                 Conector.Open();
@@ -79,7 +73,7 @@ namespace moneyucab_portalweb_back.Data
             catch (Exception ex)
             {
                 throw new MoneyUcabException(ex);
-            }
+            }*/
 
         }
 

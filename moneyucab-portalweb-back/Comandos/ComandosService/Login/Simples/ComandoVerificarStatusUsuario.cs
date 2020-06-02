@@ -1,9 +1,4 @@
-﻿using ServicioLotoUCAB.Servicio.AccesoDatos;
-using ServicioLotoUCAB.Servicio.AccesoDatos.Dao.Interfaces;
-using ServicioLotoUCAB.Servicio.Comunes;
-using ServicioLotoUCAB.Servicio.Excepciones;
-using ServicioLotoUCAB.Servicio.Excepciones.Login;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,33 +35,9 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Simples.Email
             set { _status = value; }
         }
 
-        /// <summary>
-        /// Ejecuta el comando para verificar el status de usuario.
-        /// </summary>
-        /// <returns>
-        /// Retorna true como predeterminación, no tiene utilidad específica.
-        /// </returns>
-        /// <exception cref="UsuarioRecuperacionException">Tira esta excepción a causa de que el usuario se encuentra en un status de 
-        /// recuperación de contraseña.</exception>
-        /// <exception cref="UsuarioBloqueadoException">Tira esta excepción a causa de que el usuario se encuentra en un status bloqueado
-        /// debido al contexto puesto en el sistema.</exception>
-        /// <exception cref="MoneyUcabException">Tira esta excepción a causa de un error desconocido encontrado en el momento de ejecución del comando.</exception>
         public override bool Ejecutar()
         {
-            switch (Status)
-            {
-                case 1:
-                    //Activo
-                    return true;
-                case 2:
-                    //Recuperacion
-                    throw new UsuarioRecuperacionException();
-                case 0:
-                    //Bloqueado
-                    throw new UsuarioBloqueadoException();
-                default:
-                    throw new MoneyUcabException("Estatus desconocido en Base De Datos", 1);
-            }
+            throw new NotImplementedException();
         }
     }
 }

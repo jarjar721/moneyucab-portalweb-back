@@ -1,6 +1,4 @@
-﻿using ServicioLotoUCAB.Servicio.AccesoDatos.Dao;
-using ServicioLotoUCAB.Servicio.AccesoDatos.Dao.Login;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +19,7 @@ namespace moneyucab_portalweb_back.Data
         /// <returns>Retorna una instanciación de la clase DAOLogin</returns>
         public static DAO crearDaoLogin()
         {
-            return new DAOLogin();
+            return null;
         }
     }
 }
