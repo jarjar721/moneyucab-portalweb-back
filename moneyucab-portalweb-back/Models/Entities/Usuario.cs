@@ -18,8 +18,11 @@ namespace moneyucab_portalweb_back.Models.Entities
 
         [Column(TypeName="date")]
         [Required]
+        [Column(TypeName = "DATE")]
         public DateTime SignupDate { get; set; }
 
         public virtual IList<PreviousPasswords> PreviousUserPasswords { get; set; }
+
+        public UsuarioIntermedio UsuarioIntermedio { get; set; }
     }
 }
