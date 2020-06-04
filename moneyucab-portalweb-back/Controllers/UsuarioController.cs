@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using moneyucab_portalweb_back.Email;
+using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.Entities;
 using moneyucab_portalweb_back.Models.FormModels;
