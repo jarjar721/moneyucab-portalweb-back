@@ -14,12 +14,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-
-using moneyucab_portalweb_back.Data;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.Entities;
 using moneyucab_portalweb_back.IdentityExtentions;
+using moneyucab_portalweb_back.Migrations;
 
 namespace moneyucab_portalweb_back
 {
