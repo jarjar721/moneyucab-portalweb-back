@@ -753,6 +753,7 @@ CREATE TABLE IF NOT EXISTS Public.Reintegro (
   idUsuario_solicitante INT NOT NULL,
   idUsuario_receptor INT NOT NULL,
   fecha_solicitud VARCHAR(45) NOT NULL,
+  referencia_reintegro VARCHAR(45),
   referencia VARCHAR(45) NOT NULL,
   estatus VARCHAR(45) NOT NULL,
   PRIMARY KEY (idReintegro),

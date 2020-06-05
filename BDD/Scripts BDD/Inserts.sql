@@ -27,7 +27,8 @@ VALUES ('Mercantil', 1),
 ('BBVA', 1),
 ('Banco del Tesoro', 1),
 ('Banco de Venezuela', 1),
-('BDOE', 1);
+('BDOE', 1),
+('WEB', 1);
 
 DELETE FROM TipoTarjeta CASCADE;
 ALTER SEQUENCE TipoTarjeta_idTipoTarjeta_seq RESTART WITH 1;
@@ -40,7 +41,8 @@ DELETE FROM TipoCuenta CASCADE;
 ALTER SEQUENCE TipoCuenta_idTipoCuenta_seq RESTART WITH 1;
 INSERT INTO TipoCuenta (descripcion, estatus)
 VALUES ('Ahorro', 1),
-('Corriente', 1);
+('Corriente', 1),
+('Monedero', 1);
 
 --Tipos de parametro:
 /*

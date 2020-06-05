@@ -19,6 +19,8 @@
 ------OperacionCuenta[x]
 ------OperacionesMonedero[x]
 ------OperacionTarjeta[x]
+----ExigirCobro[]
+----ExcigirReintegro[]
 ----OperaciónTarjeta
 
 ----------------PROCEDIMIENTOS Y FUNCIONES----------------
@@ -89,6 +91,8 @@ DECLARE
 usuario int;
 response boolean;
 entity_user_id text;
+tipo_cuenta int;
+banco int;
 BEGIN
 	BEGIN
 		SELECT "Id" FROM AspNetUsers into entity_user_id WHERE UserName = $3 or Email = $6;
@@ -109,6 +113,11 @@ BEGIN
 				RAISE EXCEPTION 'Error al registrar persona';
 			END IF;
 		END IF;
+		SELECT idBanco FROM Banco into banco WHERE nombre = 'WEB';
+		SELECT idTipoBanco FROM TipoCuenta into tipo_cuenta WHERE descripcion = 'Monedero';
+		INSERT INTO Cuenta (idUsuario, idTipoCuenta, idBanco, numero)
+		VALUES
+					(usuario, tipo_cuenta, banco, $3 || 'MONEDERO');
 		RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN 
 		RETURN FALSE;
@@ -394,9 +403,29 @@ END;
 $$;
 
 --/////////PROCEDIMIENTOS DE LÓGICA//////////////////--
------------PAGOS---------------
---Pago con tarjeta
-CREATE OR REPLACE FUNCTION Pago_Tarjeta(VARCHAR, INT, DECIMAL, INT)
+--Cobro de Comercio a Persona
+--Parámetros: id del usuario que lo solicita, email del usuario que debe realizar el pago y el monto para realizar el procedimiento.
+CREATE OR REPLACE FUNCTION Cobro(INT, VARCHAR, DECIMAL)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+	idUsuario_Solicitante int;
+BEGIN
+	BEGIN
+		SELECT idUsuario FROM Usuario into idUsuario_Solicitante WHERE Usuario.email = $2;
+		INSERT INTO Pago (idUsuario_Solicitante, idUsuario_Receptor, fecha_solicitud, monto, estatus, referencia)
+		VALUES (idUsuario_Solicitante, $1, current_date, $3, 'Solicitado', NULL);
+		RETURN TRUE;
+	EXCEPTION WHEN OTHERS THEN 
+		RETURN FALSE;
+	END;
+END;
+$$;
+
+--Solicitud de reintegro a comercio
+--Parámetros: id del usuario que solicita, email del usuario al que se le pide reintegro, referencia del proceso vinculado al pago.
+CREATE OR REPLACE FUNCTION Reintegro(INT, VARCHAR, VARCHAR)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
@@ -404,11 +433,30 @@ DECLARE
 	idUsuario_Receptor int;
 BEGIN
 	BEGIN
+		SELECT idUsuario FROM Usuario into idUsuario_Receptor WHERE Usuario.email = $2;
+		INSERT INTO Reintegro (idUsuario_Solicitante, idUsuario_Receptor, fecha_solicitud, estatus, referencia, referencia_reintegro)
+		VALUES ($1, idUsuario_Receptor, current_date, 'Solicitado', $3, NULL);
+		RETURN TRUE;
+	EXCEPTION WHEN OTHERS THEN 
+		RETURN FALSE;
+	END;
+END;
+$$;
+
+-----------PAGOS---------------
+--Estos pagos se realizan posterior a seleccionar un cobro generado por una empresa
+--Pago con tarjeta
+CREATE OR REPLACE FUNCTION Pago_Tarjeta(INT, INT, DECIMAL, INT)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+BEGIN
+	BEGIN
 		UPDATE Pago SET estatus = 'En proceso' WHERE idPago = $4;
-		SELECT idUsuario FROM Usuario INTO idUsuario_Receptor WHERE Usuario.email = $1;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionTarjeta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
-			VALUES (idUsuario_Receptor, $2, current_date, current_time, $3, crypt($1 || current_date || current_time || $2, gen_salt('md5')));
+			VALUES ($1, $2, current_date, current_time, $3, crypt($1 || current_date || current_time || $2, gen_salt('md5')));
 		UPDATE Pago SET referencia = crypt($1 || current_date || current_time || $2, gen_salt('md5')), estatus = 'Consolidado' WHERE idPago = $4;
 		RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN 
@@ -417,19 +465,41 @@ BEGIN
 END;
 $$;
 --Pago con cuenta
-CREATE OR REPLACE FUNCTION Pago_Cuenta(VARCHAR, INT, DECIMAL, INT)
+CREATE OR REPLACE FUNCTION Pago_Cuenta(INT, INT, DECIMAL, INT)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
 DECLARE
-	idUsuario_Receptor int;
 BEGIN
 	BEGIN
 		UPDATE Pago SET estatus = 'En proceso' WHERE idPago = $4;
-		SELECT idUsuario FROM Usuario INTO idUsuario_Receptor WHERE Usuario.email = $1;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionCuenta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
-			VALUES (idUsuario_Receptor, $2, current_date, current_time, $3, crypt($1 || current_date || current_time || $2, gen_salt('md5')));
+			VALUES ($1, $2, current_date, current_time, $3, crypt($1 || current_date || current_time || $2, gen_salt('md5')));
+		UPDATE Pago SET referencia = crypt($1 || current_date || current_time || $2, gen_salt('md5')), estatus = 'Consolidado' WHERE idPago = $4;
+		RETURN TRUE;
+	EXCEPTION WHEN OTHERS THEN 
+		RETURN FALSE;
+	END;
+END;
+$$;
+--Pago con Monedero
+--Parámetros: IdUsuarioReceptor, IdUsuarioPago (el que realiza el pago), monto, idPago
+CREATE OR REPLACE FUNCTION Pago_Monedero(INT, INT, DECIMAL, INT)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+	idCuentaMonedero int;
+BEGIN
+	BEGIN
+		UPDATE Pago SET estatus = 'En proceso' WHERE idPago = $4;
+		SELECT Cuenta.idCuenta FROM Cuenta INTO idCuentaMonedero
+							JOIN TipoCuenta ON TipoCuenta.idTipoCuenta = Cuenta.idTipoCuenta AND TipoCuenta.descripcion = 'Monedero'
+											WHERE Cuenta.idUsuario = $2;
+		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
+		INSERT INTO OperacionCuenta (idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
+			VALUES ($1, idCuentaMonedero, current_date, current_time, $3, crypt($1 || current_date || current_time || $2, gen_salt('md5')));
 		UPDATE Pago SET referencia = crypt($1 || current_date || current_time || $2, gen_salt('md5')), estatus = 'Consolidado' WHERE idPago = $4;
 		RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN 
@@ -438,6 +508,68 @@ BEGIN
 END;
 $$;
 
+----------------------REINTEGROS--------------------------
+CREATE OR REPLACE FUNCTION Reintegro_Tarjeta(INT, INT, DECIMAL, INT)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+BEGIN
+	BEGIN
+		UPDATE Reintegro SET estatus = 'En proceso' WHERE idReintegro = $4;
+		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
+		INSERT INTO OperacionTarjeta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
+			VALUES ($1, $2, current_date, current_time, $3, crypt($1 || current_date || current_time || $2, gen_salt('md5')));
+		UPDATE Reintegro SET referencia_reintegro = crypt($1 || current_date || current_time || $2, gen_salt('md5')), estatus = 'Consolidado' WHERE idReintegro = $4;
+		RETURN TRUE;
+	EXCEPTION WHEN OTHERS THEN 
+		RETURN FALSE;
+	END;
+END;
+$$;
+--Pago con cuenta
+CREATE OR REPLACE FUNCTION Reintegro_Cuenta(INT, INT, DECIMAL, INT)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+BEGIN
+	BEGIN
+		UPDATE Reintegro SET estatus = 'En proceso' WHERE idReintegro = $4;
+		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
+		INSERT INTO OperacionCuenta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
+			VALUES ($1, $2, current_date, current_time, $3, crypt($1 || current_date || current_time || $2, gen_salt('md5')));
+		UPDATE Reintegro SET referencia_reintegro = crypt($1 || current_date || current_time || $2, gen_salt('md5')), estatus = 'Consolidado' WHERE idReintegro = $4;
+		RETURN TRUE;
+	EXCEPTION WHEN OTHERS THEN 
+		RETURN FALSE;
+	END;
+END;
+$$;
+--Pago con Monedero
+--Parámetros: IdUsuarioReceptor, IdUsuarioPago (el que realiza el pago), monto, idPago
+CREATE OR REPLACE FUNCTION Reintegro_Monedero(INT, INT, DECIMAL, INT)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+	idCuentaMonedero int;
+BEGIN
+	BEGIN
+		UPDATE Reintegro SET estatus = 'En proceso' WHERE idReintegro = $4;
+		SELECT Cuenta.idCuenta FROM Cuenta INTO idCuentaMonedero
+							JOIN TipoCuenta ON TipoCuenta.idTipoCuenta = Cuenta.idTipoCuenta AND TipoCuenta.descripcion = 'Monedero'
+											WHERE Cuenta.idUsuario = $2;
+		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
+		INSERT INTO OperacionCuenta (idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
+			VALUES ($1, idCuentaMonedero, current_date, current_time, $3, crypt($1 || current_date || current_time || $2, gen_salt('md5')));
+		UPDATE Reintegro SET referencia_reintegro = crypt($1 || current_date || current_time || $2, gen_salt('md5')), estatus = 'Consolidado' WHERE idReintegro = $4;
+		RETURN TRUE;
+	EXCEPTION WHEN OTHERS THEN 
+		RETURN FALSE;
+	END;
+END;
+$$;
 
 
 
