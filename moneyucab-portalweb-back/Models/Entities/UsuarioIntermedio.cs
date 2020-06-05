@@ -7,34 +7,35 @@ using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Models.Entities
 {
+    [Table("Usuario")]
     public class UsuarioIntermedio
     {
         [Key]
-        [Column("idUsuario", TypeName = "SERIAL")]
+        [Column("idUsuario")]
         public int ID { get; set; }
 
         [Required]
-        [Column("idTipoUsuario", TypeName = "VARCHAR(200)")]
+        [Column("idTipoUsuario", TypeName = "INT")]
         public int TipoUsuarioID { get; set; }
 
         [Required]
-        [Column("idTipoIdentificacion", TypeName = "VARCHAR(200)")]
+        [Column("idTipoIdentificacion", TypeName = "INT")]
         public int TipoIdentificacionID { get; set; }
 
         [Required]
-        [Column("idEntity", TypeName = "VARCHAR(200)")]
-        public int EntityID { get; set; }
+        [Column("idEntity", TypeName = "TEXT")]
+        public string EntityID { get; set; }
 
         [Required]
         [Column("usuario", TypeName = "VARCHAR(20)")]
         public string UserName { get; set; }
 
         [Required]
-        [Column("codigo", TypeName = "CHAR(1)")]
+        [Column("fecha_registro", TypeName = "DATE")]
         public DateTime FechaRegistro { get; set; }
 
         [Required]
-        [Column("fecha_registro", TypeName = "DATE")]
+        [Column("nro_identificacion", TypeName = "INT")]
         public int NumeroIdentificacion { get; set; }
 
         [Required]
@@ -54,8 +55,6 @@ namespace moneyucab_portalweb_back.Models.Entities
         public int Estatus { get; set; }
 
 
-
-        [ForeignKey("idEntity")]
         public Usuario Usuario { get; set; }
         public Persona Persona { get; set; }
         public Comercio Comercio { get; set; }

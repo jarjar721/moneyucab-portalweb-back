@@ -6,6 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200604184638_TraduccionTestDB.cs" />
+    <Compile Remove="Migrations\20200604184638_TraduccionTestDB.Designer.cs" />
+    <Compile Remove="Migrations\20200604194323_TraduccionTest2DB.cs" />
+    <Compile Remove="Migrations\20200604194323_TraduccionTest2DB.Designer.cs" />
+    <Compile Remove="Migrations\20200604195837_TraduccionTest.cs" />
+    <Compile Remove="Migrations\20200604195837_TraduccionTest.Designer.cs" />
+    <Compile Remove="Migrations\20200604214100_TraduccionTest.cs" />
+    <Compile Remove="Migrations\20200604214100_TraduccionTest.Designer.cs" />
+    <Compile Remove="Migrations\20200604225013_TraduccionTest.cs" />
+    <Compile Remove="Migrations\20200604225013_TraduccionTest.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="EntityFramework6.Npgsql" Version="6.4.1" />
@@ -25,7 +38,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.5.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />

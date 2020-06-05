@@ -33,10 +33,6 @@ namespace moneyucab_portalweb_back.Models.Entities
         public int UsuarioID { get; set; }
 
 
-
-        [ForeignKey("idEstadoCivil")]
-        public EstadoCivil EstadoCivil { get; set; }
-        [ForeignKey("idUsuario")]
         public UsuarioIntermedio UsuarioIntermedio { get; set; }
 
     }

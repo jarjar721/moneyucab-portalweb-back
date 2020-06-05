@@ -30,7 +30,6 @@ namespace moneyucab_portalweb_back.Models.Entities
         public int UsuarioID { get; set; }
 
 
-        [ForeignKey("idUsuario")]
         public UsuarioIntermedio UsuarioIntermedio { get; set; }
     }
 }

@@ -16,7 +16,6 @@ namespace moneyucab_portalweb_back.Models.Entities
             PreviousUserPasswords = new List<PreviousPasswords>();
         }
 
-        [Column(TypeName="date")]
         [Required]
         [Column(TypeName = "DATE")]
         public DateTime SignupDate { get; set; }

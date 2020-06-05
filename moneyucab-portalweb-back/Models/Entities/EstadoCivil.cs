@@ -10,7 +10,6 @@ namespace moneyucab_portalweb_back.Models.Entities
     [Table("EstadoCivil")]
     public class EstadoCivil
     {
-        [Key]
         [Column("idEstadoCivil", TypeName = "INT")]
         public int ID { get; set; }
 
@@ -25,7 +24,5 @@ namespace moneyucab_portalweb_back.Models.Entities
         [Required]
         [Column("estatus", TypeName = "INT")]
         public int Estatus { get; set; }
-
-        public List<Persona> Personas { get; set; }
     }
 }
