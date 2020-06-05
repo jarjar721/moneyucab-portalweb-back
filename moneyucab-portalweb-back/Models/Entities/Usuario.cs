@@ -11,8 +11,15 @@ namespace moneyucab_portalweb_back.Models.Entities
 {
     public class Usuario : IdentityUser
     {
+        public Usuario() : base()
+        {
+            PreviousUserPasswords = new List<PreviousPasswords>();
+        }
+
         [Column(TypeName="date")]
         [Required]
         public DateTime SignupDate { get; set; }
+
+        public virtual IList<PreviousPasswords> PreviousUserPasswords { get; set; }
     }
 }

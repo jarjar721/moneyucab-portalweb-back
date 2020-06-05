@@ -9,7 +9,7 @@ using moneyucab_portalweb_back.Models.Entities;
 
 namespace moneyucab_portalweb_back.Data
 {
-    public class AuthenticationContext : IdentityDbContext
+    public class AuthenticationContext : IdentityDbContext<Usuario>
     {
         public AuthenticationContext(DbContextOptions options) : base(options)
         {
