@@ -201,7 +201,6 @@ namespace moneyucab_portalweb_back.Migrations
             migrationBuilder.RenameTable("AspNetUserRoles", "Usuario_Rol");
             migrationBuilder.RenameTable("AspNetUserTokens", "Usuario_Token");
             migrationBuilder.RenameTable("AspNetUsers", "Usuario");
-            migrationBuilder.RenameColumn("ReportPages", "Group_Id", "Section_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
