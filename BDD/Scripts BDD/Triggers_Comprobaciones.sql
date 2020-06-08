@@ -3,140 +3,252 @@
 --.................--
 ---.Registro Usuario
 -----.Trigger validacion de registro
------.Registro Persona
 -----.Registro Comercio
+-----.Registro Persona
 -----.Registro de contacto dentro del comercio
 
-
-/* OPCION PARA ELIMINAR SCRIPT
-
-DROP FUNCTION comprobacion_log_in CASCADE;
-DROP FUNCTION comprobacion_rol CASCADE;
-DROP FUNCTION comprobacion_registro CASCADE;
-DROP FUNCTION comprobacion_contacto CASCADE;
-DROP FUNCTION comprobacion_operacion CASCADE;
-
-*/
-
---Comprobación de logeo para el usuario.
-CREATE OR REPLACE FUNCTION comprobacion_log_in(username varchar(200), clave varchar(500))
-RETURNS INTEGER LANGUAGE plpgsql    
-AS $$
-BEGIN
-    IF NOT EXISTS(SELECT * FROM Usuario US 
-			WHERE (US.US_CORREO = username OR US.US_USERNAME = username)
-			AND US.US_CLAVE = clave AND US.US_COUNT <> 3) THEN
-	 	RETURN 0;
-	ELSE
-		UPDATE usuario SET US.US_COUNT = US.US_COUNT + 1 WHERE US.US_CORREO = username OR US.US_USERNAME = username;
-		RETURN -1;
-	END IF;
-END;
-$$;
-
---Comprobación de registro
-CREATE OR REPLACE FUNCTION comprobacion_registro()
-RETURNS TRIGGER LANGUAGE plpgsql    
-AS $$
-DECLARE
-	
-BEGIN
-    IF EXISTS(SELECT * FROM Usuario US 
-			WHERE US.US_CORREO = NEW.US_CORREO
-			AND US.US_USERNAME = NEW.US_USERNAME) THEN
-	 	RAISE EXCEPTION 'Usuario con nombre de usuario o correo existente';
-		ROLLBACK;
-	END IF;
-END;
-$$;
-
-CREATE TRIGGER registro_usuario
-    BEFORE INSERT ON Usuario
-    FOR EACH STATEMENT
-    EXECUTE PROCEDURE comprobacion_registro();
-	
---Comprobación de contacto
-CREATE OR REPLACE FUNCTION comprobacion_contacto()
-RETURNS TRIGGER LANGUAGE plpgsql    
-AS $$
+--Validación de registro de comercio
+DROP TRIGGER IF EXISTS validar_comercioT ON Comercio CASCADE;
+CREATE OR REPLACE FUNCTION validar_comercio()
+										RETURNS trigger
+LANGUAGE plpgsql
+AS $BODY$
 DECLARE
 BEGIN
-    IF EXISTS(SELECT * FROM Persona_Contacto PC 
-			WHERE PC.PE_FK = NEW.PE_FK
-			AND PC.CO_FK = NEW.CO_FK) THEN
-	 	RAISE EXCEPTION 'Contacto ya realizado';
-		ROLLBACK;
+	IF NOT EXISTS (SELECT * FROM Persona WHERE idUsuario = new.idUsuario) THEN
+		RAISE EXCEPTION 'El usuario no está registrado como persona para poder realizar el registro';
+	END IF;
+	IF EXISTS (SELECT * FROM Comercio WHERE razon_social = new.razon_social) THEN
+		RAISE EXCEPTION 'Ya hay un comercio con la misma razón social';
+	END IF;
+	IF EXISTS (SELECT * FROM Comercio WHERE idUsuario = new.idUsuario) THEN
+		RAISE EXCEPTION 'Ya hay un registro de comercio para el usuario';
 	END IF;
 END;
-$$;
+$BODY$;
 
-CREATE TRIGGER comprobación_contacto
-    BEFORE INSERT ON Persona_Contacto
-    FOR EACH STATEMENT
-    EXECUTE PROCEDURE comprobacion_contacto();
-	
---Comprobación de contacto
-CREATE OR REPLACE FUNCTION comprobacion_rol()
-RETURNS TRIGGER LANGUAGE plpgsql    
-AS $$
+CREATE TRIGGER validar_comercioT
+BEFORE INSERT
+   ON Comercio
+       EXECUTE PROCEDURE validar_comercio();
+	   
+--Validación de registro de persona
+DROP TRIGGER IF EXISTS validar_personaT ON Persona CASCADE;
+CREATE OR REPLACE FUNCTION validar_persona()
+										RETURNS trigger
+LANGUAGE plpgsql
+AS $BODY$
 DECLARE
 BEGIN
-    IF EXISTS(SELECT * FROM Rol RO 
-			WHERE ro.us_FK = NEW.us_FK
-			AND ro.pe_FK = NEW.pe_FK) THEN
-	 	RAISE EXCEPTION 'Contacto ya realizado';
-		ROLLBACK;
+	IF EXISTS (SELECT * FROM Persona WHERE idUsuario = new.idUsuario) THEN
+		RAISE EXCEPTION 'Ya hay un registro de persona asignado al usuario';
 	END IF;
 END;
-$$;
+$BODY$;
 
-CREATE TRIGGER comprobación_rol
-    BEFORE INSERT ON rol
-    FOR EACH STATEMENT
-    EXECUTE PROCEDURE comprobacion_rol();
-	
---Comprobación de Operación
-CREATE OR REPLACE FUNCTION comprobacion_operacion()
-RETURNS TRIGGER LANGUAGE plpgsql    
-AS $$
+CREATE TRIGGER validar_personaT
+BEFORE INSERT
+   ON Persona
+       EXECUTE PROCEDURE validar_persona();
+
+--//////////////////////////////////////////////////////////////////////////////
+--Validación de transaccion Tarjeta
+DROP TRIGGER IF EXISTS validar_transaccionTarjetaT ON OperacionTarjeta CASCADE;
+CREATE OR REPLACE FUNCTION validar_transaccionTarjeta()
+										RETURNS trigger
+LANGUAGE plpgsql
+AS $BODY$
 DECLARE
-	monedero_destino monedero%rowtype;
-	monedero_origen monedero%rowtype;
-	suma_operaciones_entrada FLOAT;
-	suma_operaciones_salida FLOAT;
+	fecha_límite DATE;
+	cantidad int;
+	monto_acum DECIMAL;
+	parametros CURSOR FOR SELECT A.validacion as validacion, A.estatus as estatus, TipoParametro.descripcion as tipo_parametro, Frecuencia.descripcion as frecuencia,
+						A.idUsuario as idUsuario, A.idParametro as idParametro
+						FROM Usuario_Parametro A
+						JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
+						JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro
+						JOIN Tarjeta ON Tarjeta.idTarjeta = new.idTarjeta AND A.idUsuario = Tarjeta.idUsuario;
+	parametros_destino CURSOR FOR SELECT A.validacion as validacion, A.estatus as estatus, TipoParametro.descripcion as tipo_parametro, Frecuencia.descripcion as frecuencia,
+						A.idUsuario as idUsuario, A.idParametro as idParametro
+						FROM Usuario_Parametro A
+						JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
+						JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro
+						WHERE A.idUsuario = new.idUsuarioReceptor;
 BEGIN
-	SELECT * FROM MONEDERO into monedero_destino WHERE MO_PK = NEW.OP_MONEDERO_DESTINO_PK;
-	SELECT * FROM MONEDERO into monedero_origen WHERE MO_PK = NEW.OP_MONEDERO_ORIGEN_PK;
-    SELECT SUM(op.op_monto) FROM operacion op into suma_operaciones_entrada WHERE op.OP_MONEDERO_DESTINO_PK = monedero_destino.mo_pk
-				AND op.op_fecha = current_Date AND op.st_fk = 'TR';
-	SELECT SUM(op.op_monto) FROM operacion op into suma_operaciones_salida WHERE op.OP_MONEDERO_ORIGEN_PK = monedero_destino.mo_pk
-				AND op.op_fecha = current_Date AND op.st_fk IN ('TR','RE');
-	--Comprobaciones para las transferencias
-	IF (NEW.ST_FK = 'TR') THEN
-		--Comprobación dell imite de operación
-		IF(monedero_origen.mo_limite_operacion) THEN
-			RAISE EXCEPTION 'Operacion supera al limite de monedero origen';
+	IF NOT EXISTS (SELECT * FROM Usuario WHERE idUsuario = new.idUsuarioReceptor) THEN
+		RAISE EXCEPTION 'No hay un registro de usuario destino';
+	END IF;
+	IF NOT EXISTS (SELECT * FROM Tarjeta WHERE idTarjeta = new.idTarjeta) THEN
+		RAISE EXCEPTION 'No hay un registro de tarjeta origen';
+	END IF;
+	IF NOT EXISTS (SELECT * FROM Tarjeta WHERE idTarjeta = new.idTarjeta and (estatus > 1 OR fecha_vencimiento >= current_date)) THEN
+		IF EXISTS (SELECT * FROM Tarjeta WHERE idTarjeta = new.idTarjeta and (fecha_vencimiento >= current_date)) THEN
+			UPDATE Tarjeta SET estatus = 4 WHERE idTarjeta = new.idTarjeta;
 		END IF;
-		--Comprobación del limite de transferencias para un monto diario
-		IF(monedero_destino.mo_limite_monto_diario >
-		  	( suma_operaciones_Entrada + NEW.OP_MONTO - suma_operaciones_salida )) THEN
-			RAISE EXCEPTION 'Operacion supera el limite de monto diario';
+		RAISE EXCEPTION 'No hay estatus válido para la realización de operación o tarjeta vencida.';
+	END IF;
+	IF EXISTS (SELECT * FROM Banco JOIN Tarjeta ON Tarjeta.idTarjeta = new.idTarjeta AND Banco.idBanco = Tarjeta.idBanco
+				  								WHERE Banco.estatus > 1) THEN
+		UPDATE Tarjeta SET estatus = 4 WHERE idTarjeta = new.idTarjeta;
+		RAISE EXCEPTION 'Banco en estatus inválido para permitir transacciones';
+	END IF;
+	IF EXISTS (SELECT * FROM Usuario JOIN Tarjeta ON Tarjeta.idTarjeta = new.idTarjeta WHERE Usuario.estatus > 1)THEN
+		RAISE EXCEPTION 'El usuario tiene un estatus inválido para realizar dichos procedimientos.';
+	END IF;
+	FOR parametro IN parametros LOOP
+    	IF (parametro.estatus = 1) THEN
+			SELECT date_comp(parametro.idUsuario, parametro.idParametro, parametro.tipo_parametro) INTO fecha_límite;
+			IF (parametro.tipo_parametro = 'Monto Transferencia') THEN
+				IF new.monto > parametro.validacion THEN
+					RAISE EXCEPTION 'Error de parámetro, monto de transferencia';
+				END IF;
+				
+			END IF;
+			IF (parametro.tipo_parametro = 'Cantidad Operaciones') THEN
+				SELECT COUNT(OperacionTarjeta.*) FROM OperacionTarjeta into cantidad 
+					JOIN Tarjeta ON Tarjeta.idTarjeta = new.idTarjeta
+					WHERE OperacionTarjeta.fecha >= fecha_límite;
+				IF cantidad >= parametro.validacion THEN
+					RAISE EXCEPTION 'Exceso de operaciones';
+				END IF;
+			END IF;
+			IF (parametro.tipo_parametro = 'Monto Acumulado') THEN
+				SELECT SUM(OperacionTarjeta.monto) FROM OperacionTarjeta into monto_acum 
+					JOIN Tarjeta ON Tarjeta.idTarjeta = new.idTarjeta
+					WHERE OperacionTarjeta.fecha >= fecha_límite;
+				IF monto_acum >= parametro.validacion THEN
+					RAISE EXCEPTION 'Exceso de monto acumulado';
+				END IF;
+			END IF;
 		END IF;
-		--Comprobaciones para el limite para el monedero de origen para adeudarse
-		IF (monedero_origen.mo_saldo - NEW.OP_MONTO < monedero_origen.mo_limite_deuda) THEN
-			RAISE EXCEPTION 'No se puede adeudar más el monedero origen';
+	END LOOP;
+	FOR parametro IN parametros_destino LOOP
+    	IF (parametro.estatus = 1) THEN
+			SELECT date_comp(parametro.idUsuario, parametro.idParametro, parametro.tipo_parametro) INTO fecha_límite;
+			IF (parametro.tipo_parametro = 'Recepción Monto') THEN
+				IF new.monto > parametro.validacion THEN
+					RAISE EXCEPTION 'Error de parámetro, recepción de monto';
+				END IF;
+			END IF;
+			IF (parametro.tipo_parametro = 'Monto Acumulado Recepcion') THEN
+				SELECT SUM(OperacionTarjeta.monto) FROM OperacionTarjeta into monto_acum
+					WHERE OperacionTarjeta.fecha >= fecha_límite AND OperacionTarjeta.idUsuarioReceptor = new.idUsuarioReceptor;
+				IF monto_acum >= parametro.validacion THEN
+					RAISE EXCEPTION 'Exceso de monto acumulado recibido';
+				END IF;
+			END IF;
 		END IF;
-	END IF;
-	--Comprobaciones para una recarga
-	IF (NEW.ST_FK = 'RC') THEN
-	END IF;
-	--Comprobaciones para un reintegro
-	IF (NEW.ST_FK = 'RE') THEN
-	END IF;
+	END LOOP;
 END;
-$$;
+$BODY$;
 
-CREATE TRIGGER comprobación_operación
-    BEFORE INSERT ON operacion
-    FOR EACH STATEMENT
-    EXECUTE PROCEDURE comprobacion_operacion();
+CREATE TRIGGER validar_transaccionTarjetaT
+BEFORE INSERT
+   ON OperacionTarjeta
+       EXECUTE PROCEDURE validar_transaccionTarjeta();
+	   
+--//////////////////////////////////////////////////////////////////////////////
+--Validación de transaccion Cuenta
+DROP TRIGGER IF EXISTS validar_transaccionCuentaT ON OperacionCuenta CASCADE;
+CREATE OR REPLACE FUNCTION validar_transaccionCuenta()
+										RETURNS trigger
+LANGUAGE plpgsql
+AS $BODY$
+DECLARE
+	fecha_límite DATE;
+	cantidad int;
+	monto_acum DECIMAL;
+	id_usuario int;
+	tipo_cuenta varchar;
+	parametros CURSOR FOR SELECT A.validacion as validacion, A.estatus as estatus, TipoParametro.descripcion as tipo_parametro, Frecuencia.descripcion as frecuencia,
+						A.idUsuario as idUsuario, A.idParametro as idParametro
+						FROM Usuario_Parametro A
+						JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
+						JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro
+						JOIN Cuenta ON Cuenta.idCuenta = new.idCuenta AND A.idUsuario = Cuenta.idUsuario;
+	parametros_destino CURSOR FOR SELECT A.validacion as validacion, A.estatus as estatus, TipoParametro.descripcion as tipo_parametro, Frecuencia.descripcion as frecuencia,
+						A.idUsuario as idUsuario, A.idParametro as idParametro
+						FROM Usuario_Parametro A
+						JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
+						JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro
+						WHERE A.idUsuario = new.idUsuarioReceptor;
+BEGIN
+	IF NOT EXISTS (SELECT * FROM Usuario WHERE idUsuario = new.idUsuarioReceptor) THEN
+		RAISE EXCEPTION 'No hay un registro de usuario destino';
+	END IF;
+	IF NOT EXISTS (SELECT * FROM Cuenta WHERE idCuenta = new.idCuenta) THEN
+		RAISE EXCEPTION 'No hay un registro de cuenta origen';
+	END IF;
+	IF NOT EXISTS (SELECT * FROM Cuenta WHERE idCuenta = new.idCuenta and (estatus > 1 OR fecha_vencimiento >= current_date)) THEN
+		IF EXISTS (SELECT * FROM Cuenta WHERE idCuenta = new.idCuenta and (fecha_vencimiento >= current_date)) THEN
+			UPDATE Cuenta SET estatus = 4 WHERE idCuenta = new.idCuenta;
+		END IF;
+		RAISE EXCEPTION 'No hay estatus válido para la realización de operación o cuenta vencida.';
+	END IF;
+	IF EXISTS (SELECT * FROM Banco JOIN Cuenta ON Cuenta.idCuenta = new.idCuenta AND Banco.idBanco = Cuenta.idBanco
+				  								WHERE Banco.estatus > 1) THEN
+		UPDATE Cuenta SET estatus = 4 WHERE idCuenta = new.idCuenta;
+		RAISE EXCEPTION 'Banco en estatus inválido para permitir transacciones';
+	END IF;
+	IF EXISTS (SELECT * FROM Usuario JOIN Cuenta ON Cuenta.idCuenta = new.idCuenta WHERE Usuario.estatus > 1)THEN
+		RAISE EXCEPTION 'El usuario tiene un estatus inválido para realizar dichos procedimientos.';
+	END IF;
+	SELECT idUsuario FROM Cuenta WHERE Cuenta.idCuenta = new.idCuenta;
+	SELECT Saldo_Monedero(idUsuario) into monto_acum;
+	SELECT descripcion FROM TipoCuenta into tipo_cuenta
+		JOIN Cuenta ON TipoCuenta.idTipoCuenta= Cuenta.idTipoCuenta
+		WHERE Cuenta.idCuenta = new.idCuenta AND Descripcion = 'Monedero';
+	IF (new.monto > monto_acum AND tipo_cuenta = 'Monedero') THEN
+		RAISE EXCEPTION 'Monto excede cantidad disponible, no se puede realizar el pago.';
+	END IF;
+	FOR parametro IN parametros LOOP
+    	IF (parametro.estatus = 1) THEN
+			SELECT date_comp(parametro.idUsuario, parametro.idParametro, parametro.tipo_parametro) INTO fecha_límite;
+			IF (parametro.tipo_parametro = 'Monto Transferencia') THEN
+				IF new.monto > parametro.validacion THEN
+					RAISE EXCEPTION 'Error de parámetro, monto de transferencia';
+				END IF;
+				
+			END IF;
+			IF (parametro.tipo_parametro = 'Cantidad Operaciones') THEN
+				SELECT COUNT(OperacionCuenta.*) FROM OperacionCuenta into cantidad 
+					JOIN Cuenta ON Cuenta.idCuenta = new.idCuenta
+					WHERE OperacionCuenta.fecha >= fecha_límite;
+				IF cantidad >= parametro.validacion THEN
+					RAISE EXCEPTION 'Exceso de operaciones';
+				END IF;
+			END IF;
+			IF (parametro.tipo_parametro = 'Monto Acumulado') THEN
+				SELECT SUM(OperacionCuenta.monto) FROM OperacionCuenta into monto_acum 
+					JOIN Cuenta ON Cuenta.idCuenta = new.idCuenta
+					WHERE OperacionCuenta.fecha >= fecha_límite;
+				IF monto_acum >= parametro.validacion THEN
+					RAISE EXCEPTION 'Exceso de monto acumulado';
+				END IF;
+			END IF;
+		END IF;
+	END LOOP;
+	FOR parametro IN parametros_destino LOOP
+    	IF (parametro.estatus = 1) THEN
+			SELECT date_comp(parametro.idUsuario, parametro.idParametro, parametro.tipo_parametro) INTO fecha_límite;
+			IF (parametro.tipo_parametro = 'Recepción Monto') THEN
+				IF new.monto > parametro.validacion THEN
+					RAISE EXCEPTION 'Error de parámetro, recepción de monto';
+				END IF;
+			END IF;
+			IF (parametro.tipo_parametro = 'Monto Acumulado Recepcion') THEN
+				SELECT SUM(OperacionCuenta.monto) FROM OperacionCuenta into monto_acum
+					WHERE OperacionCuenta.fecha >= fecha_límite AND OperacionCuenta.idUsuarioReceptor = new.idUsuarioReceptor;
+				IF monto_acum >= parametro.validacion THEN
+					RAISE EXCEPTION 'Exceso de monto acumulado recibido';
+				END IF;
+			END IF;
+		END IF;
+	END LOOP;
+END;
+$BODY$;
+
+CREATE TRIGGER validar_transaccionCuentaT
+BEFORE INSERT
+   ON OperacionCuenta
+       EXECUTE PROCEDURE validar_transaccionCuenta();

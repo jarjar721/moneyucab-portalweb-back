@@ -63,17 +63,17 @@ VALUES ('Monto Pago', 1),
 ('Monto Transferencia', 1),
 ('Cantidad Operaciones', 1),
 ('Recepción Monto', 1),
-('Recepción Transferencia', 1),
-('Monto Acumulado', 1);
+('Monto Acumulado', 1),
+('Monto Acumulado Recepcion', 1);
 
 DELETE FROM Frecuencia CASCADE;
 ALTER SEQUENCE Frecuencia_idFrecuencia_seq RESTART WITH 1;
 INSERT INTO Frecuencia (codgo, descripcion, estatus)
-VALUES ('D','Día individual', 1),
-('S', 'Semana individual', 1),
-('M', 'Mes individual', 1),
-('A', 'Año individual', 1),
-('H', 'Hora individual', 1);
+VALUES ('D','DAY', 1),
+('S', 'WEEK', 1),
+('M', 'MONTH', 1),
+('A', 'YEAR', 1),
+('H', 'HOUR', 1);
 
 DELETE FROM TipoOperacion CASCADE;
 ALTER SEQUENCE TipoOperacion_idTipoOperacion_seq RESTART WITH 1;
