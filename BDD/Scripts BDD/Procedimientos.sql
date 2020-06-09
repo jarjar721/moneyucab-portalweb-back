@@ -395,10 +395,10 @@ DECLARE
 BEGIN
 	SELECT SUM(A.monto) FROM OperacionesMonedero A INTO Recargas JOIN TipoOperacion B ON B.idTipoOperacion = A.idTipoOperacion 
 																		AND (B.descripcion = 'Recarga')
-																WHERE A.idUsuario = $1;
+																WHERE A.idUsuario = $1 AND A.referencia is not null;
 	SELECT SUM(A.monto) FROM OperacionesMonedero A INTO Transferencias_Retiros JOIN TipoOperacion B ON B.idTipoOperacion = A.idTipoOperacion 
-																		AND (B.descripcion = 'Transferencia' OR B.descripcion = 'Retiro')
-																WHERE A.idUsuario = $1;
+																		AND (B.descripcion = 'Transferencia' OR B.descripcion = 'Retiro') 
+																WHERE A.idUsuario = $1 AND A.referencia is not null;
 	RETURN Recargas - Transferencias_Retiros;
 END;
 $$;
@@ -619,7 +619,7 @@ $$;
 
 --Recarga de monedero por Cuenta
 --IdUsuario, IdCuenta, Monto,
-CREATE OR REPLACE FUNCTION Recarga_Monedero_Tarjeta(INT, INT, DECIMAL)
+CREATE OR REPLACE FUNCTION Recarga_Monedero_Cuenta(INT, INT, DECIMAL)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$

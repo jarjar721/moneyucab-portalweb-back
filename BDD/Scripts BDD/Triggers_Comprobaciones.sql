@@ -50,6 +50,53 @@ CREATE TRIGGER validar_personaT
 BEFORE INSERT
    ON Persona
        EXECUTE PROCEDURE validar_persona();
+	   
+--Validación de registro de Tarjeta
+DROP TRIGGER IF EXISTS validar_tarjetaT ON tarjeta CASCADE;
+CREATE OR REPLACE FUNCTION validar_tarjeta()
+										RETURNS trigger
+LANGUAGE plpgsql
+AS $BODY$
+DECLARE
+BEGIN
+	IF EXISTS (SELECT * FROM tarjeta WHERE numero = new.numero and idBanco = new.idBanco and idTipoTarjeta = new.idTipoTarjeta and idUsuario = new.idUsuario) THEN
+		RAISE EXCEPTION 'No puede registrar una tarjeta duplicada';
+	END IF;
+	IF current_date <= new.fecha_vencimiento THEN
+		RAISE EXCEPTION 'No puede registrar una tarjeta vencida';
+	END IF;
+	IF EXISTS (SELECT * FROM Banco WHERE new.idBanco = Banco.idBanco and Banco.estatus > 1) THEN
+		RAISE EXCEPTION 'No puede registrar una tarjeta duplicada';
+	END IF;
+END;
+$BODY$;
+
+CREATE TRIGGER validar_tarjetaT
+BEFORE INSERT
+   ON tarjeta
+       EXECUTE PROCEDURE validar_tarjeta();
+	   
+--Validación de registro de Cuenta
+DROP TRIGGER IF EXISTS validar_cuentaT ON cuenta CASCADE;
+CREATE OR REPLACE FUNCTION validar_cuenta()
+										RETURNS trigger
+LANGUAGE plpgsql
+AS $BODY$
+DECLARE
+BEGIN
+	IF EXISTS (SELECT * FROM cuenta WHERE numero = new.numero and idBanco = new.idBanco and idTipoCuenta = new.idTipoCuenta and idUsuario = new.idUsuario) THEN
+		RAISE EXCEPTION 'No puede registrar una cuenta duplicada';
+	END IF;
+	IF EXISTS (SELECT * FROM Banco WHERE new.idBanco = Banco.idBanco and Banco.estatus > 1) THEN
+		RAISE EXCEPTION 'No puede registrar una tarjeta duplicada';
+	END IF;
+END;
+$BODY$;
+
+CREATE TRIGGER validar_cuentaT
+BEFORE INSERT
+   ON cuenta
+       EXECUTE PROCEDURE validar_cuenta();
 
 --//////////////////////////////////////////////////////////////////////////////
 --Validación de transaccion Tarjeta
@@ -252,3 +299,53 @@ CREATE TRIGGER validar_transaccionCuentaT
 BEFORE INSERT
    ON OperacionCuenta
        EXECUTE PROCEDURE validar_transaccionCuenta();
+	   
+--//////////////////////////////////////////////////////////////////////////////
+--Validación de Reintegro
+DROP TRIGGER IF EXISTS validar_ReintegroT ON Reintegro CASCADE;
+CREATE OR REPLACE FUNCTION validar_Reintegro()
+										RETURNS trigger
+LANGUAGE plpgsql
+AS $BODY$
+DECLARE
+	
+BEGIN
+	IF NOT EXISTS (SELECT * FROM OperacionCuenta WHERE referencia = new.referencia) AND  
+		NOT EXISTS (SELECT * FROM OperacionTarjeta WHERE referencia = new.referencia) AND new.estatus = 'Consolidado' THEN
+		RAISE EXCEPTION 'No hay referencia indicada para una operación';
+	END IF;
+	IF new.estatus = 'Solicitado' and new.referencia is not null THEN
+		RAISE EXCEPTION 'Reintegro inválido';
+	END IF;
+END;
+$BODY$;
+
+CREATE TRIGGER validar_ReintegroT
+BEFORE INSERT
+   ON Reintegro
+       EXECUTE PROCEDURE validar_Reintegro();
+	   
+--//////////////////////////////////////////////////////////////////////////////
+--Validación de Pago
+DROP TRIGGER IF EXISTS validar_PagoT ON Pago CASCADE;
+CREATE OR REPLACE FUNCTION validar_Pago()
+										RETURNS trigger
+LANGUAGE plpgsql
+AS $BODY$
+DECLARE
+	
+BEGIN
+	IF NOT EXISTS (SELECT * FROM OperacionCuenta WHERE referencia = new.referencia) AND  
+		NOT EXISTS (SELECT * FROM OperacionTarjeta WHERE referencia = new.referencia) AND new.estatus = 'Consolidado' THEN
+		RAISE EXCEPTION 'No hay referencia indicada para una operación';
+	END IF;
+	IF new.estatus = 'Solicitado' and new.referencia is not null THEN
+		RAISE EXCEPTION 'Pago inválido';
+	END IF;
+END;
+$BODY$;
+
+CREATE TRIGGER validar_PagoT
+BEFORE INSERT
+   ON Pago
+       EXECUTE PROCEDURE validar_Pago();
