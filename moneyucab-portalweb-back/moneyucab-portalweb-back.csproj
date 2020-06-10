@@ -34,8 +34,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Utilidades\" />
-    <Folder Include="Comandos\ComandosService\Login\Compuestos\" />
+    <Compile Update="Migrations\20200422163801_Initial Create.Designer.cs">
+      <DependentUpon>20200422163801_Initial Create.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Migrations\20200603020659_Added-PasswordHistory.Designer.cs">
+      <DependentUpon>20200603020659_Added-PasswordHistory.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 
