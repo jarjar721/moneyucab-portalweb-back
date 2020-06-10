@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comandos\Comando.cs" />
-    <Compile Include="Comandos\ComandosService\Login\Simples\ComandoVerificarStatusUsuario.cs" />
     <Compile Include="Comandos\ComandosService\Utilidades\MD5Encrypth.cs" />
     <Compile Include="Comandos\FabricaComandos.cs" />
     <Compile Include="Comandos\IComando.cs" />
@@ -56,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Comandos\ComandosService\Login\Simples\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
