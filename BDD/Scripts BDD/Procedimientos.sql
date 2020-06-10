@@ -642,6 +642,28 @@ BEGIN
 END;
 $$;
 
+--/////////////////////////////////////////////Modificaciones y ediciones//////////////////////////////////////////////
+--Modificación de datos perfil de usuario.
+CREATE OR REPLACE FUNCTION Modificación_Usuario(VARCHAR , VARCHAR, VARCHAR, VARCHAR)
+												RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+usuario int;
+response boolean;
+entity_user_id text;
+tipo_cuenta int;
+banco int;
+BEGIN
+	BEGIN
+		UPDATE Usuario SET usuario = $1, email= $2, telefono=$3, direccion=$4;
+		RETURN TRUE;
+	EXCEPTION WHEN OTHERS THEN 
+		RETURN FALSE;
+	END;
+END;
+$$;
+
 --Validación de lapso de DATE para los parámetros
 --Parámetros: IdUsuario, idParámetro, 
 CREATE OR REPLACE FUNCTION DATE_COMP(INT, INT, VARCHAR)
