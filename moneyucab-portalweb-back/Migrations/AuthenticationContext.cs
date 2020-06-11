@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using moneyucab_portalweb_back.Models.Entities;
+using moneyucab_portalweb_back.Entities;
 
 namespace moneyucab_portalweb_back.Migrations
 {

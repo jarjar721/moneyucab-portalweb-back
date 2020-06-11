@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comandos\Comando.cs" />
+    <Compile Include="Comandos\ComandosService\Login\Simples\Comando_Verificar_Registro_Usuario.cs" />
     <Compile Include="Comandos\ComandosService\Utilidades\MD5Encrypth.cs" />
     <Compile Include="Comandos\FabricaComandos.cs" />
     <Compile Include="Comandos\IComando.cs" />
@@ -56,8 +57,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Comandos\ComandosService\Login\Simples\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

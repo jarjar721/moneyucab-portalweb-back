@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Models
 {
-    public class RegistrationModel
+    public class RegistrationModel: LoginModel
     {
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+
     }
 }

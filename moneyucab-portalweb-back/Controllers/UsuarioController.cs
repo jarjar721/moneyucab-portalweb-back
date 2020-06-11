@@ -6,15 +6,18 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Comandos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using moneyucab_portalweb_back.Comandos;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
+using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models;
-using moneyucab_portalweb_back.Models.Entities;
 using moneyucab_portalweb_back.Models.FormModels;
 
 namespace moneyucab_portalweb_back.Controllers
@@ -49,61 +52,23 @@ namespace moneyucab_portalweb_back.Controllers
         //Post: /api/Usuario/Register
         public async Task<Object> Register(RegistrationModel userModel)
         {
-            // Se crea el objeto del usuario a registrar
-            var usuario = new Usuario()
+            try
             {
-                UserName = userModel.UserName,
-                Email = userModel.Email,
-                SignupDate = DateTime.Now
-            };
+                //Ejecución de comandos para funcionalidad de registro
 
-            // Chequeo que el username no este registrado
-            if (await _userManager.FindByNameAsync(usuario.UserName) != null)
-            {
-                return BadRequest(new { key = "DuplicateUserName", message = "Intente ingresar un username distinto" });
+                // Chequeo que el username no este registrado
+                await FabricaComandos.Fabricar_Cmd_Verificar_Registro_Usuario(this._userManager, userModel).Ejecutar();
+                //Se realiza el registro del usuario
+                var result = FabricaComandos.Fabricar_Cmd_Registro_Usuario(_userManager, userModel, _appSettings, _emailSender).Ejecutar();
+
+                return Ok(result);
             }
-            // Chequeo que el email no este registrado
-            if (await _userManager.FindByEmailAsync(usuario.Email) != null)
+            catch (Exception ex)
             {
-                return BadRequest(new { key = "DuplicateEmail", message = "Intente ingresar un correo electrónico distinto" });
+                //Debe controlarse un error dentro de la plataforma
+                //Se realiza bad request respondiendo con el objeto obtenido
+                return BadRequest(ex);
             }
-
-            // Se crea el usuario en la base de datos
-            var result = await _userManager.CreateAsync(usuario, userModel.Password);
-            // Se genera el codigo para confirmar el email del usuario recien creado
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
-            // Se codifica el token para poder enviarlo por parametro
-            var encodedToken = code.Replace("/", "_").Replace("+", "-").Replace("=", ".");
-            // Busco el ID del template que será usado en el correo a enviar.
-            var templateID = _appSettings.ConfirmAccountTemplateID;
-            // Se crea el link que será anexado al template del correo
-            var callbackURL = clientBaseURI + "account-confirmed/" + usuario.Id + "/" + encodedToken;
-
-            // Se crea el mensaje con sus detalles para el envío
-            var emailDetails = new SendEmailDetails 
-            { 
-                FromName = "MoneyUCAB",
-                FromEmail = "moneyucab@gmail.com",
-                ToName = usuario.UserName,
-                ToEmail = usuario.Email,
-                Subject = "MoneyUCAB - Confirma tu correo electrónico",
-                TemplateID = templateID,
-                TemplateData = new EmailData
-                {
-                    Name = usuario.UserName,
-                    URL = callbackURL,
-                    Message = "¡Nos emociona muchísimo tenerte en la familia! " +
-                                "Para ello, es indispensable que confirmes tu cuenta para gozar de nuestros servicios. " +
-                                "Solo haz click en el botón.",
-                    ButtonTitle = "Confirmar cuenta"
-                }
-            };
-
-            // Se envía el mensaje al correo del usuario registrado
-            await _emailSender.SendEmailAsync(emailDetails);
-
-            return Ok(result);
-
         }
 
 
@@ -112,51 +77,20 @@ namespace moneyucab_portalweb_back.Controllers
         //Post: /api/Usuario/Login
         public async Task<IActionResult> Login(LoginModel model)
         {
-            // Busco el usuario en la base de datos - Get user in database
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null)
+            try
             {
-                return BadRequest(new { key = "UnknownUser", message = "No existe un usuario registrado con ese email"});
+                // Busco el usuario en la base de datos - Get user in database
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email).Ejecutar();
+
+                // Obtengo el resultado de iniciar sesión 
+                var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings).Ejecutar();
+                return Ok(result);
             }
-
-            // Obtengo el resultado de iniciar sesión 
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, true);
-
-            if (result.Succeeded)
+            catch (Exception ex)
             {
-
-                // Generar un nuevo token - Generate a new token
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("UserID", user.Id.ToString()),
-                        new Claim("LoggedOn", DateTime.Now.ToString())
-                        //Aqui se agrega el rol o roles que tiene el usuario que inicia sesion
-                    }),
-                    Expires = DateTime.UtcNow.AddMinutes(Convert.ToInt32(_appSettings.Token_ExpiredTime)), // El token expira luego de este tiempo
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
-                };
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(securityToken);
-
-                return Ok(new { token });
-
+                //Se retorna el badRequest con los datos de la excepción
+                return BadRequest(ex);
             }
-
-            if (result.IsLockedOut)
-            {
-                var lockoutDateTime = await _userManager.GetLockoutEndDateAsync(user); // Obtengo datetime de cuando se levanta la restriccion del lockout
-                return BadRequest(new { key = "UserLockedOut", message = "Ha agotado sus intentos.", lockoutDateTime });
-            }
-            else
-            {
-                var remainingAttempts = 3 - await _userManager.GetAccessFailedCountAsync(user); // Obtengo la cantidad de intentos restantes le quedan al usuario
-                return BadRequest(new { key = "WrongPassword", message = "Contraseña inválida", remainingAttempts });
-            }
-
         }
 
 
@@ -167,10 +101,7 @@ namespace moneyucab_portalweb_back.Controllers
         public async Task<IActionResult> ConfirmEmail(ConfirmEmailModel model)
         {
             // Reviso que los parametros no sean nulos o con errores
-            if (string.IsNullOrWhiteSpace(model.UserID) || string.IsNullOrWhiteSpace(model.ConfirmationToken))
-            {
-                return BadRequest(new { key = "EmptyFields", message = "No se recibieron parámetros"});
-            }
+            FabricaComandos.Fabricar_Cmd_Verificar_Parametros(model);
 
             //Busco al usuario por su ID
             var usuario = await _userManager.FindByIdAsync(model.UserID);

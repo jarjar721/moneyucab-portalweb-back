@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using moneyucab_portalweb_back.Models.Entities;
+using moneyucab_portalweb_back.Entities;
 
 namespace moneyucab_portalweb_back.Controllers
 {

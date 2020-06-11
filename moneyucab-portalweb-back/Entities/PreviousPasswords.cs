@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace moneyucab_portalweb_back.Models.Entities
+namespace moneyucab_portalweb_back.Entities
 {
     public class PreviousPasswords
     {

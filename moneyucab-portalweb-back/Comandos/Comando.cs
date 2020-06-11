@@ -1,4 +1,6 @@
 ﻿using Comandos;
+using moneyucab_portalweb_back.Comandos;
+using System.Threading.Tasks;
 
 namespace Comandos
 {
@@ -8,6 +10,9 @@ namespace Comandos
         /// Metood que ejecuta la accion del comando
         /// </summary>
         /// <returns></returns>
-        public abstract TSalida EjecutarAsync();
+        public Task<TSalida> Ejecutar()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
