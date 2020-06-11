@@ -80,7 +80,7 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
                 // Busco el usuario en la base de datos - Get user in database
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email, null).Ejecutar();
 
                 // Obtengo el resultado de iniciar sesión 
                 var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings).Ejecutar();
@@ -100,34 +100,22 @@ namespace moneyucab_portalweb_back.Controllers
         //Post: /api/Usuario/ConfirmedEmail
         public async Task<IActionResult> ConfirmEmail(ConfirmEmailModel model)
         {
-            // Reviso que los parametros no sean nulos o con errores
-            FabricaComandos.Fabricar_Cmd_Verificar_Parametros(model);
-
-            //Busco al usuario por su ID
-            var usuario = await _userManager.FindByIdAsync(model.UserID);
-
-            if (usuario == null) // Si el usuario no está en la BD
+            try
             {
-                return BadRequest(new { key = "UnknownUser", message = "Usuario no encontrado"});
+                // Reviso que los parametros no sean nulos o con errores
+                await FabricaComandos.Fabricar_Cmd_Verificar_Parametros(model.ConfirmationToken, model.UserID).Ejecutar();
+
+                //Busco al usuario por su ID
+
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, null, null, model.UserID).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Confirmar_Email(model.UserID, _userManager, model).Ejecutar();
+                //Se responde positivamente por el proceso.
+                return Ok();
             }
-            if (usuario.EmailConfirmed) //Si ya es un usuario con email confirmado
+            catch(Exception ex)
             {
-                return BadRequest(new { key = "ConfirmedAccount", message = "La cuenta ya ha sido confirmada"});
-            }
-
-            // Decodificando el token
-            var decodedToken = model.ConfirmationToken.Replace("_", "/").Replace("-", "+").Replace(".", "=");
-
-            // Cambia en la BD el "ConfirmEmail" a TRUE
-            var result = await _userManager.ConfirmEmailAsync(usuario, decodedToken);
-
-            if (result.Succeeded)
-            {
-                return Ok(new { key = "AccountConfirmed", message = "Email confirmado por el usuario: " + usuario.UserName });
-            }
-            else
-            {
-                return BadRequest(new { key = "ConfirmationFailed", message = "¡No se pudo confimar el email del usuario!"});
+                //Error al intentar confirmar el email.
+                return BadRequest(ex);
             }
 
         }
@@ -138,48 +126,17 @@ namespace moneyucab_portalweb_back.Controllers
         //Post: /api/Usuario/ForgotPasswordEmail
         public async Task<IActionResult> SendForgotPasswordEmail(ForgotPasswordModel model)
         {
-            // Busco el usuario en la base de datos - Get user in database
-            var usuario = await _userManager.FindByEmailAsync(model.Email);
-
-            if (usuario != null) 
+            try
             {
-                // Se genera el codigo para confirmar el email del usuario recien creado
-                var code = await _userManager.GeneratePasswordResetTokenAsync(usuario);
-                // Se codifica el token para poder enviarlo por parametro
-                var encodedToken = code.Replace("/", "_").Replace("+", "-").Replace("=", ".");
-                // Busco el ID del template que será usado en el correo a enviar.
-                var templateID = _appSettings.ConfirmAccountTemplateID;
-                // Se crea el link que será anexado al template del correo
-                var callbackURL = clientBaseURI + "pw-reset/" + usuario.Id + "/" + encodedToken;
-
-                // Se crea el mensaje con sus detalles para el envío
-                var emailDetails = new SendEmailDetails
-                {
-                    FromName = "MoneyUCAB",
-                    FromEmail = "moneyucab@gmail.com",
-                    ToName = usuario.UserName,
-                    ToEmail = usuario.Email,
-                    Subject = "MoneyUCAB - Restablece tu contraseña",
-                    TemplateID = templateID,
-                    TemplateData = new EmailData
-                    {
-                        Name = usuario.UserName,
-                        URL = callbackURL,
-                        Message = "¿Has olvidado tu contraseña? ¡No te preocupes! " +
-                                  "Te enviamos este mensaje para que puedas restablecerla. " +
-                                  "Solo debes hacer click en el botón.",
-                        ButtonTitle = "Restablecer contraseña"
-                    }
-                };
-
-                // Se envía el mensaje al correo del usuario registrado
-                await _emailSender.SendEmailAsync(emailDetails);
-
+                // Busco el usuario en la base de datos - Get user in database
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email, null).Ejecutar();
+                //Proceso de envío y recuperación de contraseña.    
+                await FabricaComandos.Fabricar_Cmd_Olvido_Contraseña(_userManager, model, _appSettings, _emailSender).Ejecutar();
                 return Ok(new { key = "ForgotPasswordEmailSent", message = "Un mensaje ha sido enviado a su email con instrucciones para restablecer su contraseña" });
-            } 
-            else
+            }
+            catch(Exception ex)
             {
-                return BadRequest(new { key = "ForgotPasswordEmailFailed", message = "El email no fue enviado." });
+                return BadRequest(ex);
             }
 
         }
@@ -190,33 +147,20 @@ namespace moneyucab_portalweb_back.Controllers
         //Post: /api/Usuario/ResetPassword
         public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
         {
-            // Reviso que los parametros no sean nulos o con errores
-            if (string.IsNullOrWhiteSpace(model.UserID) || string.IsNullOrWhiteSpace(model.ResetPasswordToken))
+            try
             {
-                return BadRequest(new { key = "EmptyFields", message = "No se recibieron parámetros"});
-            }
+                // Reviso que los parametros no sean nulos o con errores
+                await FabricaComandos.Fabricar_Cmd_Verificar_Parametros(model.NewPassword, model.ResetPasswordToken).Ejecutar();
 
-            // Busco al usuario por su ID
-            var usuario = await _userManager.FindByIdAsync(model.UserID);
+                // Busco al usuario por su ID
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, null, null, model.UserID).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Resetear_Password(_userManager, model).Ejecutar();
 
-            if (usuario == null) // Si el usuario no está en la BD
-            {
-                return BadRequest(new { key = "UnknownUser", message = "Usuario no encontrado"});
-            }
-
-            // Decodificando el token
-            var decodedToken = model.ResetPasswordToken.Replace("_", "/").Replace("-", "+").Replace(".", "=");
-
-            // Cambia la contraseña del usuario
-            var result = await _userManager.ResetPasswordAsync(usuario, decodedToken, model.NewPassword);
-
-            if (result.Succeeded)
-            {
                 return Ok(new { key = "ResetPasswordSuccess", message = "¡Contraseña restablecida!" });
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(new { key = "ResetPasswordFailed", message = "¡No se pudo restablecer la contraseña del usuario!"});
+                return BadRequest(ex);
             }
 
         }

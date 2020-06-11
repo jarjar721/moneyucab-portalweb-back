@@ -38,7 +38,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             // Chequeo que el username no este registrado
             try
             {
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, _userModel).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, _userModel.Email, _userModel.UserName).Ejecutar();
             }
             catch (Exception ex)
             {

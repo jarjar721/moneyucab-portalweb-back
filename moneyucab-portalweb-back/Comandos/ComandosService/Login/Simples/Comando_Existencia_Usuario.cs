@@ -15,12 +15,14 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
         private UserManager<Usuario> _userManager;
         private string UserName;
         private string Email;
+        private string UserId;
 
-        public Comando_Existencia_Usuario(UserManager<Usuario> userManager, string userName, string email)
+        public Comando_Existencia_Usuario(UserManager<Usuario> userManager, string userName, string email, String UserId)
         {
             this._userManager = userManager;
             this.UserName = userName;
             this.Email = email;
+            this.UserId = UserId;
         }
 
         async public Task<Boolean> Ejecutar()
@@ -36,6 +38,11 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             {
                 return true;
             }
+            if (await _userManager.FindByIdAsync(UserId) != null)
+            {
+                return true;
+            }
+            //Se realiza el throw acá
             return false;
         }
 

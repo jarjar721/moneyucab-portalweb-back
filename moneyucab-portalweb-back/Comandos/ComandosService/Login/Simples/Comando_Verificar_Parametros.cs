@@ -10,20 +10,22 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
     public class Comando_Verificar_Parametros: Comando<Object>
     {
 
-        private ConfirmEmailModel _model;
+        private string[] _parametros;
 
-        public Comando_Inicio_Sesion(ConfirmEmailModel userModel)
+        public Comando_Verificar_Parametros(params string[] parametros)
         {
-            this._model = userModel;
+            this._parametros = parametros;
         }
 
 
         async public Task<Object> Ejecutar()
         {
-
-            if (string.IsNullOrWhiteSpace(_model.UserID) || string.IsNullOrWhiteSpace(_model.ConfirmationToken))
+            for (int i = 0; i < _parametros.Length; i++)
             {
-                //throw exception
+                if (string.IsNullOrWhiteSpace(_parametros[i]))
+                {
+                    //throw exception
+                }
             }
             return null;
         }
