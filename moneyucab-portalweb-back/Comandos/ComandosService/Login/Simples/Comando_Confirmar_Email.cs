@@ -1,4 +1,6 @@
 ﻿using Comandos;
+using Excepciones;
+using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using moneyucab_portalweb_back.Entities;
@@ -28,8 +30,8 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             var usuario = await _userManager.FindByIdAsync(UserId);
             if (usuario.EmailConfirmed) //Si ya es un usuario con email confirmado
             {
-                //Throw Exception
-                //return BadRequest(new { key = "ConfirmedAccount", message = "La cuenta ya ha sido confirmada" });
+                //Código 1 para error de usuario con email confirmado
+                EmailConfirmadoException.EmailConfirmado();
             }
 
             // Decodificando el token
@@ -43,8 +45,8 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
                 return true;
             }
             else
-            {   //Throw Exception
-                //return BadRequest(new { key = "ConfirmationFailed", message = "¡No se pudo confimar el email del usuario!" });
+            {
+                EmailConfirmadoException.EmailFalloEnvioConfirmacion();
             }
             return false;
         }

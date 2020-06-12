@@ -35,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Excepciones\Excepciones.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Migrations\20200422163801_Initial Create.Designer.cs">
       <DependentUpon>20200422163801_Initial Create.cs</DependentUpon>
     </Compile>

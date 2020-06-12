@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.Models.FormModels;
+using Excepciones.Excepciones_Especificas;
 
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
@@ -40,14 +41,18 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             {
                 await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, _userModel.UserName, _userModel.Email, null).Ejecutar();
             }
-            catch (Exception ex)
+            catch (UsuarioExistenteException ex)
             {
-                //Se captura si no existe previamente el usuario.
-                //Se debe ingresar en este punto la validación DAO con el sistema propio y no con Identity
+                if (ex.Codigo == 11)
+                {
+                    //Se captura si no existe previamente el usuario.
+                    //Se debe ingresar en este punto la validación DAO con el sistema propio y no con Identity
 
-                //-------------------------------------------------------
+                    //-------------------------------------------------------
+                }
+                else
+                    UsuarioExistenteException.UsuarioExistente();
             }
-
             return null;
         }
     }

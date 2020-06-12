@@ -1,4 +1,5 @@
 ﻿using Comandos;
+using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
 using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models.FormModels;
@@ -35,6 +36,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             }
             else
             {
+                ReseteoPasswordException.ReseteoPasswordFallido();
                 return false;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using Comandos;
+using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
 using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models;
@@ -17,7 +18,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
         private string Email;
         private string UserId;
 
-        public Comando_Existencia_Usuario(UserManager<Usuario> userManager, string userName, string email, String UserId)
+        public Comando_Existencia_Usuario(UserManager<Usuario> userManager, string userName, string email, string UserId)
         {
             this._userManager = userManager;
             this.UserName = userName;
@@ -43,6 +44,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
                 return true;
             }
             //Se realiza el throw acá
+            UsuarioExistenteException.UsuarioExistente();
             return false;
         }
 

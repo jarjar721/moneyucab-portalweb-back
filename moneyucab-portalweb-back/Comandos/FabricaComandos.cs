@@ -5,6 +5,8 @@ using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.FormModels;
+using System;
+using System.Security.Claims;
 
 namespace moneyucab_portalweb_back.Comandos
 {
@@ -53,6 +55,16 @@ namespace moneyucab_portalweb_back.Comandos
         public static Comando_Resetear_Password Fabricar_Cmd_Resetear_Password(UserManager<Usuario> userManager, ResetPasswordModel model)
         {
             return new Comando_Resetear_Password(userManager, model);
+        }
+
+        public static Comando_Verificar_Autenticacion Fabrica_Cmd_Verificar_Autenticacion(UserManager<Usuario> userManager, ClaimsPrincipal User)
+        {
+            return new Comando_Verificar_Autenticacion(User, userManager);
+        }
+
+        public static Comando_Verificar_Email_Confirmado Fabrica_Cmd_Verificar_Email_Confirmado(Object User, UserManager<Usuario> _userManager)
+        {
+            return new Comando_Verificar_Email_Confirmado(User, _userManager);
         }
     }
 }

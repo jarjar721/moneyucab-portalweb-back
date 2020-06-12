@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Excepciones\Exepciones_Especificas\UsuarioBloqueadoException.cs" />
+    <Compile Include="Excepciones\Exepciones_Especificas\ReseteoPasswordException.cs" />
+    <Compile Include="Excepciones\Exepciones_Especificas\AutenticaciónException.cs" />
+    <Compile Include="Excepciones\Exepciones_Especificas\UsuarioExistenteException.cs" />
+    <Compile Include="Excepciones\Exepciones_Especificas\EmailConfirmadoException.cs" />
     <Compile Include="Excepciones\Exepciones_Especificas\CamposInvalidosException.cs" />
     <Compile Include="Excepciones\MoneyUcabException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
