@@ -30,8 +30,6 @@ namespace Excepciones
             this.Codigo = codigo;
         }
 
-        public MoneyUcabException(){ }
-
         public string Error
         {
             get { return _error; }
@@ -43,11 +41,18 @@ namespace Excepciones
             get { return _codigo; }
             set { _codigo = value; }
         }
+        
+        public MoneyUcabException() { }
 
         public Exception ExcepcionOrigen
         {
             get { return _excepcionOrigen; }
             set { _excepcionOrigen = value; }
+        }
+
+        public Object response()
+        {
+            return new { error = this.Error, codigo = this.Codigo};
         }
     }
 }

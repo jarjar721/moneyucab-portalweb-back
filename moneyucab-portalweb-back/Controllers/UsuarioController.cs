@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Comandos;
+using Excepciones;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -63,11 +64,11 @@ namespace moneyucab_portalweb_back.Controllers
 
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (MoneyUcabException ex)
             {
                 //Debe controlarse un error dentro de la plataforma
                 //Se realiza bad request respondiendo con el objeto obtenido
-                return BadRequest(ex);
+                return BadRequest(ex.response());
             }
         }
 
@@ -86,10 +87,10 @@ namespace moneyucab_portalweb_back.Controllers
                 var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings).Ejecutar();
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex);
+                return BadRequest(ex.response());
             }
         }
 
@@ -112,10 +113,10 @@ namespace moneyucab_portalweb_back.Controllers
                 //Se responde positivamente por el proceso.
                 return Ok();
             }
-            catch(Exception ex)
+            catch(MoneyUcabException ex)
             {
                 //Error al intentar confirmar el email.
-                return BadRequest(ex);
+                return BadRequest(ex.response());
             }
 
         }
@@ -134,9 +135,9 @@ namespace moneyucab_portalweb_back.Controllers
                 await FabricaComandos.Fabricar_Cmd_Olvido_Contraseña(_userManager, model, _appSettings, _emailSender).Ejecutar();
                 return Ok(new { key = "ForgotPasswordEmailSent", message = "Un mensaje ha sido enviado a su email con instrucciones para restablecer su contraseña" });
             }
-            catch(Exception ex)
+            catch(MoneyUcabException ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.response());
             }
 
         }
@@ -158,9 +159,9 @@ namespace moneyucab_portalweb_back.Controllers
 
                 return Ok(new { key = "ResetPasswordSuccess", message = "¡Contraseña restablecida!" });
             }
-            catch (Exception ex)
+            catch (MoneyUcabException ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.response());
             }
 
         }

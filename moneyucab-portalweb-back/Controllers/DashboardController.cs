@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Excepciones;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using moneyucab_portalweb_back.Comandos;
 using moneyucab_portalweb_back.Entities;
 
 namespace moneyucab_portalweb_back.Controllers
@@ -25,23 +28,23 @@ namespace moneyucab_portalweb_back.Controllers
         //GET: /api/Dashbard
         public async Task<Object> GetDashboard() 
         {
-            string userId = User.Claims.First(c => c.Type == "UserID").Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            var emailConfirmed = false;
-
-            // Check if email has been confirmed
-            if (await _userManager.IsEmailConfirmedAsync(user))
+            try
             {
-                emailConfirmed = true;
+                var user = (Usuario) await FabricaComandos.Fabrica_Cmd_Verificar_Autenticacion(_userManager, User).Ejecutar();
+
+                var emailConfirmed = await FabricaComandos.Fabrica_Cmd_Verificar_Email_Confirmado(user, _userManager).Ejecutar();
+
+                return new
+                {
+                    user.UserName,
+                    emailConfirmed
+                    //aqui se agregan ls campos que quieres devolver al front
+                };
             }
-
-            return new
+            catch(MoneyUcabException ex)
             {
-                user.UserName,
-                emailConfirmed
-                //aqui se agregan ls campos que quieres devolver al front
-            };
-
+                return BadRequest(ex.response());
+            }
         }
 
     }

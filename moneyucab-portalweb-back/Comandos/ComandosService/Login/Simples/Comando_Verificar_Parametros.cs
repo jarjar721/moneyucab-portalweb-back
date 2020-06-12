@@ -1,4 +1,5 @@
 ﻿using Comandos;
+using Excepciones.Excepciones_Especificas;
 using moneyucab_portalweb_back.Models.FormModels;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             {
                 if (string.IsNullOrWhiteSpace(_parametros[i]))
                 {
-                    //throw exception
+                    CamposInvalidosException.CamposInvalidos(_parametros[i]);
                 }
             }
             return null;

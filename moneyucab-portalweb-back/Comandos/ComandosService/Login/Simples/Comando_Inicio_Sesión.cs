@@ -1,4 +1,5 @@
 ﻿using Comandos;
+using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
@@ -63,12 +64,12 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             if (result.IsLockedOut)
             {
                 var lockoutDateTime = await _userManager.GetLockoutEndDateAsync(user); // Obtengo datetime de cuando se levanta la restriccion del lockout
-                //return BadRequest(new { key = "UserLockedOut", message = "Ha agotado sus intentos.", lockoutDateTime });*/
+                UsuarioBloqueadoException.UsuarioBloqueado((DateTimeOffset) lockoutDateTime);
             }
             else
             {
                 var remainingAttempts = 3 - await _userManager.GetAccessFailedCountAsync(user); // Obtengo la cantidad de intentos restantes le quedan al usuario
-                //return BadRequest(new { key = "WrongPassword", message = "Contraseña inválida", remainingAttempts });*/
+                UsuarioBloqueadoException.IntentoFallido(remainingAttempts);
             }
             return null;
         }
