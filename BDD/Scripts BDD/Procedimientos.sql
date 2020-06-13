@@ -396,7 +396,7 @@ CREATE OR REPLACE FUNCTION Informacion_persona(VARCHAR)
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM Usuario JOIN Persona ON Persona.idUsuario = Usuario.idUsuario
-										JOIN Comercio ON Comercio.idUsuario = Usuario.idUsuario 
+										LEFT JOIN Comercio ON Comercio.idUsuario = Usuario.idUsuario 
 										JOIN TipoIdentificacion ON TipoIdentificacion.idTipoIdentificacion = Usuario.idTipoIdentificacion 
 										WHERE Usuario.email = $1;
 END

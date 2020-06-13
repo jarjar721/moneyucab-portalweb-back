@@ -35,7 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Acceso-Datos\Acceso-Datos.csproj" />
+    <ProjectReference Include="..\Comunes\Comunes.csproj" />
     <ProjectReference Include="..\Excepciones\Excepciones.csproj" />
+    <ProjectReference Include="..\Lógica\Lógica.csproj" />
   </ItemGroup>
 
   <ItemGroup>
