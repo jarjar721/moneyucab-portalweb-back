@@ -131,7 +131,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAO\DAO.cs" />
+    <Compile Include="DAO\DAOPsql.cs" />
     <Compile Include="DAO\DAOBase.cs" />
     <Compile Include="DAO\FabricaDAO.cs" />
     <Compile Include="DAO\Interfaces\IDAO.cs" />

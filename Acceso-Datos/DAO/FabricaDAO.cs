@@ -17,9 +17,9 @@ namespace DAO
         /// Establece la creación y la fabricación de la instanciación de un acceso a datos por la base de datos, siendo el DAOLogin.
         /// </summary>
         /// <returns>Retorna una instanciación de la clase DAOLogin</returns>
-        public static DAO crearDaoLogin()
+        public static DAOPsql crearDaoPsql()
         {
-            return null;
+            return new DAOPsql();
         }
     }
 }

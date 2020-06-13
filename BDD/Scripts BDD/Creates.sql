@@ -728,15 +728,15 @@ DROP TABLE IF EXISTS Public.Usuario_Parametro ;
 
 CREATE TABLE IF NOT EXISTS Public.Usuario_Parametro (
   idUsuario INT NOT NULL,
-  idParametros INT NOT NULL,
+  idParametro INT NOT NULL,
   validacion VARCHAR(45) NOT NULL,
   estatus INT NOT NULL,
-  PRIMARY KEY (idUsuario, idParametros),
+  PRIMARY KEY (idUsuario, idParametro),
 	CONSTRAINT "FK_Usuario_Parametro_Usuario" FOREIGN KEY (idUsuario)
         REFERENCES public.Usuario (idUsuario) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE,
-	CONSTRAINT "FK_Usuario_Parametro_Parametros" FOREIGN KEY (idParametros)
+	CONSTRAINT "FK_Usuario_Parametro_Parametro" FOREIGN KEY (idParametro)
         REFERENCES public.Parametro (idParametro) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
@@ -752,7 +752,7 @@ CREATE TABLE IF NOT EXISTS Public.Reintegro (
   idReintegro SERIAL,
   idUsuario_solicitante INT NOT NULL,
   idUsuario_receptor INT NOT NULL,
-  fecha_solicitud VARCHAR(45) NOT NULL,
+  fecha_solicitud DATE NOT NULL,
   referencia_reintegro VARCHAR(45),
   referencia VARCHAR(45) NOT NULL,
   estatus VARCHAR(45) NOT NULL,
@@ -779,7 +779,7 @@ CREATE TABLE IF NOT EXISTS Public.Pago (
   idPago SERIAL,
   idUsuario_solicitante INT NOT NULL,
   idUsuario_receptor INT NOT NULL,
-  fecha_solicitud VARCHAR(45) NOT NULL,
+  fecha_solicitud DATE NOT NULL,
   monto VARCHAR(45) NOT NULL,
   estatus VARCHAR(45) NOT NULL,
   referencia VARCHAR(45) NULL,

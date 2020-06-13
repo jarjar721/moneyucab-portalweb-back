@@ -10,7 +10,7 @@ namespace DAO
     /// Establece la estructura y el medio para poder actuar y conectarse con la base de datos para poder manejar inforamción necesario para el sistema.
     /// Contiene todos los atributos necesarios para su buena operatividad.
     /// </summary>
-    public class DAO
+    public class DAOPsql
     {
         /// <summary>
         /// Establece la conexión con la base de datos.
