@@ -691,7 +691,7 @@ DROP TABLE IF EXISTS Public.Frecuencia ;
 
 CREATE TABLE IF NOT EXISTS Public.Frecuencia (
   idFrecuencia SERIAL,
-  codgo CHAR(1) NOT NULL,
+  codigo CHAR(1) NOT NULL,
   descripcion VARCHAR(45) NOT NULL,
   estatus INT NOT NULL,
   PRIMARY KEY (idFrecuencia))

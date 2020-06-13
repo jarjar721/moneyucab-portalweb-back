@@ -1,5 +1,7 @@
-﻿using Npgsql;
+﻿using Excepciones;
+using Npgsql;
 using System;
+using System.Configuration;
 
 namespace DAO
 {
@@ -8,7 +10,7 @@ namespace DAO
     /// Establece la estructura y el medio para poder actuar y conectarse con la base de datos para poder manejar inforamción necesario para el sistema.
     /// Contiene todos los atributos necesarios para su buena operatividad.
     /// </summary>
-    public abstract class DAO
+    public class DAO
     {
         /// <summary>
         /// Establece la conexión con la base de datos.
@@ -60,20 +62,19 @@ namespace DAO
         public void Conectar()
         {
 
-            /*try
+            try
             {
                 Conector = new NpgsqlConnection(StringConexion);
                 Conector.Open();
-                ComandoSQL = Conector.CreateCommand();
             }
-            catch (MySqlException ex)
+            catch (NpgsqlException ex)
             {
-                throw new MSQLException(ex);
+                throw new Exception();
             }
             catch (Exception ex)
             {
                 throw new MoneyUcabException(ex);
-            }*/
+            }
 
         }
 
@@ -88,6 +89,7 @@ namespace DAO
                 Conector.Dispose();
             }
         }
+
 
     }
 }

@@ -171,7 +171,7 @@ $$;
 --EXTRACCION DE DATOS FIJOS--
 --Son los datos para llenar formularios por parte del usuario
 CREATE OR REPLACE FUNCTION Estados_Civiles()
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idestadocivil int, descripcion varchar, codigo char, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM EstadoCivil;
@@ -179,7 +179,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Tipos_Tarjeta()
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idtipotarjeta int, descripcion varchar, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM TipoTarjeta;
@@ -187,7 +187,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Bancos()
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idbanco int, nombre varchar, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM Banco;
@@ -195,7 +195,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Tipos_Cuentas()
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idtipocuenta int, descripcion varchar, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM TipoCuenta;
@@ -203,7 +203,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Tipos_Parametros()
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idtipoparametro int, descripcion varchar, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM TipoParametro;
@@ -211,7 +211,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Frecuencias()
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idfrecuencia int, codigo char, descripcion varchar, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM Frecuencia;
@@ -219,7 +219,9 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Parametros()
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idparametro int,idtipoparametro_parametro int,idfrecuencia_parametro int, codigo char, descripcion varchar, estatus int, 
+						  	idfrecuencia int, codigo_frecuencia char, descripcion_frecuencia varchar, estatus_frecuencia int,
+						 	idtipoparametro int, descripcion_tipo_parametro varchar, estatus_tipo_parametro int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM Parametro JOIN Frecuencia B ON B.IdFrecuencia = Parametro.idFrecuencia
@@ -228,7 +230,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Tipos_Operaciones()
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idtipooperacion int, descripcion varchar, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM TipoOperacion;
@@ -236,7 +238,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Tipos_Identificaciones()
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idtipoidentificacion int, codigo char, descripcion varchar, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM TipoIdentificacion;
@@ -249,31 +251,37 @@ LANGUAGE plpgsql;
 --//Todos los datos se exraen a través del parámetro de id de Usuario.
 --//////////////////////////////////////////////////////////////////////////////////////////////////
 CREATE OR REPLACE FUNCTION Tarjetas(INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idtarjeta int, idusuario int, idtipotarjeta_tarjeta int, idbanco_tarjeta int, numero int, fecha_vencimiento date, cvc int, estatus int, 
+						 idbanco int, nombre_banco varchar, estatus_banco int,
+						 idtipotarjeta int, descripcion_tipo_tarjeta varchar, estatus_tipo_tarjeta int) AS $BODY$
 DECLARE
 BEGIN
-	RETURN QUERY SELECT * FROM Tarjeta WHERE idUsuario = $1;
+	RETURN QUERY SELECT * FROM Tarjeta JOIN Banco ON Banco.idBanco = Tarjeta.idBanco 
+										JOIN TipoTarjeta ON TipoTarjeta.idTipoTarjeta = Tarjeta.idTipoTarjeta WHERE Tarjeta.idUsuario = $1;
 END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Historial_Operaciones_Tarjetas(INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idoperaciontarjeta int, idtarjeta int, idusuarioreceptor int, fecha date, hora time, monto decimal, referencia varchar) AS $BODY$
 DECLARE
 BEGIN
-	RETURN QUERY SELECT * FROM OperacionTarjeta WHERE idTarjeta = $1 ORDER BY Fecha DESC;
+	RETURN QUERY SELECT * FROM OperacionTarjeta WHERE OperacionTarjeta.idTarjeta = $1 ORDER BY OperacionTarjeta.Fecha DESC;
 END
 $BODY$
 LANGUAGE plpgsql;
-CREATE OR REPLACE FUNCTION Cuenta(INT)
-			RETURNS SETOF integer AS $BODY$
+CREATE OR REPLACE FUNCTION Cuentas(INT)
+			RETURNS TABLE(idcuenta int, idusuario int, idtipocuenta_cuenta int, idbanco_cuenta int, numero int, fecha_vencimiento date, cvc int, estatus int, 
+						 idbanco int, nombre_banco varchar, estatus_banco int,
+						 idtipoCuenta int, descripcion_tipo_Cuenta varchar, estatus_tipo_Cuenta int) AS $BODY$
 DECLARE
 BEGIN
-	RETURN QUERY SELECT * FROM Cuenta JOIN Banco ON Banco.idBanco = Cuenta.idBanco WHERE idUsuario = $1;
+	RETURN QUERY SELECT * FROM Cuenta JOIN Banco ON Banco.idBanco = Cuenta.idBanco
+										JOIN TipoCuenta ON TipoCuenta.idTipoCuenta = Cuenta.idTipoCuenta WHERE Cuenta.idUsuario = $1;
 END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Historial_Operaciones_Cuenta(INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idoperacionCuenta int, idCuenta int, idusuarioreceptor int, fecha date, hora time, monto decimal, referencia varchar) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM OperacionCuenta WHERE idCuenta = $1 ORDER BY fecha DESC;
@@ -281,12 +289,15 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Historial_Operaciones_Monedero(INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idoperacionesMonedero int, idusuario int, idtipoOperacion int, fecha date, hora time, monto decimal, referencia varchar,
+						 idtipooperacion_tipo_operacion int, descripcion_tipo_operacion varchar, estatus_tipo_operacion int,
+						 idoperaciontarjeta int, idtarjeta int, idusuarioreceptor_op_tarjeta int, fecha_op_tarjeta date, hora_op_tarjeta time, monto_op_tarjeta decimal, referencia_op_tarjeta varchar,
+						 idoperacionCuenta int, idCuenta int, idusuarioreceptor_op_cuenta int, fecha_op_cuenta date, hora_op_cuenta time, monto_op_cuenta decimal, referencia_op_cuenta varchar) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM OperacionesMonedero JOIN TipoOperacion ON TipoOperacion.idTipoOperacion = OperacionesMonedero.idTipoOperacion
-													JOIN OperacionTarjeta ON OperacionesMonedero.referencia = OperacionTarjeta.referencia
-													JOIN OperacionCuenta ON OperacionesMonedero.referencia = OperacionCuenta.referencia
+													LEFT JOIN OperacionTarjeta ON OperacionesMonedero.referencia = OperacionTarjeta.referencia
+													LEFT JOIN OperacionCuenta ON OperacionesMonedero.referencia = OperacionCuenta.referencia
 													WHERE OperacionesMonedero.idUsuario = $1 ORDER BY fecha DESC;
 END
 $BODY$
@@ -294,7 +305,7 @@ LANGUAGE plpgsql;
 --REINTEGROS
 --Segundo parámetro: 1 - Solicitante, 2 - Receptor
 CREATE OR REPLACE FUNCTION Reintegros_Activos(INT, INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
@@ -305,7 +316,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Reintegros_Cancelados(INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
@@ -316,7 +327,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Reintegros_Exitosos(INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus int) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
@@ -329,7 +340,7 @@ LANGUAGE plpgsql;
 --Pago
 --Segundo parámetro: 1 - Solicitante, 2 - Receptor
 CREATE OR REPLACE FUNCTION Cobros_Activos(INT, INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idpago int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, estatus int, referencia varchar) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
@@ -340,7 +351,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Cobros_Cancelados(INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idpago int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, estatus int, referencia varchar) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
@@ -351,7 +362,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Cobros_Exitosos(INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idpago int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, estatus int, referencia varchar) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
@@ -362,7 +373,10 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Parametros_Usuario(INT)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(	idusuario int, idparametros int, validacion int, estatus int,
+							idparametro int,idtipoparametro int,idfrecuencia_parametro int, codigo char, descripcion varchar, estatus_parametro int, 
+						  	idfrecuencia int, codigo_frecuencia char, descripcion_frecuencia varchar, estatus_frecuencia int,
+						 	idtipoparametro_tipo_parametro int, descripcion_tipo_parametro varchar, estatus_tipo_parametro int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM Usuario_Parametro A JOIN Parametro B ON B.idParametro = A.idParametro
@@ -375,7 +389,10 @@ LANGUAGE plpgsql;
 
 --Excepción de extracción de datos del usuario, se realiza por email.
 CREATE OR REPLACE FUNCTION Información_persona(VARCHAR)
-			RETURNS SETOF integer AS $BODY$
+			RETURNS TABLE(idusuario int, idtipousuario int, idtipoidentificacion_usuario int, "identity" int, usuario varchar, fecha_registro date, nro_identificacion int, email varchar, telefono varchar, direccion varchar, estatus int,
+						 	idusuario_persona int, idestadocivil int, nombre_persona varchar, apellido_persona varchar, fecha_nacimiento date,
+						 	idusuario_comercio int, razon_social varchar, nombre_representante varchar, apellido_representante varchar,
+						 	idtipoidentificacion int, codigo char, descripcion_tipo_identificacion varchar, estatus_tipo_identificacion int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM Usuario JOIN Persona ON Persona.idUsuario = Usuario.idUsuario
