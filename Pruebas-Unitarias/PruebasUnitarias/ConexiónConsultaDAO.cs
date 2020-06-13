@@ -7,7 +7,7 @@ using Xunit.Sdk;
 namespace Pruebas_Unitarias.PruebasUnitarias
 {
     [TestClass]
-    public class UnitTest1
+    public class ConexiónConsultaDAO
     {
         [TestMethod]
         public void Bancos()
