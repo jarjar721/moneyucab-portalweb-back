@@ -68,7 +68,7 @@ VALUES ('Monto Pago', 1),
 
 DELETE FROM Frecuencia CASCADE;
 ALTER SEQUENCE Frecuencia_idFrecuencia_seq RESTART WITH 1;
-INSERT INTO Frecuencia (codgo, descripcion, estatus)
+INSERT INTO Frecuencia (codigo, descripcion, estatus)
 VALUES ('D','DAY', 1),
 ('S', 'WEEK', 1),
 ('M', 'MONTH', 1),

@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
 namespace moneyucab_portalweb_back.Entities
 {
@@ -15,7 +13,7 @@ namespace moneyucab_portalweb_back.Entities
             PreviousUserPasswords = new List<PreviousPasswords>();
         }
 
-        [Column(TypeName="date")]
+        [Column(TypeName = "date")]
         [Required]
         public DateTime SignupDate { get; set; }
 

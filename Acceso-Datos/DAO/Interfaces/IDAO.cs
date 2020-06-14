@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Comunes.Comun;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAO.Interfaces
 {
@@ -13,53 +10,53 @@ namespace DAO.Interfaces
     public interface IDAO
     {
         //Operaciones de consulta sobre las entidades existentes
-        void EstadosCiviles();
+        List<ComEstadoCivil> EstadosCiviles();
 
-        void TiposTarjeta();
+        List<ComTipoTarjeta> TiposTarjeta();
 
-        void Bancos();
+        List<ComBanco> Bancos();
 
-        void TiposCuentas();
+        List<ComTipoCuenta> TiposCuentas();
 
-        void TiposParametros();
+        List<ComTipoParametro> TiposParametros();
 
-        void Frecuencias();
+        List<ComFrecuencia> Frecuencias();
 
-        void Parametros();
+        List<ComParametro> Parametros();
 
-        void TiposOperaciones();
+        List<ComTipoOperacion> TiposOperaciones();
 
-        void TiposIdentificaciones();
+        List<ComTipoIdentificacion> TiposIdentificaciones();
 
-        void Tarjetas(int UsuarioId);
+        List<ComTarjeta> Tarjetas(int UsuarioId);
 
-        void Cuentas(int UsuarioId);
+        List<ComCuenta> Cuentas(int UsuarioId);
 
-        void ReintegrosActivos(int UsuarioId, int solicitante);
+        List<ComReintegro> ReintegrosActivos(int UsuarioId, int solicitante);
 
-        void ReintegrosCancelados(int UsuarioId, int solicitante);
+        List<ComReintegro> ReintegrosCancelados(int UsuarioId, int solicitante);
 
-        void ReintegrosExitosos(int UsuarioId, int solicitante);
+        List<ComReintegro> ReintegrosExitosos(int UsuarioId, int solicitante);
 
-        void CobrosActivos(int UsuarioId, int solicitante);
+        List<ComPago> CobrosActivos(int UsuarioId, int solicitante);
 
-        void CobrosCancelados(int UsuarioId, int solicitante);
+        List<ComPago> CobrosCancelados(int UsuarioId, int solicitante);
 
-        void CobrosExitosos(int UsuarioId, int solicitante);
+        List<ComPago> CobrosExitosos(int UsuarioId, int solicitante);
 
-        void ParametrosUsuario(int UsuarioId);
+        List<ComUsuarioParametro> ParametrosUsuario(int UsuarioId);
 
-        void InformacionPersona(string usuario);
+        ComUsuario InformacionPersona(string usuario);
 
-        void SaldoMonedero(int UsuarioId);
-
-        //Debe retornar el historial de operaciones
-        void HistorialOperacionesTarjeta(int tarjetaId);
+        double SaldoMonedero(int UsuarioId);
 
         //Debe retornar el historial de operaciones
-        void HistorialOperacionesCuenta(int CuentaId);
+        List<ComOperacionTarjeta> HistorialOperacionesTarjeta(int tarjetaId);
 
-        void HistorialOperacionesMonedero(int UsuarioId);
+        //Debe retornar el historial de operaciones
+        List<ComOperacionCuenta> HistorialOperacionesCuenta(int CuentaId);
+
+        List<ComOperacionMonedero> HistorialOperacionesMonedero(int UsuarioId);
 
         //Operaciones de acción sobre la base de datos
 

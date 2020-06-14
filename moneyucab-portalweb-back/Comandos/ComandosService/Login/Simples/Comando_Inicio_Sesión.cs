@@ -2,13 +2,10 @@
 using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +13,7 @@ using System.Threading.Tasks;
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
     //Este comando retorna el token de inicio de sesión
-    public class Comando_Inicio_Sesion: Comando<Object>
+    public class Comando_Inicio_Sesion : Comando<Object>
     {
 
         private UserManager<Usuario> _userManager;
@@ -64,7 +61,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             if (result.IsLockedOut)
             {
                 var lockoutDateTime = await _userManager.GetLockoutEndDateAsync(user); // Obtengo datetime de cuando se levanta la restriccion del lockout
-                UsuarioBloqueadoException.UsuarioBloqueado((DateTimeOffset) lockoutDateTime);
+                UsuarioBloqueadoException.UsuarioBloqueado((DateTimeOffset)lockoutDateTime);
             }
             else
             {

@@ -1,23 +1,10 @@
 ﻿using Comandos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using moneyucab_portalweb_back.Models;
-using moneyucab_portalweb_back.Entities;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
-using moneyucab_portalweb_back.Models.FormModels;
 using Excepciones.Excepciones_Especificas;
+using Microsoft.AspNetCore.Identity;
+using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {

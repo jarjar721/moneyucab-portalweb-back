@@ -1,5 +1,4 @@
-﻿using Comandos;
-using moneyucab_portalweb_back.Comandos;
+﻿using moneyucab_portalweb_back.Comandos;
 using System.Threading.Tasks;
 
 namespace Comandos

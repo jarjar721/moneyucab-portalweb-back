@@ -3,14 +3,13 @@ using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
 using moneyucab_portalweb_back.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
-    public class Comando_Verificar_Autenticacion: Comando<Object>
+    public class Comando_Verificar_Autenticacion : Comando<Object>
     {
         private ClaimsPrincipal User;
         private UserManager<Usuario> _userManager;

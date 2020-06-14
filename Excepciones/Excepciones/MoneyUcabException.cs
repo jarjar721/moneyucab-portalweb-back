@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Excepciones
 {
@@ -41,7 +37,7 @@ namespace Excepciones
             get { return _codigo; }
             set { _codigo = value; }
         }
-        
+
         public MoneyUcabException() { }
 
         public Exception ExcepcionOrigen
@@ -52,7 +48,7 @@ namespace Excepciones
 
         public Object response()
         {
-            return new { error = this.Error, codigo = this.Codigo};
+            return new { error = this.Error, codigo = this.Codigo };
         }
     }
 }

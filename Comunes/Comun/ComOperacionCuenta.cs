@@ -1,10 +1,7 @@
 ﻿using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace moneyucab_portalweb_back.Entities
+namespace Comunes.Comun
 {
     public class ComOperacionCuenta : EntidadComun, IEntidadComun
     {
@@ -18,12 +15,12 @@ namespace moneyucab_portalweb_back.Entities
 
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {
-            this._idOperacionCuenta = Int32.Parse(data.GetString(0 + _offset));
-            this._idUsuarioReceptor = Int32.Parse(data.GetString(1 + _offset));
-            this._idCuenta = Int32.Parse(data.GetString(2 + _offset));
+            this._idOperacionCuenta = data.GetInt32(0 + _offset);
+            this._idUsuarioReceptor = data.GetInt32(1 + _offset);
+            this._idCuenta = data.GetInt32(2 + _offset);
             this._fecha = data.GetString(3 + _offset);
             this._hora = data.GetString(4 + _offset);
-            this._monto = Double.Parse(data.GetString(5 + _offset));
+            this._monto = data.GetDouble(0 + _offset);
             this._referencia = data.GetString(6 + _offset);
         }
     }

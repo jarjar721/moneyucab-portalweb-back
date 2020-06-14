@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace moneyucab_portalweb_back.Services
+﻿namespace moneyucab_portalweb_back.Services
 {
     public class AuthMessageSenderOptions
     {

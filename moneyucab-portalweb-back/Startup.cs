@@ -1,24 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
-using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.IdentityExtentions;
 using moneyucab_portalweb_back.Migrations;
+using moneyucab_portalweb_back.Models;
+using System;
+using System.Text;
 
 namespace moneyucab_portalweb_back
 {
@@ -47,13 +42,13 @@ namespace moneyucab_portalweb_back
                 .AddEntityFrameworkStores<AuthenticationContext>()
                 .AddUserManager<ApplicationUserManager>() // Probar sin esto
                 .AddDefaultTokenProviders();
-              
+
 
             // SendGrid services
             services.AddSendGridEmailSender();
 
             // Servicio que configura las validaciones que deben cumplir las contraseñas de los usuarios
-            services.Configure<IdentityOptions>(options => 
+            services.Configure<IdentityOptions>(options =>
             {
                 // Password options
                 options.Password.RequireDigit = false;
@@ -73,12 +68,12 @@ namespace moneyucab_portalweb_back
 
             // JWT Authentication
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
-            services.AddAuthentication(x => 
+            services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x => 
+            }).AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = false;
@@ -101,7 +96,7 @@ namespace moneyucab_portalweb_back
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             // Permite el enlance entre requests del front al servidor
             app.UseCors(builder =>
                 builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())

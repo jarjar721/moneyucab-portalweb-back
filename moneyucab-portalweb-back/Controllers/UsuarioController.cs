@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Comandos;
-using Excepciones;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Excepciones;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using moneyucab_portalweb_back.Comandos;
-using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.FormModels;
+using System;
+using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Controllers
 {
@@ -113,7 +102,7 @@ namespace moneyucab_portalweb_back.Controllers
                 //Se responde positivamente por el proceso.
                 return Ok();
             }
-            catch(MoneyUcabException ex)
+            catch (MoneyUcabException ex)
             {
                 //Error al intentar confirmar el email.
                 return BadRequest(ex.response());
@@ -135,7 +124,7 @@ namespace moneyucab_portalweb_back.Controllers
                 await FabricaComandos.Fabricar_Cmd_Olvido_Contraseña(_userManager, model, _appSettings, _emailSender).Ejecutar();
                 return Ok(new { key = "ForgotPasswordEmailSent", message = "Un mensaje ha sido enviado a su email con instrucciones para restablecer su contraseña" });
             }
-            catch(MoneyUcabException ex)
+            catch (MoneyUcabException ex)
             {
                 return BadRequest(ex.response());
             }

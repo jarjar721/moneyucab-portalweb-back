@@ -1,15 +1,12 @@
 ﻿using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace moneyucab_portalweb_back.Entities
+namespace Comunes.Comun
 {
     public class ComCuenta : EntidadComun, IEntidadComun
     {
 
-        private ComTipoCuenta _tipoCuenta= new ComTipoCuenta();
+        private ComTipoCuenta _tipoCuenta = new ComTipoCuenta();
         private ComBanco _banco = new ComBanco();
         private int _idCuenta;
         private int _idUsuario;
@@ -22,9 +19,9 @@ namespace moneyucab_portalweb_back.Entities
             this._tipoCuenta.LlenadoDataNpgsql(data);
             this._banco._offset = 5;
             this._banco.LlenadoDataNpgsql(data);
-            this._idCuenta = Int32.Parse(data.GetString(0));
-            this._idUsuario = Int32.Parse(data.GetString(1));
-            this._numero = Int32.Parse(data.GetString(4));
+            this._idCuenta = data.GetInt32(0);
+            this._idUsuario = data.GetInt32(1);
+            this._numero = data.GetInt32(4);
         }
     }
 }

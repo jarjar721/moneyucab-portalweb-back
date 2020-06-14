@@ -1,7 +1,6 @@
 ﻿using Excepciones;
 using Npgsql;
 using System;
-using System.Configuration;
 
 namespace DAO
 {

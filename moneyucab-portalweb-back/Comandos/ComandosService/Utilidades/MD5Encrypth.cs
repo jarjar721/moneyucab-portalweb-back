@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Comandos.ComandosService.Utilidades
 {
@@ -85,7 +82,7 @@ namespace Comandos.ComandosService.Utilidades
         /// <param name="hash">Palabra encriptada esperada para entregar true.</param>
         /// Retorna un booleanos dependiendo de la comparación que se realizó y el resultado que se considera con esto.
         /// </returns>
-        public static bool CompararHash( string input, string hash)
+        public static bool CompararHash(string input, string hash)
         {
             MD5 md5Hash = MD5.Create();
 

@@ -1,18 +1,14 @@
 ﻿using Comandos;
-using Excepciones;
 using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models.FormModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
-    public class Comando_Confirmar_Email: Comando<Boolean>
+    public class Comando_Confirmar_Email : Comando<Boolean>
     {
         private string UserId;
         private UserManager<Usuario> _userManager;

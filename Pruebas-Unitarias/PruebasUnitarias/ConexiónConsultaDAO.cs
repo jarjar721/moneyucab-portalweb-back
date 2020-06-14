@@ -1,7 +1,6 @@
-using DAO.Interfaces;
+using Excepciones;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.ComponentModel;
 using Xunit.Sdk;
 
 namespace Pruebas_Unitarias.PruebasUnitarias
@@ -21,7 +20,7 @@ namespace Pruebas_Unitarias.PruebasUnitarias
         public void CobrosActivos()
         {
             DAO.DAOBase dao = new DAO.DAOBase();
-            dao.CobrosActivos(1,1);
+            dao.CobrosActivos(1, 1);
             Assert.AreEqual(null, null);
         }
 
@@ -44,10 +43,10 @@ namespace Pruebas_Unitarias.PruebasUnitarias
         [TestMethod]
         public void ConexionABaseDeDatos()
         {
-             DAO.DAOBase dao = new DAO.DAOBase();
-             dao.Conectar();
-             dao.Desconectar();
-             Assert.AreEqual(null, null);
+            DAO.DAOBase dao = new DAO.DAOBase();
+            dao.Conectar();
+            dao.Desconectar();
+            Assert.AreEqual(null, null);
         }
 
         [TestMethod]
@@ -99,6 +98,8 @@ namespace Pruebas_Unitarias.PruebasUnitarias
         }
 
         [TestMethod]
+        [ExpectedException(typeof(MoneyUcabException),
+        "No se encontró usuario relacionado a la id, posible valor respecto al vacío de base de datos")]
         public void InformacionPersona()
         {
             DAO.DAOBase dao = new DAO.DAOBase();
@@ -126,7 +127,7 @@ namespace Pruebas_Unitarias.PruebasUnitarias
         public void ReintegrosActivos()
         {
             DAO.DAOBase dao = new DAO.DAOBase();
-            dao.ReintegrosActivos(1,1);
+            dao.ReintegrosActivos(1, 1);
             Assert.AreEqual(null, null);
         }
 

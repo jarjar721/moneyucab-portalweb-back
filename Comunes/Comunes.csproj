@@ -129,6 +129,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comun\ComBanco.cs" />
+    <Compile Include="Comun\ComComercio.cs" />
+    <Compile Include="Comun\ComCuenta.cs" />
+    <Compile Include="Comun\ComEstadoCivil.cs" />
+    <Compile Include="Comun\ComFrecuencia.cs" />
+    <Compile Include="Comun\ComUsuarioParametro.cs" />
+    <Compile Include="Comun\ComOperacionMonedero.cs" />
+    <Compile Include="Comun\ComOperacionCuenta.cs" />
+    <Compile Include="Comun\ComOperacionTarjeta.cs" />
+    <Compile Include="Comun\ComPago.cs" />
+    <Compile Include="Comun\ComParametro.cs" />
+    <Compile Include="Comun\ComPersona.cs" />
+    <Compile Include="Comun\ComReintegro.cs" />
+    <Compile Include="Comun\ComTarjeta.cs" />
+    <Compile Include="Comun\ComTipoCuenta.cs" />
+    <Compile Include="Comun\ComTipoIdentificacion.cs" />
+    <Compile Include="Comun\ComTipoOperacion.cs" />
+    <Compile Include="Comun\ComTipoParametro.cs" />
+    <Compile Include="Comun\ComTipoTarjeta.cs" />
+    <Compile Include="Comun\ComUsuario.cs" />
+    <Compile Include="Comun\EntidadComun.cs" />
+    <Compile Include="Comun\IEntidadComun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

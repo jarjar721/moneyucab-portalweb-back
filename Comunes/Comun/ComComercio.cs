@@ -1,10 +1,6 @@
 ﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace moneyucab_portalweb_back.Entities
+namespace Comunes.Comun
 {
     public class ComComercio : EntidadComun, IEntidadComun
     {

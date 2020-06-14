@@ -392,12 +392,14 @@ CREATE OR REPLACE FUNCTION Informacion_persona(VARCHAR)
 			RETURNS TABLE(idusuario int, idtipousuario int, idtipoidentificacion_usuario int, "identity" text, usuario varchar, fecha_registro date, nro_identificacion int, email varchar, telefono varchar, direccion varchar, estatus int,
 						 	idusuario_persona int, idestadocivil int, nombre_persona varchar, apellido_persona varchar, fecha_nacimiento date,
 						 	idusuario_comercio int, razon_social varchar, nombre_representante varchar, apellido_representante varchar,
-						 	idtipoidentificacion int, codigo char, descripcion_tipo_identificacion varchar, estatus_tipo_identificacion int) AS $BODY$
+						 	idtipoidentificacion int, codigo char, descripcion_tipo_identificacion varchar, estatus_tipo_identificacion int,
+						 	idestadocivil_ec int, descripcion_ec varchar, codigo_ec char, estatus_ec int) AS $BODY$
 DECLARE
 BEGIN
 	RETURN QUERY SELECT * FROM Usuario JOIN Persona ON Persona.idUsuario = Usuario.idUsuario
 										LEFT JOIN Comercio ON Comercio.idUsuario = Usuario.idUsuario 
-										JOIN TipoIdentificacion ON TipoIdentificacion.idTipoIdentificacion = Usuario.idTipoIdentificacion 
+										JOIN TipoIdentificacion ON TipoIdentificacion.idTipoIdentificacion = Usuario.idTipoIdentificacion
+										JOIN EstadoCivil ON EstadoCivil.idEstadoCivil = Persona.idEstadoCivil
 										WHERE Usuario.email = $1;
 END
 $BODY$

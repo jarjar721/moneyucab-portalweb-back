@@ -1,13 +1,10 @@
-﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
+﻿using Comunes.Comun;
 using DAO.Interfaces;
 using Excepciones;
+using Excepciones.Excepciones_Especificas;
+using Npgsql;
+using System;
+using System.Collections.Generic;
 
 namespace DAO
 {
@@ -33,7 +30,7 @@ namespace DAO
             StringConexion = conn_string.ToString();
         }
 
-        public void EstadosCiviles()
+        public List<ComEstadoCivil> EstadosCiviles()
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -46,14 +43,15 @@ namespace DAO
 
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Estados_Civiles();");
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComEstadoCivil> estadosCiviles = new List<ComEstadoCivil>();
+                ComEstadoCivil row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComEstadoCivil();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    estadosCiviles.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return estadosCiviles;
             }
             catch (NpgsqlException ex)
             {
@@ -78,7 +76,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void TiposTarjeta()
+        public List<ComTipoTarjeta> TiposTarjeta()
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -91,14 +89,14 @@ namespace DAO
 
                 ComandoSQL.CommandText = string.Format("SELECT * FROM tipos_tarjeta();");
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComTipoTarjeta> tiposTarjetas = new List<ComTipoTarjeta>();
+                ComTipoTarjeta row = new ComTipoTarjeta();
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    tiposTarjetas.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return tiposTarjetas;
             }
             catch (NpgsqlException ex)
             {
@@ -123,7 +121,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void Bancos()
+        public List<ComBanco> Bancos()
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -136,14 +134,15 @@ namespace DAO
 
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Bancos();");
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComBanco> bancos = new List<ComBanco>();
+                ComBanco row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComBanco();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    bancos.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return bancos;
             }
             catch (NpgsqlException ex)
             {
@@ -168,7 +167,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void TiposCuentas()
+        public List<ComTipoCuenta> TiposCuentas()
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -181,14 +180,15 @@ namespace DAO
 
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Cuentas();");
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComTipoCuenta> tiposCuentas = new List<ComTipoCuenta>();
+                ComTipoCuenta row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComTipoCuenta();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    tiposCuentas.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return tiposCuentas;
             }
             catch (NpgsqlException ex)
             {
@@ -213,7 +213,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void TiposParametros()
+        public List<ComTipoParametro> TiposParametros()
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -226,14 +226,15 @@ namespace DAO
 
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Parametros();");
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComTipoParametro> tiposParametros = new List<ComTipoParametro>();
+                ComTipoParametro row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComTipoParametro();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    tiposParametros.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return tiposParametros;
             }
             catch (NpgsqlException ex)
             {
@@ -258,7 +259,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void Frecuencias()
+        public List<ComFrecuencia> Frecuencias()
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -271,14 +272,15 @@ namespace DAO
 
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Frecuencias();");
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComFrecuencia> frecuencias = new List<ComFrecuencia>();
+                ComFrecuencia row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComFrecuencia();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    frecuencias.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return frecuencias;
             }
             catch (NpgsqlException ex)
             {
@@ -303,7 +305,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void Parametros()
+        public List<ComParametro> Parametros()
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -316,14 +318,15 @@ namespace DAO
 
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Parametros();");
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComParametro> parametros = new List<ComParametro>();
+                ComParametro row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComParametro();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    parametros.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return parametros;
             }
             catch (NpgsqlException ex)
             {
@@ -348,7 +351,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void TiposOperaciones()
+        public List<ComTipoOperacion> TiposOperaciones()
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -361,14 +364,15 @@ namespace DAO
 
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Operaciones();");
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComTipoOperacion> tiposOperaciones = new List<ComTipoOperacion>();
+                ComTipoOperacion row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComTipoOperacion();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    tiposOperaciones.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return tiposOperaciones;
             }
             catch (NpgsqlException ex)
             {
@@ -393,7 +397,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void TiposIdentificaciones()
+        public List<ComTipoIdentificacion> TiposIdentificaciones()
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -406,14 +410,15 @@ namespace DAO
 
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Identificaciones();");
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComTipoIdentificacion> tiposIdentificaciones = new List<ComTipoIdentificacion>();
+                ComTipoIdentificacion row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComTipoIdentificacion();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    tiposIdentificaciones.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return tiposIdentificaciones;
             }
             catch (NpgsqlException ex)
             {
@@ -438,7 +443,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void Tarjetas(int UsuarioId)
+        public List<ComTarjeta> Tarjetas(int UsuarioId)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -452,14 +457,15 @@ namespace DAO
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Tarjetas(@UsuarioId);");
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComTarjeta> tarjetas = new List<ComTarjeta>();
+                ComTarjeta row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComTarjeta();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    tarjetas.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return tarjetas;
             }
             catch (NpgsqlException ex)
             {
@@ -484,7 +490,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void Cuentas(int UsuarioId)
+        public List<ComCuenta> Cuentas(int UsuarioId)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -498,14 +504,15 @@ namespace DAO
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Cuentas(@UsuarioId);");
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComCuenta> cuentas = new List<ComCuenta>();
+                ComCuenta row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComCuenta();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    cuentas.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return cuentas;
             }
             catch (NpgsqlException ex)
             {
@@ -530,7 +537,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void ReintegrosActivos(int UsuarioId, int solicitante)
+        public List<ComReintegro> ReintegrosActivos(int UsuarioId, int solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -545,14 +552,15 @@ namespace DAO
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComReintegro> reintegros = new List<ComReintegro>();
+                ComReintegro row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComReintegro();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    reintegros.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return reintegros;
             }
             catch (NpgsqlException ex)
             {
@@ -577,7 +585,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void ReintegrosCancelados(int UsuarioId, int solicitante)
+        public List<ComReintegro> ReintegrosCancelados(int UsuarioId, int solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -592,14 +600,15 @@ namespace DAO
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComReintegro> reintegros = new List<ComReintegro>();
+                ComReintegro row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComReintegro();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    reintegros.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return reintegros;
             }
             catch (NpgsqlException ex)
             {
@@ -624,7 +633,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void ReintegrosExitosos(int UsuarioId, int solicitante)
+        public List<ComReintegro> ReintegrosExitosos(int UsuarioId, int solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -639,14 +648,15 @@ namespace DAO
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComReintegro> reintegros = new List<ComReintegro>();
+                ComReintegro row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComReintegro();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    reintegros.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return reintegros;
             }
             catch (NpgsqlException ex)
             {
@@ -671,7 +681,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void CobrosActivos(int UsuarioId, int solicitante)
+        public List<ComPago> CobrosActivos(int UsuarioId, int solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -686,14 +696,15 @@ namespace DAO
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComPago> cobros = new List<ComPago>();
+                ComPago row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComPago();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    cobros.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return cobros;
             }
             catch (NpgsqlException ex)
             {
@@ -718,7 +729,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void CobrosCancelados(int UsuarioId, int solicitante)
+        public List<ComPago> CobrosCancelados(int UsuarioId, int solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -733,14 +744,15 @@ namespace DAO
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComPago> cobros = new List<ComPago>();
+                ComPago row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComPago();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    cobros.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return cobros;
             }
             catch (NpgsqlException ex)
             {
@@ -765,7 +777,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void CobrosExitosos(int UsuarioId, int solicitante)
+        public List<ComPago> CobrosExitosos(int UsuarioId, int solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -780,14 +792,15 @@ namespace DAO
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComPago> cobros = new List<ComPago>();
+                ComPago row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComPago();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    cobros.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return cobros;
             }
             catch (NpgsqlException ex)
             {
@@ -812,7 +825,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void ParametrosUsuario(int UsuarioId)
+        public List<ComUsuarioParametro> ParametrosUsuario(int UsuarioId)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -826,14 +839,15 @@ namespace DAO
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Parametros_Usuario(@UsuarioId);");
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComUsuarioParametro> parametrosUsuario = new List<ComUsuarioParametro>();
+                ComUsuarioParametro row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComUsuarioParametro();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    parametrosUsuario.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return parametrosUsuario;
             }
             catch (NpgsqlException ex)
             {
@@ -858,7 +872,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void InformacionPersona(string usuario)
+        public ComUsuario InformacionPersona(string usuario)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -874,11 +888,14 @@ namespace DAO
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
                 if (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    ComUsuario informacion_persona = new ComUsuario();
+                    informacion_persona.LlenadoDataNpgsql(LectorTablaSQL);
+                    return informacion_persona;
                 }
                 else
                 {
-                    //Llenado de datos para devolverlos.
+                    UsuarioExistenteException.UsuarioNoExistente();
+                    return null;
                 }
             }
             catch (NpgsqlException ex)
@@ -904,7 +921,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void SaldoMonedero(int UsuarioId)
+        public double SaldoMonedero(int UsuarioId)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -918,21 +935,15 @@ namespace DAO
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Saldo_Monedero(@UsuarioId);");
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                try
                 {
-                    try
-                    {
-                        saldo = Double.Parse(LectorTablaSQL.GetString(0));
-                    }
-                    catch (Exception ex)
-                    {
-                        saldo = 0;
-                    }
+                    saldo = Double.Parse(LectorTablaSQL.GetString(0));
                 }
-                else
+                catch (Exception ex)
                 {
-                    //Llenado de datos para devolverlos.
+                    saldo = 0;
                 }
+                return saldo;
             }
             catch (NpgsqlException ex)
             {
@@ -958,7 +969,7 @@ namespace DAO
         }
 
         //Debe retornar el historial de operaciones
-        public void HistorialOperacionesTarjeta(int tarjetaId)
+        public List<ComOperacionTarjeta> HistorialOperacionesTarjeta(int tarjetaId)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -972,14 +983,15 @@ namespace DAO
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Historial_Operaciones_Tarjetas(@tarjetaId);");
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("tarjetaId", tarjetaId));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComOperacionTarjeta> operacionesTarjeta = new List<ComOperacionTarjeta>();
+                ComOperacionTarjeta row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComOperacionTarjeta();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    operacionesTarjeta.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return operacionesTarjeta;
             }
             catch (NpgsqlException ex)
             {
@@ -1005,7 +1017,7 @@ namespace DAO
         }
 
         //Debe retornar el historial de operaciones
-        public void HistorialOperacionesCuenta(int CuentaId)
+        public List<ComOperacionCuenta> HistorialOperacionesCuenta(int CuentaId)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -1019,14 +1031,15 @@ namespace DAO
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Historial_Operaciones_Cuenta(@CuentaId);");
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", CuentaId));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComOperacionCuenta> operacionesCuenta = new List<ComOperacionCuenta>();
+                ComOperacionCuenta row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComOperacionCuenta();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    operacionesCuenta.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return operacionesCuenta;
             }
             catch (NpgsqlException ex)
             {
@@ -1051,7 +1064,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public void HistorialOperacionesMonedero(int UsuarioId)
+        public List<ComOperacionMonedero> HistorialOperacionesMonedero(int UsuarioId)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -1065,14 +1078,15 @@ namespace DAO
                 ComandoSQL.CommandText = string.Format("SELECT * FROM Historial_Operaciones_Monedero(@UsuarioId);");
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                List<ComOperacionMonedero> operacionesMonedero = new List<ComOperacionMonedero>();
+                ComOperacionMonedero row;
+                while (LectorTablaSQL.Read())
                 {
-                    Console.WriteLine(LectorTablaSQL.GetString(0));
+                    row = new ComOperacionMonedero();
+                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    operacionesMonedero.Add(row);
                 }
-                else
-                {
-                    //Llenado de datos para devolverlos.
-                }
+                return operacionesMonedero;
             }
             catch (NpgsqlException ex)
             {

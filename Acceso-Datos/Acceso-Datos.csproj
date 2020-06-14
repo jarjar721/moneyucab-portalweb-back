@@ -142,6 +142,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Comunes\Comunes.csproj">
+      <Project>{C7B6A62A-3BDA-401C-BB3E-B4CF4E351F38}</Project>
+      <Name>Comunes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Excepciones\Excepciones.csproj">
       <Project>{d172e78f-d154-4ccb-97f0-13991d4884ce}</Project>
       <Name>Excepciones</Name>

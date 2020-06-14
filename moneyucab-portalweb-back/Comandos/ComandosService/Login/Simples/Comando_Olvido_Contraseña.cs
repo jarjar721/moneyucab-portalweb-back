@@ -5,13 +5,11 @@ using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.FormModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
-    public class Comando_Olvido_Contraseña: Comando<Boolean>
+    public class Comando_Olvido_Contraseña : Comando<Boolean>
     {
 
         private UserManager<Usuario> _userManager;

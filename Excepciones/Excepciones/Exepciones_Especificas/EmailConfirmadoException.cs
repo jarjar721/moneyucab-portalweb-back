@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Excepciones.Excepciones_Especificas
+﻿namespace Excepciones.Excepciones_Especificas
 {
     public class EmailConfirmadoException : MoneyUcabException
     {

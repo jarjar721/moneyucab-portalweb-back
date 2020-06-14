@@ -3,14 +3,11 @@ using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
 using moneyucab_portalweb_back.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
-    public class Comando_Verificar_Email_Confirmado: Comando<Boolean>
+    public class Comando_Verificar_Email_Confirmado : Comando<Boolean>
     {
         private Object user;
         private UserManager<Usuario> _userManager;
@@ -18,7 +15,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
         public Comando_Verificar_Email_Confirmado(Object User, UserManager<Usuario> _userManager)
         {
             this.user = user;
-            this._userManager= _userManager;
+            this._userManager = _userManager;
 
         }
 
