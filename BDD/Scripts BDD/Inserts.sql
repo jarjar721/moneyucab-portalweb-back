@@ -66,6 +66,11 @@ VALUES ('Monto Pago', 1),
 ('Monto Acumulado', 1),
 ('Monto Acumulado Recepcion', 1);
 
+DELETE FROM TipoUsuario CASCADE;
+ALTER SEQUENCE TipoUsuario_idTipoUsuario_seq RESTART WITH 1;
+INSERT INTO TipoUsuario (Descripcion, estatus)
+VALUES ('Normal', 1);
+
 DELETE FROM Frecuencia CASCADE;
 ALTER SEQUENCE Frecuencia_idFrecuencia_seq RESTART WITH 1;
 INSERT INTO Frecuencia (codigo, descripcion, estatus)

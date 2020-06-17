@@ -302,7 +302,7 @@ CREATE TABLE IF NOT EXISTS Public.Usuario (
   idUsuario SERIAL,
   idTipoUsuario INT NOT NULL,
   idTipoIdentificacion INT NOT NULL,
-  "idEntity" text,
+  --"idEntity" text,
   usuario VARCHAR(20) NOT NULL,
   fecha_registro DATE NOT NULL,
   nro_identificacion INT NOT NULL,
@@ -318,11 +318,11 @@ CREATE TABLE IF NOT EXISTS Public.Usuario (
   CONSTRAINT "FK_Usuario_TipoIdentificación" FOREIGN KEY (idTipoIdentificacion)
         REFERENCES public.TipoIdentificacion (idTipoIdentificacion) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE CASCADE,
-  CONSTRAINT "FK_Usuario_Entity" FOREIGN KEY ("idEntity")
+        ON DELETE CASCADE--,
+  /*CONSTRAINT "FK_Usuario_Entity" FOREIGN KEY ("idEntity")
         REFERENCES public."AspNetUsers" ("Id") MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE CASCADE
+        ON DELETE CASCADE*/
 );
 
 
@@ -766,8 +766,6 @@ CREATE TABLE IF NOT EXISTS Public.Reintegro (
         ON UPDATE NO ACTION
         ON DELETE CASCADE
 );
-
-CREATE UNIQUE INDEX referencia_UNIQUE_3 ON Public.Reintegro (referencia ASC);
 
 
 -- -----------------------------------------------------
