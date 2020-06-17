@@ -625,13 +625,13 @@ BEGIN
 	BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
-		INSERT INTO OperacionTarjeta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referenciaValid)
-			VALUES ($1, $2, current_date, current_time, $3, referencia);
+		INSERT INTO OperacionTarjeta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
+			VALUES ($1, $2, current_date, current_time, $3, referenciaValid);
 		SELECT TipoOperacion.idTipoOperacion FROM TipoOperacion into tipoOperacion WHERE descripcion = 'Recarga';
-		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referenciaValid)
-			VALUES ($1, tipoOperacion, $3, current_date, current_time, referencia);
+		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
+			VALUES ($1, tipoOperacion, $3, current_date, current_time, referenciaValid);
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
+	--EXCEPTION WHEN OTHERS THEN 
 		RETURN FALSE;
 	END;
 END;
@@ -650,11 +650,11 @@ BEGIN
 	BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
-		INSERT INTO OperacionCuenta(idUsuarioReceptor, idCuenta, fecha, hora, monto, referenciaValid)
-			VALUES ($1, $2, current_date, current_time, $3, referencia);
+		INSERT INTO OperacionCuenta(idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
+			VALUES ($1, $2, current_date, current_time, $3, referenciaValid);
 		SELECT TipoOperacion.idTipoOperacion FROM TipoOperacion into tipoOperacion WHERE descripcion = 'Recarga';
-		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referenciaValid)
-			VALUES ($1, tipoOperacion, $3, current_date, current_time, referencia);
+		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
+			VALUES ($1, tipoOperacion, $3, current_date, current_time, referenciaValid);
 		RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN 
 		RETURN FALSE;
