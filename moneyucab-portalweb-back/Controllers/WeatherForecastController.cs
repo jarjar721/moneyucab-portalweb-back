@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using moneyucab_portalweb_back.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +24,15 @@ namespace moneyucab_portalweb_back.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable</*WeatherForecast*/Saldo> Get()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            /*var rng = new Random();*/
+            return Enumerable.Range(1, 1).Select(index => new /*WeatherForecast*/ Saldo
             {
-                Date = DateTime.Now.AddDays(index),
+                /*Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                Summary = Summaries[rng.Next(Summaries.Length)]*/
+                saldoEnCuenta = 32
             })
             .ToArray();
         }

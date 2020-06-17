@@ -24,8 +24,10 @@ namespace DAO
             conn_string.Host = "127.0.0.1";
             conn_string.Port = 5432;
             conn_string.Username = "postgres";
-            conn_string.Password = "lolazo123";
-            conn_string.Database = "postgres";
+            //conn_string.Password = "lolazo123";
+            conn_string.Password = "Surfing123";                
+            //conn_string.Database = "postgres";
+            conn_string.Database = "Desarrollo";        
             //StringConexion = ConfigurationManager.AppSettings.Get("IdentityConnection");
             StringConexion = conn_string.ToString();
         }
@@ -932,17 +934,11 @@ namespace DAO
 
                 ComandoSQL = Conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Saldo_Monedero(@UsuarioId);");
+                ComandoSQL.CommandText = string.Format("SELECT Saldo_Monedero(@UsuarioId);");
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                try
-                {
-                    saldo = Double.Parse(LectorTablaSQL.GetString(0));
-                }
-                catch (Exception ex)
-                {
-                    saldo = 0;
-                }
+                LectorTablaSQL.Read();
+                saldo = LectorTablaSQL.GetDouble(0);
                 return saldo;
             }
             catch (NpgsqlException ex)

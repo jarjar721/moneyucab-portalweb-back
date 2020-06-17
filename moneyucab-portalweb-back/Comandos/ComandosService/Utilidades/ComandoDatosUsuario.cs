@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Utilidades
-{
+{	//este se habia hecho antes de la logica de los comandos por eso no lo usa
 	public class ComandoDatosUsuario
 	{
 		private readonly DatosUsuarioDBContext _datosUsuarioDBContext;
