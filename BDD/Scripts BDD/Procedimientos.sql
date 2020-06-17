@@ -413,10 +413,10 @@ DECLARE
 	Recargas decimal;
 	Transferencias_Retiros decimal;
 BEGIN
-	SELECT SUM(A.monto) FROM OperacionesMonedero A INTO Recargas JOIN TipoOperacion B ON B.idTipoOperacion = A.idTipoOperacion 
+	SELECT COALESCE(SUM(A.monto),0) FROM OperacionesMonedero A INTO Recargas JOIN TipoOperacion B ON B.idTipoOperacion = A.idTipoOperacion 
 																		AND (B.descripcion = 'Recarga')
 																WHERE A.idUsuario = $1 AND A.referencia is not null;
-	SELECT SUM(A.monto) FROM OperacionesMonedero A INTO Transferencias_Retiros JOIN TipoOperacion B ON B.idTipoOperacion = A.idTipoOperacion 
+	SELECT COALESCE(SUM(A.monto),0) FROM OperacionesMonedero A INTO Transferencias_Retiros JOIN TipoOperacion B ON B.idTipoOperacion = A.idTipoOperacion 
 																		AND (B.descripcion = 'Transferencia' OR B.descripcion = 'Retiro') 
 																WHERE A.idUsuario = $1 AND A.referencia is not null;
 	RETURN Recargas - Transferencias_Retiros;
