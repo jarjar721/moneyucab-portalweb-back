@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
+using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades;
 using moneyucab_portalweb_back.Entities;
 
 namespace moneyucab_portalweb_back.Controllers

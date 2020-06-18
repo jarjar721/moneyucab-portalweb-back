@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
+namespace moneyucab_portalweb_back.Comandos.ComandosService.Utilidades
 {
 	public class Comando_Verificar_Saldo
 	{
