@@ -5,10 +5,23 @@ namespace Comunes.Comun
 {
     public class ComEstadoCivil : EntidadComun, IEntidadComun
     {
-        private int _idEstadoCivil;
+        public int _idEstadoCivil;
         private string _descripcion;
         private char _codigo;
         private int _estatus;
+
+        public ComEstadoCivil()
+        {
+
+        }
+
+        public ComEstadoCivil(int idEstadoCivil, string descripcion, char codigo, int estatus)
+        {
+            this._idEstadoCivil = idEstadoCivil;
+            this._descripcion = descripcion;
+            this._codigo = codigo;
+            this._estatus = estatus;
+        }
 
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {

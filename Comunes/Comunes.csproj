@@ -150,12 +150,20 @@
     <Compile Include="Comun\ComTipoTarjeta.cs" />
     <Compile Include="Comun\ComUsuario.cs" />
     <Compile Include="Comun\EntidadComun.cs" />
+    <Compile Include="Comun\IFormularioInsert.cs" />
+    <Compile Include="Comun\IFormularioRegistro.cs" />
     <Compile Include="Comun\IEntidadComun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Excepciones\Excepciones.csproj">
+      <Project>{D172E78F-D154-4CCB-97F0-13991D4884CE}</Project>
+      <Name>Excepciones</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

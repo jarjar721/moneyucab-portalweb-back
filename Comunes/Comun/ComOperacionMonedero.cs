@@ -13,21 +13,40 @@ namespace Comunes.Comun
         private int _idUsuario;
         private double _monto;
         private NpgsqlDate _fecha;
-        private NpgsqlDateTime _hora;
+        //private NpgsqlDateTime _hora;
         private string _referencia;
+
+        public ComOperacionMonedero()
+        {
+            
+        }
 
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {
             this._TipoOperacion._offset = 7;
             this._TipoOperacion.LlenadoDataNpgsql(data);
-            this._OperacionTarjeta._offset = 10;
-            this._OperacionTarjeta.LlenadoDataNpgsql(data);
-            this._OperacionCuenta._offset = 17;
-            this._OperacionCuenta.LlenadoDataNpgsql(data);
+            try
+            {
+                this._OperacionTarjeta._offset = 10;
+                this._OperacionTarjeta.LlenadoDataNpgsql(data);
+            }
+            catch (InvalidCastException)
+            {
+                this._OperacionTarjeta = null;
+            }
+            try
+            {
+                this._OperacionCuenta._offset = 17;
+                this._OperacionCuenta.LlenadoDataNpgsql(data);
+            }
+            catch (InvalidCastException)
+            {
+                this._OperacionCuenta = null;
+            }
             this._idOperacionMonedero = data.GetInt32(0 + _offset);
             this._idUsuario = data.GetInt32(1 + _offset);
             this._fecha = data.GetDate(4 + _offset);
-            this._hora = data.GetDateTime(5 + _offset);
+            //this._hora = data.GetDateTime(5 + _offset);
             this._monto = data.GetDouble(3 + _offset);
             this._referencia = data.GetString(6 + _offset);
         }

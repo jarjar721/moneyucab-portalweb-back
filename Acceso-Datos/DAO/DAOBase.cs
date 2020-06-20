@@ -30,6 +30,7 @@ namespace DAO
             StringConexion = conn_string.ToString();
         }
 
+        //Operaciones de consulta---------------------------------------------------------------
         public List<ComEstadoCivil> EstadosCiviles()
         {
 
@@ -932,17 +933,11 @@ namespace DAO
 
                 ComandoSQL = Conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Saldo_Monedero(@UsuarioId);");
+                ComandoSQL.CommandText = string.Format("SELECT Saldo_Monedero(@UsuarioId);");
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
-                try
-                {
-                    saldo = Double.Parse(LectorTablaSQL.GetString(0));
-                }
-                catch (Exception ex)
-                {
-                    saldo = 0;
-                }
+                LectorTablaSQL.Read();
+                saldo = LectorTablaSQL.GetDouble(0);
                 return saldo;
             }
             catch (NpgsqlException ex)
@@ -1110,6 +1105,581 @@ namespace DAO
             /*if (afectados == 0) throw new UsuarioInexistenteException();
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
+        //--------------------------------------------------------------------------------------
 
+        //Operaciones de lógica-----------------------------------------------------------------
+        public void RegistroUsuarioPersona(ComUsuario formulario)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Registro_Usuario(@TipoUsuarioId, @TipoIdentificacionId, @Usuario, @FechaRegistro, @NroIdentificacion, " +
+                    "@Email, @Telefono, @Direccion, @Estatus, @TipoSol, @Nombre, @Apellido, @Contrasena, @RazonSocial, @IdEstadoCivil, @FechaNacimiento)");
+                formulario.LlenadoDataFormPersona(ComandoSQL);
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo registrar al usuario", 201);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar al usuario", 201);
+                Desconectar();
+            }
+        }
+
+        public void RegistroUsuarioComercio(ComUsuario formulario)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Registro_Usuario(@TipoUsuarioId, @TipoIdentificacionId, @Usuario, @FechaRegistro, @NroIdentificacion, " +
+                    "@Email, @Telefono, @Direccion, @Estatus, @TipoSol, @Nombre, @Apellido, @Contrasena, @RazonSocial, @IdEstadoCivil, @FechaNacimiento)");
+                formulario.LlenadoDataFormComercio(ComandoSQL);
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo registrar al usuario", 201);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar al usuario", 201);
+                Desconectar();
+            }
+        }
+        
+        public void RegistroCuenta(ComCuenta formulario)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Registro_Cuenta(@UsuarioId, @TipoCuentaId, @BancoId, @Numero)");
+                formulario.LlenadoDataForm(ComandoSQL);
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo registrar al cuenta", 202);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar al cuenta", 202);
+                Desconectar();
+            }
+        }
+
+        public void RegistroTarjeta(ComTarjeta formulario)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Registro_Tarjeta(@UsuarioId, @TipoTarjetaId, @BancoId, @Numero, @FechaVencimiento, @cvc, @Estatus)");
+                formulario.LlenadoDataForm(ComandoSQL);
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo registrar la tarjeta", 202);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 202);
+                Desconectar();
+            }
+        }
+
+        public void EstablecerParametro(ComUsuarioParametro formulario)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Establecer_Parametro(@UsuarioId, @ParametroId, @Validacion, @Estatus)");
+                formulario.LlenadoDataForm(ComandoSQL);
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo registrar el parámetro", 203);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar el parámetro", 203);
+                Desconectar();
+            }
+        }
+
+        public void Cobro(int IdUsuarioCobrador, string IdUsuarioPaga, double Monto)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Cobro(@UsuarioId, @UsuarioACobrar, @Monto)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuarioCobrador));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioACobrar", IdUsuarioPaga));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
+        public void Reintegro(int IdUsuarioCobrador, string IdUsuarioPaga, string Referencia)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Reintegro(@UsuarioId, @UsuarioACobrar, @Referencia)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuarioCobrador));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioACobrar", IdUsuarioPaga));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("Referencia", Referencia));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
+        public void Pago_Tarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Pago_Tarjeta(@IdUsuarioReceptor, @IdTarjetaPago, @Monto, @IdCobro)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdTarjetaPago", IdTarjetaPago));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
+        public void Pago_Cuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto, int IdCobro)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Pago_Cuenta(@IdUsuarioReceptor, @IdCuentaPago, @Monto, @IdCobro)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCuentaPago", IdCuentaPago));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
+        public void Pago_Monedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Pago_Monedero(@IdUsuarioReceptor, @IdUsuarioPago, @Monto, @IdCobro)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioPago", IdUsuarioPago));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
+        public void Reintegro_Tarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Reintegro_Tarjeta(@IdUsuarioReceptor, @IdTarjetaPago, @Monto, @IdCobro)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdTarjetaPago", IdTarjetaPago));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
+        public void Reintegro_Cuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto, int IdCobro)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Reintegro_Cuenta(@IdUsuarioReceptor, @IdCuentaPago, @Monto, @IdCobro)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCuentaPago", IdCuentaPago));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
+        public void Reintegro_Monedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Pago_Tarjeta(@IdUsuarioReceptor, @IdUsuarioPago, @Monto, @IdCobro)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioPago", IdUsuarioPago));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
+        public void Modificación_Usuario(string usuario, string email, string telefono, string direccion, int IdUsuario)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Modificación_Usuario(@usuario, @email, @telefono, @direccion)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuario));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("usuario", usuario));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("email", email));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("telefono", telefono));
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("direccion", direccion));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
     }
 }

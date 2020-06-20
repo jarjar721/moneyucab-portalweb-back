@@ -59,6 +59,8 @@ namespace DAO.Interfaces
         List<ComOperacionMonedero> HistorialOperacionesMonedero(int UsuarioId);
 
         //Operaciones de acción sobre la base de datos
+        void RegistroUsuarioPersona(ComUsuario formulario);
 
+        void RegistroUsuarioComercio(ComUsuario formulario);
     }
 }

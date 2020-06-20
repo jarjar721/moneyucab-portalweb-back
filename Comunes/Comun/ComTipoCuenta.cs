@@ -5,9 +5,19 @@ namespace Comunes.Comun
 {
     public class ComTipoCuenta : EntidadComun, IEntidadComun
     {
-        private int _idTipoCuenta;
+        public int _idTipoCuenta;
         private string _descripcion;
         private int _estatus;
+
+        public ComTipoCuenta()
+        {
+
+        }
+
+        public ComTipoCuenta(int idTipoCuenta)
+        {
+            this._idTipoCuenta = idTipoCuenta;
+        }
 
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {

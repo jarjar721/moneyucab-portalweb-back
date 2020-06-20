@@ -5,9 +5,19 @@ namespace Comunes.Comun
 {
     public class ComBanco : EntidadComun, IEntidadComun
     {
-        private int _idBanco;
+        public int _idBanco;
         private string _nombre;
         private int _estatus;
+
+        public ComBanco()
+        {
+
+        }
+
+        public ComBanco(int idBanco)
+        {
+            this._idBanco = idBanco;
+        }
 
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {

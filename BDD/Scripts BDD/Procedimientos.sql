@@ -1,28 +1,28 @@
 --Operaciones de acción dentro de la plataforma
-----Registro de usuario[x]
-----Registro de usuario Persona[x]
-----Registro de usuario Comercio[x]
-----Registro Usuario_OpcionMenu[x]
-----Registro Cuenta[x]
-----Registro Tarjeta[x]
-----Extraer Datos fijos[X]
-----Extraer Datos dinámicos[x]
+----Registro de usuario[x] Revisado e implementado
+----Registro de usuario Persona[x] revisado e implementado
+----Registro de usuario Comercio[x] revisado e implementado
+----Registro Usuario_OpcionMenu[x] revisado e implementado
+----Registro Cuenta[x] revisado e implementado
+----Registro Tarjeta[x] revisado e implementado
+----Extraer Datos fijos[X] revisado e implementado
+----Extraer Datos dinámicos[x] revisado e implementado
 ----Establecer Parámetro[x]
 ----ExtraccionDatos[x]
------DatosUsuario[x]
+-----DatosUsuario[x] revisado e implementado
 ------DatosComercio[x]
 ------DatosPersona[x]
 ------DatosTarjetas[x]
------Tarjeta[x]
------Cuenta[x]
------HistorialOp[x]:
+-----Tarjeta[x] revisado
+-----Cuenta[x] revisado
+-----HistorialOp[x]: revisado e implementado
 ------OperacionCuenta[x]
 ------OperacionesMonedero[x]
 ------OperacionTarjeta[x]
-----ExigirCobro[x]
-----ExcigirReintegro[x]
-----OperaciónTarjeta
------Las operaciones de tarjeta son solo para pago y reintegro en conjunto con recarga.
+----ExigirCobro[x] revisado
+----ExcigirReintegro[x] revisado
+----OperaciónTarjeta revisado
+-----Las operaciones de tarjeta son solo para pago y reintegro en conjunto con recarga. revisado
 
 ----------------PROCEDIMIENTOS Y FUNCIONES----------------
 --Parametros: tipoUsuario, tipoIdentificacion, usuario, fecha_registro, nro_identificacion, email, telefono, direccion, estatus
@@ -37,6 +37,7 @@
 
 --Registros de usuario sobre items fijos para uso del usuario.
 --//////Tarjeta, Cuenta, Usuario, Persona, Comercio, Parametro de usuario
+--[x]
 CREATE OR REPLACE FUNCTION Registro_Comercio(VARCHAR, VARCHAR, VARCHAR, INT)
 										RETURNS BOOLEAN
 LANGUAGE plpgsql    
@@ -47,19 +48,15 @@ entity_user_id text;
 opcionMenuCurs CURSOR FOR SELECT A.* FROM OpcionMenu A JOIN Aplicacion B ON A.idAplicacion = B.idAplicacion WHERE (B.nombre = 'PostVirtual'
 							OR B.nombre = 'PortalWeb') AND A.idOpcionMenu NOT IN (SELECT idOpcionMenu FROM Usuario_OpcionMenu WHERE idUsuario = $4);
 BEGIN
-	BEGIN
 		INSERT INTO Comercio (nombre_representante, apellido_representante, razon_social, idUsuario)
 				VALUES ($1,$2,$3,$4);
 		FOR opcion IN opcionMenuCurs LOOP
 			INSERT INTO Usuario_OpcionMenu (idUsuario, idOpcionMenu, estatus) VALUES ($4, opcion.idOpcionMenu, 1);
 		END LOOP;
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
-
+--[x]
 CREATE OR REPLACE FUNCTION Registro_Persona(VARCHAR, VARCHAR, int, DATE, int)
 										RETURNS BOOLEAN
 LANGUAGE plpgsql    
@@ -70,19 +67,16 @@ entity_user_id text;
 opcionMenuCurs CURSOR FOR SELECT A.* FROM OpcionMenu A JOIN Aplicacion B ON A.idAplicacion = B.idAplicacion WHERE (B.nombre = 'Monedero'
 							OR B.nombre = 'PortalWeb') AND A.idOpcionMenu NOT IN (SELECT idOpcionMenu FROM Usuario_OpcionMenu WHERE Usuario_OpcionMenu.idUsuario = $5);
 BEGIN
-	BEGIN
 		INSERT INTO Persona (nombre, apellido,idEstadoCivil, fecha_nacimiento,idUsuario)
 				VALUES ($1, $2, $3, $4, $5);
 		FOR opcion IN opcionMenuCurs LOOP
 			INSERT INTO Usuario_OpcionMenu (idUsuario, idOpcionMenu, estatus) VALUES ($5, opcion.idOpcionMenu, 1);
 		END LOOP;
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
-
+--[x]
+--RegistroUsuario(@TipoUsuarioId, @TipoIdentificacionId, @Usuario, @FechaRegistro, @NroIdentificacion, @Email, @Telefono, @Direccion, @Estatus, @TipoSol, @Nombre, @Apellido, @Contrasena, @RazonSocial, @IdEstadoCivil, @FechaNacimiento)
 CREATE OR REPLACE FUNCTION Registro_Usuario(INT, INT, VARCHAR, DATE, INT, VARCHAR, VARCHAR, VARCHAR, INT, CHAR, VARCHAR, VARCHAR, VARCHAR, VARCHAR DEFAULT NULL,
 												INT DEFAULT NULL, DATE DEFAULT NULL)
 												RETURNS BOOLEAN
@@ -93,9 +87,9 @@ usuario int;
 response boolean;
 entity_user_id text;
 tipo_cuenta int;
+numero_cuenta varchar:= $3 || 'MONEDERO';
 banco int;
 BEGIN
-	BEGIN
 		--SELECT "Id" FROM AspNetUsers into entity_user_id WHERE UserName = $3 or Email = $6;
 		INSERT INTO Usuario (/*"idEntity",*/ idtipousuario,idtipoidentificacion,usuario,fecha_registro,nro_identificacion,email,telefono,direccion,estatus)
 		VALUES (/*entity_user_id,*/ $1, $2, $3, current_date, $5, $6, $7, $8, $9);
@@ -105,25 +99,22 @@ BEGIN
 					(usuario, $13, 0, 1);
 		IF ($10 = 'C') THEN
 			SELECT Registro_Comercio($11,$12,$14,usuario) INTO RESPONSE;
-			IF NOT (response) THEN
-				RAISE EXCEPTION 'Error al registrar comercio';
+			IF NOT (RESPONSE) THEN
+				RAISE EXCEPTION 'Error al intentar registrar el Comercio';
 			END IF;
 		ELSE
 			SELECT Registro_Persona($11,$12,$15,$16,usuario) INTO RESPONSE;
-			IF NOT (response) THEN
-				RAISE EXCEPTION 'Error al registrar persona';
+			IF NOT (RESPONSE) THEN
+				RAISE EXCEPTION 'Error al intentar registrar a la persona';
 			END IF;
 		END IF;
 		SELECT idBanco FROM Banco into banco WHERE nombre = 'WEB';
 		SELECT idTipoCuenta FROM TipoCuenta into tipo_cuenta WHERE TipoCuenta.descripcion = 'Monedero';
-		INSERT INTO Cuenta (idUsuario, idTipoCuenta, idBanco, numero)
-		VALUES
-					(usuario, tipo_cuenta, banco, $3 || 'MONEDERO');
+		SELECT Registro_Cuenta(usuario, tipo_cuenta, banco, numero_cuenta) INTO RESPONSE;
+			IF NOT (RESPONSE) THEN
+				RAISE EXCEPTION 'Error al intentar registrar el monedero';
+			END IF;
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		ROLLBACK;
-		RETURN FALSE;
-	END;
 END;
 $$;
 CREATE OR REPLACE FUNCTION Registro_Cuenta(INT, INT, INT, VARCHAR)
@@ -132,12 +123,8 @@ LANGUAGE plpgsql
 AS $$
 DECLARE
 BEGIN
-	BEGIN
 		INSERT INTO Cuenta (idUsuario, idTipoCuenta, idBanco, numero) VALUES ($1, $2, $3, $4);
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 CREATE OR REPLACE FUNCTION Registro_Tarjeta(INT, INT, INT, INT, DATE, INT, INT)
@@ -146,12 +133,8 @@ LANGUAGE plpgsql
 AS $$
 DECLARE
 BEGIN
-	BEGIN
 		INSERT INTO Tarjeta (idUsuario, idTipoTarjeta, idBanco, numero, fecha_vencimiento, cvc, estatus) VALUES ($1, $2, $3, $4, $5, $6, $7);
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 CREATE OR REPLACE FUNCTION Establecer_Parametro(INT, INT, VARCHAR, INT)
@@ -160,16 +143,12 @@ LANGUAGE plpgsql
 AS $$
 DECLARE
 BEGIN
-	BEGIN
-		INSERT INTO Usuario_Parametro(idUsuario, idParametros, validacion, estatus) VALUES ($1, $2, $3, $4);
+		INSERT INTO Usuario_Parametro(idUsuario, idParametro, validacion, estatus) VALUES ($1, $2, $3, $4);
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 
---EXTRACCION DE DATOS FIJOS--
+--EXTRACCION DE DATOS FIJOS-- [x]
 --Son los datos para llenar formularios por parte del usuario
 CREATE OR REPLACE FUNCTION Estados_Civiles()
 			RETURNS TABLE(idestadocivil int, descripcion varchar, codigo char, estatus int) AS $BODY$
@@ -251,6 +230,7 @@ LANGUAGE plpgsql;
 --//Extracción de datos sobre tablas dinámicas.
 --//Todos los datos se exraen a través del parámetro de id de Usuario.
 --//////////////////////////////////////////////////////////////////////////////////////////////////
+--[x]
 CREATE OR REPLACE FUNCTION Tarjetas(INT)
 			RETURNS TABLE(idtarjeta int, idusuario int, idtipotarjeta_tarjeta int, idbanco_tarjeta int, numero int, fecha_vencimiento date, cvc int, estatus int, 
 						 idbanco int, nombre_banco varchar, estatus_banco int,
@@ -262,6 +242,7 @@ BEGIN
 END
 $BODY$
 LANGUAGE plpgsql;
+--[x]
 CREATE OR REPLACE FUNCTION Historial_Operaciones_Tarjetas(INT)
 			RETURNS TABLE(idoperaciontarjeta int, idtarjeta int, idusuarioreceptor int, fecha date, hora time, monto decimal, referencia varchar) AS $BODY$
 DECLARE
@@ -281,11 +262,12 @@ BEGIN
 END
 $BODY$
 LANGUAGE plpgsql;
+--[x]
 CREATE OR REPLACE FUNCTION Historial_Operaciones_Cuenta(INT)
 			RETURNS TABLE(idoperacionCuenta int, idCuenta int, idusuarioreceptor int, fecha date, hora time, monto decimal, referencia varchar) AS $BODY$
 DECLARE
 BEGIN
-	RETURN QUERY SELECT * FROM OperacionCuenta WHERE idCuenta = $1 ORDER BY fecha DESC;
+	RETURN QUERY SELECT * FROM OperacionCuenta WHERE OperacionCuenta.idCuenta = $1 ORDER BY fecha DESC;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -305,6 +287,7 @@ $BODY$
 LANGUAGE plpgsql;
 --REINTEGROS
 --Segundo parámetro: 1 - Solicitante, 2 - Receptor
+--[x]
 CREATE OR REPLACE FUNCTION Reintegros_Activos(INT, INT)
 			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus varchar) AS $BODY$
 DECLARE
@@ -316,6 +299,7 @@ BEGIN
 END
 $BODY$
 LANGUAGE plpgsql;
+--[x]
 CREATE OR REPLACE FUNCTION Reintegros_Cancelados(INT, INT)
 			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus varchar) AS $BODY$
 DECLARE
@@ -327,6 +311,7 @@ BEGIN
 END
 $BODY$
 LANGUAGE plpgsql;
+--[x]
 CREATE OR REPLACE FUNCTION Reintegros_Exitosos(INT, INT)
 			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus varchar) AS $BODY$
 DECLARE
@@ -340,8 +325,9 @@ $BODY$
 LANGUAGE plpgsql;
 --Pago
 --Segundo parámetro: 1 - Solicitante, 2 - Receptor
+--[x]
 CREATE OR REPLACE FUNCTION Cobros_Activos(INT, INT)
-			RETURNS TABLE(idpago int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, estatus varchar, referencia varchar) AS $BODY$
+			RETURNS TABLE(idpago int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, monto varchar, estatus varchar, referencia varchar) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
@@ -351,8 +337,9 @@ BEGIN
 END
 $BODY$
 LANGUAGE plpgsql;
+--[x]
 CREATE OR REPLACE FUNCTION Cobros_Cancelados(INT, INT)
-			RETURNS TABLE(idpago int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, estatus varchar, referencia varchar) AS $BODY$
+			RETURNS TABLE(idpago int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, monto varchar, estatus varchar, referencia varchar) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
@@ -362,8 +349,9 @@ BEGIN
 END
 $BODY$
 LANGUAGE plpgsql;
+--[x]
 CREATE OR REPLACE FUNCTION Cobros_Exitosos(INT, INT)
-			RETURNS TABLE(idpago int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, estatus varchar, referencia varchar) AS $BODY$
+			RETURNS TABLE(idpago int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, monto varchar, estatus varchar, referencia varchar) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
@@ -373,6 +361,7 @@ BEGIN
 END
 $BODY$
 LANGUAGE plpgsql;
+--[x]
 CREATE OR REPLACE FUNCTION Parametros_Usuario(INT)
 			RETURNS TABLE(	idusuario int, idparametros int, validacion varchar, estatus int,
 							idparametro int,idtipoparametro int,idfrecuencia_parametro int, nombre varchar, estatus_parametro int,
@@ -389,6 +378,7 @@ $BODY$
 LANGUAGE plpgsql;
 
 --Excepción de extracción de datos del usuario, se realiza por email.
+--[x]
 CREATE OR REPLACE FUNCTION Informacion_persona(VARCHAR)
 			RETURNS TABLE(idusuario int, idtipousuario int, idtipoidentificacion_usuario int, "identity" text, usuario varchar, fecha_registro date, nro_identificacion int, email varchar, telefono varchar, direccion varchar, estatus int,
 						 	idusuario_persona int, idestadocivil int, nombre_persona varchar, apellido_persona varchar, fecha_nacimiento date,
@@ -405,8 +395,9 @@ BEGIN
 END
 $BODY$
 LANGUAGE plpgsql;
+--[x]
 CREATE OR REPLACE FUNCTION Saldo_Monedero(INT)
-			RETURNS DECIMAL
+			RETURNS DOUBLE PRECISION
 LANGUAGE plpgsql		
 AS $$
 DECLARE
@@ -426,21 +417,20 @@ $$;
 --/////////PROCEDIMIENTOS DE LÓGICA//////////////////--
 --Cobro de Comercio a Persona
 --Parámetros: id del usuario que lo solicita, email del usuario que debe realizar el pago y el monto para realizar el procedimiento.
-CREATE OR REPLACE FUNCTION Cobro(INT, VARCHAR, DECIMAL)
+CREATE OR REPLACE FUNCTION Cobro(INT, VARCHAR, DOUBLE PRECISION)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
 DECLARE
 	idUsuario_Solicitante int;
 BEGIN
-	BEGIN
 		SELECT idUsuario FROM Usuario into idUsuario_Solicitante WHERE Usuario.email = $2;
+		IF idUsuario_Solicitante = NULL then
+			RAISE EXCEPTION 'No existe ese usuario.';
+		END IF;
 		INSERT INTO Pago (idUsuario_Solicitante, idUsuario_Receptor, fecha_solicitud, monto, estatus, referencia)
 		VALUES (idUsuario_Solicitante, $1, current_date, $3, 'Solicitado', NULL);
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 
@@ -453,28 +443,26 @@ AS $$
 DECLARE
 	idUsuario_Receptor int;
 BEGIN
-	BEGIN
 		SELECT idUsuario FROM Usuario into idUsuario_Receptor WHERE Usuario.email = $2;
+		IF idUsuario_Receptor = NULL then
+			RAISE EXCEPTION 'No existe ese usuario.';
+		END IF;
 		INSERT INTO Reintegro (idUsuario_Solicitante, idUsuario_Receptor, fecha_solicitud, estatus, referencia, referencia_reintegro)
 		VALUES ($1, idUsuario_Receptor, current_date, 'Solicitado', $3, NULL);
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 
 -----------PAGOS---------------
 --Estos pagos se realizan posterior a seleccionar un cobro generado por una empresa
 --Pago con tarjeta
-CREATE OR REPLACE FUNCTION Pago_Tarjeta(INT, INT, DECIMAL, INT)
+CREATE OR REPLACE FUNCTION Pago_Tarjeta(INT, INT, DOUBLE PRECISION, INT)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
 DECLARE
 	referenciaValid varchar;
 BEGIN
-	BEGIN
 		referenciaValid:= ($1|| '' || current_date || '' || current_time || '' || $2);
 		UPDATE Pago SET estatus = 'En proceso' WHERE Pago.idPago = $4;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
@@ -482,35 +470,28 @@ BEGIN
 			VALUES ($1, $2, current_date, current_time, $3, referenciaValid);
 		UPDATE Pago SET referencia = referenciaValid, estatus = 'Consolidado' WHERE idPago = $4;
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 --Pago con cuenta
-CREATE OR REPLACE FUNCTION Pago_Cuenta(INT, INT, DECIMAL, INT)
+CREATE OR REPLACE FUNCTION Pago_Cuenta(INT, INT, DOUBLE PRECISION, INT)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
 DECLARE
 	referenciaValid varchar;
 BEGIN
-	BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		UPDATE Pago SET estatus = 'En proceso' WHERE idPago = $4;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
-		INSERT INTO OperacionCuenta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
+		INSERT INTO OperacionCuenta (idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
 			VALUES ($1, $2, current_date, current_time, $3, referenciaValid);
 		UPDATE Pago SET referencia = referenciaValid, estatus = 'Consolidado' WHERE idPago = $4;
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 --Pago con Monedero
 --Parámetros: IdUsuarioReceptor, IdUsuarioPago (el que realiza el pago), monto, idPago
-CREATE OR REPLACE FUNCTION Pago_Monedero(INT, INT, DECIMAL, INT)
+CREATE OR REPLACE FUNCTION Pago_Monedero(INT, INT, DOUBLE PRECISION, INT)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
@@ -519,12 +500,14 @@ DECLARE
 	tipoOperacion int;
 	referenciaValid varchar;
 BEGIN
-	BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		UPDATE Pago SET estatus = 'En proceso' WHERE idPago = $4;
 		SELECT Cuenta.idCuenta FROM Cuenta INTO idCuentaMonedero
 							JOIN TipoCuenta ON TipoCuenta.idTipoCuenta = Cuenta.idTipoCuenta AND TipoCuenta.descripcion = 'Monedero'
 											WHERE Cuenta.idUsuario = $2;
+		IF idCuentaMonedero = NULL then
+			RAISE EXCEPTION 'No existe esa cuenta.';
+		END IF;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionCuenta (idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
 			VALUES ($1, idCuentaMonedero, current_date, current_time, $3, referenciaValid);
@@ -533,21 +516,17 @@ BEGIN
 			VALUES ($2, tipoOperacion, $3, current_date, current_time, referenciaValid);
 		UPDATE Pago SET referencia = referenciaValid, estatus = 'Consolidado' WHERE idPago = $4;
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 
 ----------------------REINTEGROS--------------------------
-CREATE OR REPLACE FUNCTION Reintegro_Tarjeta(INT, INT, DECIMAL, INT)
+CREATE OR REPLACE FUNCTION Reintegro_Tarjeta(INT, INT, DOUBLE PRECISION, INT)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
 DECLARE
 	referenciaValid varchar;
 BEGIN
-	BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		UPDATE Reintegro SET estatus = 'En proceso' WHERE idReintegro = $4;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
@@ -555,35 +534,28 @@ BEGIN
 			VALUES ($1, $2, current_date, current_time, $3, referenciaValid);
 		UPDATE Reintegro SET referencia_reintegro = referenciaValid, estatus = 'Consolidado' WHERE idReintegro = $4;
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 --Pago con cuenta
-CREATE OR REPLACE FUNCTION Reintegro_Cuenta(INT, INT, DECIMAL, INT)
+CREATE OR REPLACE FUNCTION Reintegro_Cuenta(INT, INT, DOUBLE PRECISION, INT)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
 DECLARE
 	referenciaValid varchar;
 BEGIN
-	BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		UPDATE Reintegro SET estatus = 'En proceso' WHERE idReintegro = $4;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
-		INSERT INTO OperacionCuenta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
+		INSERT INTO OperacionCuenta (idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
 			VALUES ($1, $2, current_date, current_time, $3, referenciaValid);
 		UPDATE Reintegro SET referencia_reintegro = referenciaValid, estatus = 'Consolidado' WHERE idReintegro = $4;
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 --Pago con Monedero
 --Parámetros: IdUsuarioReceptor, IdUsuarioPago (el que realiza el pago), monto, idPago
-CREATE OR REPLACE FUNCTION Reintegro_Monedero(INT, INT, DECIMAL, INT)
+CREATE OR REPLACE FUNCTION Reintegro_Monedero(INT, INT, DOUBLE PRECISION, INT)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
@@ -592,12 +564,14 @@ DECLARE
 	referenciaValid varchar;
 	tipoOperacion int;
 BEGIN
-	BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		UPDATE Reintegro SET estatus = 'En proceso' WHERE idReintegro = $4;
 		SELECT Cuenta.idCuenta FROM Cuenta INTO idCuentaMonedero
 							JOIN TipoCuenta ON TipoCuenta.idTipoCuenta = Cuenta.idTipoCuenta AND TipoCuenta.descripcion = 'Monedero'
 											WHERE Cuenta.idUsuario = $2;
+		IF idCuentaMonedero = NULL then
+			RAISE EXCEPTION 'No existe esa cuenta.';
+		END IF;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionCuenta (idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
 			VALUES ($1, idCuentaMonedero, current_date, current_time, $3, referenciaValid);
@@ -606,15 +580,12 @@ BEGIN
 			VALUES ($2, tipoOperacion, $3, current_date, current_time, referenciaValid);
 		UPDATE Reintegro SET referencia_reintegro = referenciaValid, estatus = 'Consolidado' WHERE idReintegro = $4;
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 
 --Recarga de Monedero por tarjeta
 --IdUsuario, IdTarjeta, Monto
-CREATE OR REPLACE FUNCTION Recarga_Monedero_Tarjeta(INT, INT, DECIMAL)
+CREATE OR REPLACE FUNCTION Recarga_Monedero_Tarjeta(INT, INT, DOUBLE PRECISION)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
@@ -622,7 +593,6 @@ DECLARE
 	referenciaValid varchar;
 	tipoOperacion int;
 BEGIN
-	BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionTarjeta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
@@ -631,15 +601,12 @@ BEGIN
 		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
 			VALUES ($1, tipoOperacion, $3, current_date, current_time, referenciaValid);
 		RETURN TRUE;
-	--EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 
 --Recarga de monedero por Cuenta
 --IdUsuario, IdCuenta, Monto,
-CREATE OR REPLACE FUNCTION Recarga_Monedero_Cuenta(INT, INT, DECIMAL)
+CREATE OR REPLACE FUNCTION Recarga_Monedero_Cuenta(INT, INT, DOUBLE PRECISION)
 			RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
@@ -647,7 +614,6 @@ DECLARE
 	referenciaValid varchar;
 	tipoOperacion int;
 BEGIN
-	BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionCuenta(idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
@@ -656,15 +622,12 @@ BEGIN
 		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
 			VALUES ($1, tipoOperacion, $3, current_date, current_time, referenciaValid);
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 
 --/////////////////////////////////////////////Modificaciones y ediciones//////////////////////////////////////////////
 --Modificación de datos perfil de usuario.
-CREATE OR REPLACE FUNCTION Modificación_Usuario(VARCHAR , VARCHAR, VARCHAR, VARCHAR)
+CREATE OR REPLACE FUNCTION Modificación_Usuario(VARCHAR , VARCHAR, VARCHAR, VARCHAR, INT)
 												RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
@@ -675,12 +638,8 @@ entity_user_id text;
 tipo_cuenta int;
 banco int;
 BEGIN
-	BEGIN
-		UPDATE Usuario SET usuario = $1, email= $2, telefono=$3, direccion=$4;
+		UPDATE Usuario SET usuario = $1, email= $2, telefono=$3, direccion=$4 WHERE Usuario.idUsuario = $5;
 		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
 END;
 $$;
 

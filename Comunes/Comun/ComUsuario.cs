@@ -4,7 +4,7 @@ using System;
 
 namespace Comunes.Comun
 {
-    public class ComUsuario : EntidadComun, IEntidadComun
+    public class ComUsuario : EntidadComun, IEntidadComun, IFormularioRegistro
     {
 
         private ComComercio _comercio = new ComComercio();
@@ -19,7 +19,66 @@ namespace Comunes.Comun
         private string _telefono;
         private string _direccion;
         private int _estatus;
+        private string _contrasena;
+        private int _idTipoUsuario;
 
+        public ComUsuario()
+        {
+
+        }
+
+        public ComUsuario(ComComercio comercio, ComPersona persona, ComTipoIdentificacion tipoIdentificacion, int idUsuario, string idEntity, string usuario,
+                            NpgsqlDate fecha_registro, int nro_identificacion, string email, string telefono, string direccion, int estatus, string contrasena)
+        {
+            this._comercio = comercio;
+            this._persona = persona;
+            this._idUsuario = idUsuario;
+            this._idEntity = idEntity;
+            this._usuario = usuario;
+            this._fecha_registro = fecha_registro;
+            this._nro_identificacion = nro_identificacion;
+            this._email = email;
+            this._telefono = telefono;
+            this._direccion = direccion;
+            this._estatus = estatus;
+            this._tipoIdentificacion = tipoIdentificacion;
+            this._idTipoUsuario = 1;
+            this._contrasena = contrasena;
+        }
+
+        public void LlenadoDataFormPersona(NpgsqlCommand ComandoSQL)
+        {
+            //ComandoSQL.Parameters.Add(new NpgsqlParameter("EntityId", this._idEntity));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoUsuarioId", this._idUsuario));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoIdentificacionId", this._tipoIdentificacion._idTipoIdentificacion));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Usuario", this._usuario));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("FechaRegistro", this._fecha_registro));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("NroIdentificacion", this._nro_identificacion));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Email", this._email));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Telefono", this._telefono));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Direccion", this._direccion));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoSol", 'P'));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Contrasena", this._contrasena));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Estatus", this._estatus));
+            this._persona.LlenadoDataFormPersona(ComandoSQL);
+        }
+
+        public void LlenadoDataFormComercio(NpgsqlCommand ComandoSQL)
+        {
+            //ComandoSQL.Parameters.Add(new NpgsqlParameter("EntityId", this._idEntity));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoUsuarioId", this._idUsuario));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoIdentificacionId", this._tipoIdentificacion._idTipoIdentificacion));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Usuario", this._usuario));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("FechaRegistro", this._fecha_registro));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("NroIdentificacion", this._nro_identificacion));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Email", this._email));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Telefono", this._telefono));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Direccion", this._direccion));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Estatus", this._estatus));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoSol", 'C'));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Contrasena", this._contrasena));
+            this._comercio.LlenadoDataFormComercio(ComandoSQL);
+        }
 
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {
