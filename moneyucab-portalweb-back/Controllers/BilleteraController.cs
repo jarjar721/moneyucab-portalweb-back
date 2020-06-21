@@ -13,7 +13,7 @@ namespace moneyucab_portalweb_back.Controllers
     [ApiController]
     public class BilleteraController : ControllerBase
     {
-        [HttpGet] // api/Billetera/cuenta
+        [HttpPost] // api/Billetera/cuenta
         [Route("Cuenta")]
         public IActionResult Cuenta([FromBody]BilleteraCuenta billeteraCuenta) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
@@ -34,7 +34,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         }
 
-        [HttpGet] // api/Billetera/tarjeta
+        [HttpPost] // api/Billetera/tarjeta
         [Route("tarjeta")]
         public IActionResult Tarjeta([FromBody]BilleteraTarjeta billeteraTarjeta) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
@@ -43,8 +43,51 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
 
-                Comando_Registrar_Billetera_Tarjeta comando_Registrar_Billetera_Tarjeta = new Comando_Registrar_Billetera_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco, billeteraTarjeta.numero, billeteraTarjeta.fecha_vencimiento, billeteraTarjeta.cvc, billeteraTarjeta.estatus);
+                Comando_Registrar_Billetera_Tarjeta comando_Registrar_Billetera_Tarjeta = new Comando_Registrar_Billetera_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco, billeteraTarjeta.numero, billeteraTarjeta.cvc, billeteraTarjeta.estatus);
                 var resultado = comando_Registrar_Billetera_Tarjeta.Ejecutar();
+                return Ok(resultado);
+            }
+            catch (Exception error)
+            {
+                return BadRequest(false);
+            }
+
+
+        }
+
+        [HttpDelete] // api/Billetera/eliminarcuenta
+        [Route("EliminarCuenta")]
+        public IActionResult EliminarCuenta([FromBody]BilleteraCuenta billeteraCuenta) //No estoy claro de si aca se usa [frombody] o [fromform]
+        {
+
+
+            try
+            {
+                Comando_Eliminar_Billetera_Cuenta comando_Eliminar_Billetera_Cuenta = new Comando_Eliminar_Billetera_Cuenta(billeteraCuenta.idUsuario, billeteraCuenta.idTipoCuenta, billeteraCuenta.idBanco, billeteraCuenta.numero);
+                comando_Eliminar_Billetera_Cuenta.Ejecutar();
+                var resultado = comando_Eliminar_Billetera_Cuenta.eliminacionCorrecta;
+                return Ok(resultado);
+
+            }
+            catch (Exception error)
+            {
+                return BadRequest(false);
+            }
+
+
+        }
+
+        [HttpDelete] // api/Billetera/eliminartarjeta
+        [Route("EliminarTarjeta")]
+        public IActionResult EliminarTarjeta([FromBody]BilleteraTarjeta billeteraTarjeta) //No estoy claro de si aca se usa [frombody] o [fromform]
+        {
+
+
+            try
+            {
+                Comando_Eliminar_Billetera_Tarjeta comando_Eliminar_Billetera_Tarjeta = new Comando_Eliminar_Billetera_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco, billeteraTarjeta.numero, billeteraTarjeta.cvc, billeteraTarjeta.estatus);
+                comando_Eliminar_Billetera_Tarjeta.Ejecutar();
+                var resultado = comando_Eliminar_Billetera_Tarjeta.eliminacionCorrecta;
                 return Ok(resultado);
             }
             catch (Exception error)

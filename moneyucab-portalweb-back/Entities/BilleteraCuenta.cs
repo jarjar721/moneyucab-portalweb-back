@@ -12,6 +12,6 @@ namespace moneyucab_portalweb_back.Entities
 		public int idBanco { get; set; }
 		public string numero { get; set; }
 
-
+		
 	}
 }
