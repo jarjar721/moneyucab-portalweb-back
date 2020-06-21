@@ -10,6 +10,11 @@ namespace Comunes.Comun
         private string _descripcion;
         private int _estatus;
 
+        public ComFrecuencia()
+        {
+
+        }
+
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {
             this._idFrecuencia = data.GetInt32(0 + _offset);

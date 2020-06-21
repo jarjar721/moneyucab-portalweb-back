@@ -10,9 +10,14 @@ namespace Comunes.Comun
         private int _idUsuarioReceptor;
         private int _idTarjeta;
         private NpgsqlDate _fecha;
-        private NpgsqlDateTime _hora;
+        //private Npgsql _hora;
         private double _monto;
         private string _referencia;
+
+        public ComOperacionTarjeta()
+        {
+
+        }
 
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {
@@ -20,7 +25,7 @@ namespace Comunes.Comun
             this._idUsuarioReceptor = data.GetInt32(1 + _offset);
             this._idTarjeta = data.GetInt32(2 + _offset);
             this._fecha = data.GetDate(3 + _offset);
-            this._hora = data.GetDateTime(4 + _offset);
+            //this._hora = data.GetDateTime(4 + _offset);
             this._monto = data.GetDouble(5 + _offset);
             this._referencia = data.GetString(6 + _offset);
         }

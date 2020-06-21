@@ -4,25 +4,41 @@ using System;
 
 namespace Comunes.Comun
 {
-    public class ComUsuarioParametro : EntidadComun, IEntidadComun
+    public class ComUsuarioParametro : EntidadComun, IEntidadComun, IFormularioInsert
     {
-        private int _idOperacionCuenta;
-        private int _idUsuarioReceptor;
-        private int _idCuenta;
-        private NpgsqlDate _fecha;
-        private string _hora;
-        private double _monto;
-        private string _referencia;
+        private int _idUsuario;
+        private ComParametro _parametro = new ComParametro();
+        private string _validacion;
+        private int _estatus;
+
+        public ComUsuarioParametro()
+        {
+            
+        }
+
+        public ComUsuarioParametro(int idUsuario, int idParametro, string validacion, int estatus)
+        {
+            this._idUsuario = idUsuario;
+            this._validacion = validacion;
+            this._estatus = estatus;
+            this._parametro = new ComParametro(1);
+        }
+
+        public void LlenadoDataForm(NpgsqlCommand ComandoSQL)
+        {
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", this._idUsuario));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("ParametroId", this._parametro._idParametro));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Validacion", this._validacion));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Estatus", this._estatus));
+        }
 
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {
-            this._idOperacionCuenta = data.GetInt32(0 + _offset);
-            this._idUsuarioReceptor = data.GetInt32(1 + _offset);
-            this._idCuenta = data.GetInt32(2 + _offset);
-            this._fecha = data.GetDate(3 + _offset);
-            this._hora = data.GetString(4 + _offset);
-            this._monto = data.GetDouble(0 + _offset);
-            this._referencia = data.GetString(6 + _offset);
+            this._idUsuario = data.GetInt32(0 + _offset);
+            this._validacion = data.GetString(2 + _offset);
+            this._estatus = data.GetInt32(3 + _offset);
+            this._parametro._offset = 5;
+            this._parametro.LlenadoDataNpgsql(data);
         }
     }
 }
