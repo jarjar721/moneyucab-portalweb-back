@@ -24,9 +24,6 @@ namespace Comunes.Comun
             this._idOperacionCuenta = data.GetInt32(0 + _offset);
             this._idUsuarioReceptor = data.GetInt32(1 + _offset);
             this._idCuenta = data.GetInt32(2 + _offset);
-            this._fecha = data.GetString(3 + _offset);
-            //this._hora = data.GetString(4 + _offset);
-            this._monto = data.GetDouble(0 + _offset);
             this._fecha = data.GetDate(3 + _offset);
             //this._hora = data.GetString(4 + _offset);
             this._monto = data.GetDouble(5 + _offset);
