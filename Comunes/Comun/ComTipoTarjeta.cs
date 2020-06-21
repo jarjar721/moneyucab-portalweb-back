@@ -5,9 +5,19 @@ namespace Comunes.Comun
 {
     public class ComTipoTarjeta : EntidadComun, IEntidadComun
     {
-        private int _idTipoTarjeta;
+        public int _idTipoTarjeta;
         private string _descripcion;
         private int _estatus;
+
+        public ComTipoTarjeta()
+        {
+
+        }
+
+        public ComTipoTarjeta(int idTipoTarjeta)
+        {
+            this._idTipoTarjeta = idTipoTarjeta;
+        }
 
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {

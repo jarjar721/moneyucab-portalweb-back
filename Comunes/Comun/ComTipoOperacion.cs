@@ -9,6 +9,11 @@ namespace Comunes.Comun
         private string _descripcion;
         private int _estatus;
 
+        public ComTipoOperacion()
+        {
+
+        }
+
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {
             this._idTipoIdentificacion = data.GetInt32(0 + _offset);

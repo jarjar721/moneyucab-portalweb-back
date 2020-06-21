@@ -5,5 +5,10 @@
 
         public int _offset = 0;
 
+        public EntidadComun()
+        {
+
+        }
+
     }
 }

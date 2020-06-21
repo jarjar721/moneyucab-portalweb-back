@@ -50,6 +50,26 @@ CREATE TRIGGER validar_personaT
 BEFORE INSERT
    ON Persona
        EXECUTE PROCEDURE validar_persona();
+
+--Validación de usuario
+--Validación de registro de persona
+DROP TRIGGER IF EXISTS validar_usuarioT ON Usuario CASCADE;
+CREATE OR REPLACE FUNCTION validar_usuario()
+										RETURNS trigger
+LANGUAGE plpgsql
+AS $BODY$
+DECLARE
+BEGIN
+	IF EXISTS (SELECT * FROM Usuario WHERE Usuario.email = new.email or Usuario.usuario = new.usuario or Usuario.nro_identificacion = new.nro_identificacion) THEN
+		RAISE EXCEPTION 'Ya hay un registro de persona asignado al usuario';
+	END IF;
+END;
+$BODY$;
+
+CREATE TRIGGER validar_usuarioT
+BEFORE INSERT OR UPDATE
+   ON Usuario
+       EXECUTE PROCEDURE validar_usuario();
 	   
 --Validación de registro de Tarjeta
 DROP TRIGGER IF EXISTS validar_tarjetaT ON tarjeta CASCADE;
@@ -84,7 +104,7 @@ LANGUAGE plpgsql
 AS $BODY$
 DECLARE
 BEGIN
-	IF EXISTS (SELECT * FROM cuenta WHERE numero = new.numero and idBanco = new.idBanco and idTipoCuenta = new.idTipoCuenta and idUsuario = new.idUsuario) THEN
+	IF EXISTS (SELECT * FROM cuenta WHERE cuenta.numero = new.numero and cuenta.idBanco = new.idBanco and cuenta.idTipoCuenta = new.idTipoCuenta and cuenta.idUsuario = new.idUsuario) THEN
 		RAISE EXCEPTION 'No puede registrar una cuenta duplicada';
 	END IF;
 	IF EXISTS (SELECT * FROM Banco WHERE new.idBanco = Banco.idBanco and Banco.estatus > 1) THEN
@@ -96,6 +116,7 @@ $BODY$;
 CREATE TRIGGER validar_cuentaT
 BEFORE INSERT
    ON cuenta
+   FOR EACH ROW
        EXECUTE PROCEDURE validar_cuenta();
 
 --//////////////////////////////////////////////////////////////////////////////
@@ -321,7 +342,7 @@ END;
 $BODY$;
 
 CREATE TRIGGER validar_ReintegroT
-BEFORE INSERT
+BEFORE INSERT OR UPDATE
    ON Reintegro
        EXECUTE PROCEDURE validar_Reintegro();
 	   

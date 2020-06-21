@@ -15,5 +15,10 @@
         {
             return new DAOPsql();
         }
+
+        public static DAOBase crearDaoBase()
+        {
+            return new DAOBase();
+        }
     }
 }

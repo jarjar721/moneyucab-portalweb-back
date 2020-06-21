@@ -448,6 +448,10 @@ CREATE TABLE IF NOT EXISTS Public.Tarjeta (
   CONSTRAINT "FK_Tarjeta_TipoTarjeta" FOREIGN KEY (idTipoTarjeta)
         REFERENCES public.TipoTarjeta (idTipoTarjeta) MATCH SIMPLE
         ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+	CONSTRAINT "FK_Tarjeta_Banco" FOREIGN KEY (idBanco)
+        REFERENCES public.Banco (idBanco) MATCH SIMPLE
+        ON UPDATE NO ACTION
         ON DELETE CASCADE
 );
 
@@ -483,6 +487,10 @@ CREATE TABLE IF NOT EXISTS Public.Cuenta (
         ON DELETE CASCADE,
 	CONSTRAINT "FK_Cuenta_TipoCuenta" FOREIGN KEY (idTipoCuenta)
         REFERENCES public.TipoCuenta (idTipoCuenta) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+	CONSTRAINT "FK_Cuenta_Banco" FOREIGN KEY (idBanco)
+        REFERENCES public.Banco (idBanco) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
 );

@@ -1,7 +1,10 @@
 using Excepciones;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Npgsql;
 using System;
 using Xunit.Sdk;
+
+//Pruebas de funcionamiento de llenado por parte de las entidades comunes y de las clases.
 
 namespace Pruebas_Unitarias.PruebasUnitarias
 {
@@ -85,7 +88,7 @@ namespace Pruebas_Unitarias.PruebasUnitarias
         public void HistorialOperacionesCuenta()
         {
             DAO.DAOBase dao = new DAO.DAOBase();
-            dao.CobrosExitosos(1, 1);
+            dao.HistorialOperacionesCuenta(1);
             Assert.AreEqual(null, null);
         }
 
@@ -93,12 +96,12 @@ namespace Pruebas_Unitarias.PruebasUnitarias
         public void HistorialOperacionesMonedero()
         {
             DAO.DAOBase dao = new DAO.DAOBase();
-            dao.HistorialOperacionesMonedero(1);
-            Assert.AreEqual(null, null);
+            int i = dao.HistorialOperacionesMonedero(1).Count;
+            Assert.AreNotEqual(i, 0);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(MoneyUcabException),
+        [ExpectedException(typeof(NpgsqlException),
         "No se encontró usuario relacionado a la id, posible valor respecto al vacío de base de datos")]
         public void InformacionPersona()
         {

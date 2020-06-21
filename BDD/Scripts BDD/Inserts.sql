@@ -80,6 +80,29 @@ VALUES ('D','DAY', 1),
 ('A', 'YEAR', 1),
 ('H', 'HOUR', 1);
 
+DELETE FROM Parametro CASCADE;
+ALTER SEQUENCE Parametro_idParametro_seq RESTART WITH 1;
+INSERT INTO Parametro(idFrecuencia, idTipoParametro, nombre, estatus)
+VALUES (5,1,'Límite de pago por hora', 1),
+(5,2,'Límite de recarga por hora', 1),
+(5,3,'Límite de transferencia por hora', 1),
+(1,4, 'Límite de operaciones durante un día', 1),
+(2,4, 'Límite de operaciones durante una semana', 1),
+(3,4, 'Límite de operaciones durante un mes', 1),
+(4,4, 'Límite de operaciones durante un año', 1),
+(5,4, 'Límite de operaciones durante una hora', 1),
+(1,5, 'Límite de recepción de monto por hora', 1),
+(1,7, 'Límite de recepción durante un día', 1),
+(2,7, 'Límite de recepción durante una semana', 1),
+(3,7, 'Límite de recepción durante un mes', 1),
+(4,7, 'Límite de recepción durante un año', 1),
+(5,7, 'Límite de recepcióndurante una hora', 1),
+(1,6, 'Límite de recepción durante un día', 1),
+(2,6, 'Límite de recepción durante una semana', 1),
+(3,6, 'Límite de recepción durante un mes', 1),
+(4,6, 'Límite de recepción durante un año', 1),
+(5,6, 'Límite de recepcióndurante una hora', 1);
+
 DELETE FROM TipoOperacion CASCADE;
 ALTER SEQUENCE TipoOperacion_idTipoOperacion_seq RESTART WITH 1;
 INSERT INTO TipoOperacion (descripcion, estatus)
