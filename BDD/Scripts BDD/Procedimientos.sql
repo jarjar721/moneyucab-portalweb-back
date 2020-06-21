@@ -90,10 +90,6 @@ tipo_cuenta int;
 numero_cuenta varchar:= $3 || 'MONEDERO';
 banco int;
 BEGIN
-<<<<<<< HEAD
-	BEGIN
-=======
->>>>>>> development
 		--SELECT "Id" FROM AspNetUsers into entity_user_id WHERE UserName = $3 or Email = $6;
 		INSERT INTO Usuario (/*"idEntity",*/ idtipousuario,idtipoidentificacion,usuario,fecha_registro,nro_identificacion,email,telefono,direccion,estatus)
 		VALUES (/*entity_user_id,*/ $1, $2, $3, current_date, $5, $6, $7, $8, $9);
@@ -114,22 +110,11 @@ BEGIN
 		END IF;
 		SELECT idBanco FROM Banco into banco WHERE nombre = 'WEB';
 		SELECT idTipoCuenta FROM TipoCuenta into tipo_cuenta WHERE TipoCuenta.descripcion = 'Monedero';
-<<<<<<< HEAD
-		INSERT INTO Cuenta (idUsuario, idTipoCuenta, idBanco, numero)
-		VALUES
-					(usuario, tipo_cuenta, banco, $3 || 'MONEDERO');
-		RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN 
-		ROLLBACK;
-		RETURN FALSE;
-	END;
-=======
 		SELECT Registro_Cuenta(usuario, tipo_cuenta, banco, numero_cuenta) INTO RESPONSE;
 			IF NOT (RESPONSE) THEN
 				RAISE EXCEPTION 'Error al intentar registrar el monedero';
 			END IF;
 		RETURN TRUE;
->>>>>>> development
 END;
 $$;
 CREATE OR REPLACE FUNCTION Registro_Cuenta(INT, INT, INT, VARCHAR)
@@ -478,10 +463,6 @@ AS $$
 DECLARE
 	referenciaValid varchar;
 BEGIN
-<<<<<<< HEAD
-	BEGIN
-=======
->>>>>>> development
 		referenciaValid:= ($1|| '' || current_date || '' || current_time || '' || $2);
 		UPDATE Pago SET estatus = 'En proceso' WHERE Pago.idPago = $4;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
@@ -499,18 +480,10 @@ AS $$
 DECLARE
 	referenciaValid varchar;
 BEGIN
-<<<<<<< HEAD
-	BEGIN
-		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
-		UPDATE Pago SET estatus = 'En proceso' WHERE idPago = $4;
-		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
-		INSERT INTO OperacionCuenta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
-=======
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		UPDATE Pago SET estatus = 'En proceso' WHERE idPago = $4;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionCuenta (idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
->>>>>>> development
 			VALUES ($1, $2, current_date, current_time, $3, referenciaValid);
 		UPDATE Pago SET referencia = referenciaValid, estatus = 'Consolidado' WHERE idPago = $4;
 		RETURN TRUE;
@@ -527,10 +500,6 @@ DECLARE
 	tipoOperacion int;
 	referenciaValid varchar;
 BEGIN
-<<<<<<< HEAD
-	BEGIN
-=======
->>>>>>> development
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		UPDATE Pago SET estatus = 'En proceso' WHERE idPago = $4;
 		SELECT Cuenta.idCuenta FROM Cuenta INTO idCuentaMonedero
@@ -558,10 +527,6 @@ AS $$
 DECLARE
 	referenciaValid varchar;
 BEGIN
-<<<<<<< HEAD
-	BEGIN
-=======
->>>>>>> development
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		UPDATE Reintegro SET estatus = 'En proceso' WHERE idReintegro = $4;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
@@ -579,18 +544,10 @@ AS $$
 DECLARE
 	referenciaValid varchar;
 BEGIN
-<<<<<<< HEAD
-	BEGIN
-		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
-		UPDATE Reintegro SET estatus = 'En proceso' WHERE idReintegro = $4;
-		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
-		INSERT INTO OperacionCuenta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
-=======
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		UPDATE Reintegro SET estatus = 'En proceso' WHERE idReintegro = $4;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionCuenta (idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
->>>>>>> development
 			VALUES ($1, $2, current_date, current_time, $3, referenciaValid);
 		UPDATE Reintegro SET referencia_reintegro = referenciaValid, estatus = 'Consolidado' WHERE idReintegro = $4;
 		RETURN TRUE;
@@ -607,10 +564,6 @@ DECLARE
 	referenciaValid varchar;
 	tipoOperacion int;
 BEGIN
-<<<<<<< HEAD
-	BEGIN
-=======
->>>>>>> development
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		UPDATE Reintegro SET estatus = 'En proceso' WHERE idReintegro = $4;
 		SELECT Cuenta.idCuenta FROM Cuenta INTO idCuentaMonedero
@@ -640,10 +593,6 @@ DECLARE
 	referenciaValid varchar;
 	tipoOperacion int;
 BEGIN
-<<<<<<< HEAD
-	BEGIN
-=======
->>>>>>> development
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionTarjeta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
@@ -652,12 +601,6 @@ BEGIN
 		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
 			VALUES ($1, tipoOperacion, $3, current_date, current_time, referenciaValid);
 		RETURN TRUE;
-<<<<<<< HEAD
-	--EXCEPTION WHEN OTHERS THEN 
-		RETURN FALSE;
-	END;
-=======
->>>>>>> development
 END;
 $$;
 
@@ -671,10 +614,6 @@ DECLARE
 	referenciaValid varchar;
 	tipoOperacion int;
 BEGIN
-<<<<<<< HEAD
-	BEGIN
-=======
->>>>>>> development
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionCuenta(idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
