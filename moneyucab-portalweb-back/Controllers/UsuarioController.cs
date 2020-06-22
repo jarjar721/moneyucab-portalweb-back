@@ -49,7 +49,7 @@ namespace moneyucab_portalweb_back.Controllers
                 // Chequeo que el username no este registrado
                 await FabricaComandos.Fabricar_Cmd_Verificar_Registro_Usuario(this._userManager, userModel).Ejecutar();
                 //Se realiza el registro del usuario
-                var result = FabricaComandos.Fabricar_Cmd_Registro_Usuario(_userManager, userModel, _appSettings, _emailSender).Ejecutar();
+                var result = await FabricaComandos.Fabricar_Cmd_Registro_Usuario(_userManager, userModel, _appSettings, _emailSender).Ejecutar();
 
                 return Ok(result);
             }
@@ -58,6 +58,10 @@ namespace moneyucab_portalweb_back.Controllers
                 //Debe controlarse un error dentro de la plataforma
                 //Se realiza bad request respondiendo con el objeto obtenido
                 return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
             }
         }
 
@@ -80,6 +84,10 @@ namespace moneyucab_portalweb_back.Controllers
             {
                 //Se retorna el badRequest con los datos de la excepción
                 return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
             }
         }
 
@@ -107,6 +115,10 @@ namespace moneyucab_portalweb_back.Controllers
                 //Error al intentar confirmar el email.
                 return BadRequest(ex.response());
             }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+            }
 
         }
 
@@ -127,6 +139,10 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
             }
 
         }
@@ -151,6 +167,10 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
             }
 
         }

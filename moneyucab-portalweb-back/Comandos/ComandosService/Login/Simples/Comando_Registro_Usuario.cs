@@ -67,7 +67,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             };
 
             // Se envía el mensaje al correo del usuario registrado
-            await _emailSender.SendEmailAsync(emailDetails);
+            _emailSender.SendEmailAsync(emailDetails);
             //Se debe ingresar en este punto la validación DAO con el sistema propio y no con Identity
 
             //-------------------------------------------------------

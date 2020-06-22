@@ -47,7 +47,6 @@ CREATE TABLE public."AspNetUsers"
     "LockoutEnd" timestamp with time zone,
     "LockoutEnabled" boolean NOT NULL,
     "AccessFailedCount" integer NOT NULL,
-    "Discriminator" text COLLATE pg_catalog."default" NOT NULL,
     "SignupDate" date,
     CONSTRAINT "PK_AspNetUsers" PRIMARY KEY ("Id")
 )
@@ -262,6 +261,38 @@ ALTER TABLE public."AspNetRoleClaims"
 CREATE INDEX "IX_AspNetRoleClaims_RoleId"
     ON public."AspNetRoleClaims" USING btree
     ("RoleId" COLLATE pg_catalog."default")
+    TABLESPACE pg_default;
+	
+-- Table: public."PreviousPasswords"
+
+-- DROP TABLE public."PreviousPasswords";
+
+CREATE TABLE public."PreviousPasswords"
+(
+    "PasswordHash" VARCHAR(1000) NOT NULL,
+    "FechaCreacion" DATE NOT NULL,
+    "UsuarioID" text,
+    CONSTRAINT "PK_PreviousPasswords" PRIMARY KEY ("PasswordHash"),
+    CONSTRAINT "FK_PreviousPasswords_AspNetUsers_UsuarioID" FOREIGN KEY ("UsuarioID")
+        REFERENCES public."AspNetUsers" ("Id") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."PreviousPasswords"
+    OWNER to postgres;
+
+-- Index: IX_AspNetRoleClaims_RoleId
+
+-- DROP INDEX public."IX_AspNetRoleClaims_RoleId";
+
+CREATE INDEX "IX_PreviousPasswords_UsuarioID"
+    ON public."PreviousPasswords" USING btree
+    ("UsuarioID" COLLATE pg_catalog."default")
     TABLESPACE pg_default;
 
 -------BASE DE DATOS DISEÑADO POR PROFESOR BISMARCK-------------
