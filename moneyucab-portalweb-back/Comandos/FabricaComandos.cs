@@ -7,6 +7,7 @@ using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.FormModels;
 using System;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Comandos
 {
@@ -32,9 +33,9 @@ namespace moneyucab_portalweb_back.Comandos
             return new Comando_Existencia_Usuario(_userManager, userName, email, userId);
         }
 
-        public static Comando_Inicio_Sesion Fabricar_Cmd_Inicio_Sesion(UserManager<Usuario> _userManager, LoginModel _registration, ApplicationSettings appSettings)
+        public static Comando_Inicio_Sesion Fabricar_Cmd_Inicio_Sesion(UserManager<Usuario> _userManager, LoginModel _registration, ApplicationSettings appSettings, SignInManager<Usuario> signInManager)
         {
-            return new Comando_Inicio_Sesion(_userManager, _registration, appSettings);
+            return new Comando_Inicio_Sesion(_userManager, _registration, appSettings, signInManager);
         }
 
         public static Comando_Verificar_Parametros Fabricar_Cmd_Verificar_Parametros(params string[] parametros)
@@ -57,12 +58,12 @@ namespace moneyucab_portalweb_back.Comandos
             return new Comando_Resetear_Password(userManager, model);
         }
 
-        public static Comando_Verificar_Autenticacion Fabrica_Cmd_Verificar_Autenticacion(UserManager<Usuario> userManager, ClaimsPrincipal User)
+        public static Comando_Verificar_Autenticacion Fabricar_Cmd_Verificar_Autenticacion(UserManager<Usuario> userManager, ClaimsPrincipal User)
         {
             return new Comando_Verificar_Autenticacion(User, userManager);
         }
 
-        public static Comando_Verificar_Email_Confirmado Fabrica_Cmd_Verificar_Email_Confirmado(Object User, UserManager<Usuario> _userManager)
+        public static Comando_Verificar_Email_Confirmado Fabricar_Cmd_Verificar_Email_Confirmado(string User, UserManager<Usuario> _userManager)
         {
             return new Comando_Verificar_Email_Confirmado(User, _userManager);
         }

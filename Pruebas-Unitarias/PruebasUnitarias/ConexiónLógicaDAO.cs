@@ -77,35 +77,5 @@ namespace Pruebas_Unitarias.PruebasUnitarias
             dao.RegistroUsuarioComercio(usuario);
             Assert.AreEqual(null, null);
         }
-
-        [TestMethod]
-        public void CobroPagoReintegroMonederoTarjeta()
-        {
-            DAO.DAOBase dao = new DAO.DAOBase();
-            dao.Cobro(1, "pjfariakiddo2@gmail.com", 100);
-            dao.Pago_Monedero(1, 2, 100, 1);
-            dao.Pago_Tarjeta(1, 1, 100, 1);
-            List<ComPago> pagos = dao.CobrosExitosos(1,2);
-            dao.Reintegro(2, "pjfariakiddo@gmail.com" , pagos[0]._referencia);
-            dao.Reintegro_Tarjeta(2, 1, 100, 1);
-            dao.Reintegro_Cuenta(2, 1, 100, 1);
-            dao.Reintegro_Monedero(2, 1, 100, 1);
-            Assert.AreEqual(null, null);
-        }
-
-        [TestMethod]
-        public void CobroPagoReintegroMonederoCuenta()
-        {
-            DAO.DAOBase dao = new DAO.DAOBase();
-            dao.Cobro(1, "pjfariakiddo2@gmail.com", 100);
-            dao.Pago_Monedero(1, 2, 100, 1);
-            dao.Pago_Cuenta(1, 1, 100, 1);
-            List<ComPago> pagos = dao.CobrosExitosos(1, 2);
-            dao.Reintegro(2, "pjfariakiddo@gmail.com", pagos[0]._referencia);
-            dao.Reintegro_Tarjeta(2, 1, 100, 2);
-            dao.Reintegro_Cuenta(2, 1, 100, 2);
-            dao.Reintegro_Monedero(2, 1, 100, 2);
-            Assert.AreEqual(null, null);
-        }
     }
 }

@@ -197,7 +197,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -243,7 +243,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -289,7 +289,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -335,7 +335,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -381,7 +381,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -427,7 +427,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -474,7 +474,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -521,7 +521,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -569,7 +569,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -617,7 +617,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -665,7 +665,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -713,7 +713,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -761,7 +761,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -809,7 +809,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -856,7 +856,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -905,7 +905,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -946,7 +946,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -994,7 +994,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -1042,7 +1042,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -1089,7 +1089,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -1387,6 +1387,84 @@ namespace DAO
             }
         }
 
+        public void CancelarCobro(int IdCobro)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Cancelar_Cobro(@IdCobro)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
+        public void CancelarReintegro(int IdReintegro)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Cancelar_Reintegro(@IdReintegro)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdReintegro", IdReintegro));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
         public void Pago_Tarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro)
         {
             try
@@ -1508,7 +1586,7 @@ namespace DAO
                     }
                 }
                 else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                    throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                 Desconectar();
             }
         }
@@ -1653,6 +1731,45 @@ namespace DAO
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("email", email));
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("telefono", telefono));
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("direccion", direccion));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+        }
+
+        public void Ejecutar_Cierre(int IdUsuario)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Ejecutar_Cierre(@IdUsuario)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuario", IdUsuario));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)

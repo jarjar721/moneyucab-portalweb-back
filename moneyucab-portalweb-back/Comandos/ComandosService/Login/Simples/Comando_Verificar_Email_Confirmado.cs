@@ -9,12 +9,12 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
     public class Comando_Verificar_Email_Confirmado : Comando<Boolean>
     {
-        private Object user;
+        private string email;
         private UserManager<Usuario> _userManager;
 
-        public Comando_Verificar_Email_Confirmado(Object User, UserManager<Usuario> _userManager)
+        public Comando_Verificar_Email_Confirmado(string user, UserManager<Usuario> _userManager)
         {
-            this.user = user;
+            this.email = user;
             this._userManager = _userManager;
 
         }
@@ -22,6 +22,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
         async public Task<Boolean> Ejecutar()
         {
             // Check if email has been confirmed
+            var user = await _userManager.FindByEmailAsync(email);
             if (await _userManager.IsEmailConfirmedAsync((Usuario)user))
             {
                 return true;

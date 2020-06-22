@@ -338,6 +338,9 @@ BEGIN
 	IF new.estatus = 'Solicitado' and new.referencia is not null THEN
 		RAISE EXCEPTION 'Reintegro inválido';
 	END IF;
+	IF new.estatus = 'Cancelado' and old.referencia is not null THEN
+		RAISE EXCEPTION 'Reintegro de pago inválido';
+	END IF;
 END;
 $BODY$;
 
@@ -363,6 +366,10 @@ BEGIN
 	IF new.estatus = 'Solicitado' and new.referencia is not null THEN
 		RAISE EXCEPTION 'Pago inválido';
 	END IF;
+	IF new.estatus = 'Cancelado' and old.referencia is not null THEN
+		RAISE EXCEPTION 'Cancelación de pago inválido';
+	END IF;
+END;
 END;
 $BODY$;
 

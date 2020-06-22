@@ -21,11 +21,12 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
         private SignInManager<Usuario> _signInManager;
         private ApplicationSettings _appSettings;
 
-        public Comando_Inicio_Sesion(UserManager<Usuario> userManager, LoginModel userModel, ApplicationSettings appSettings)
+        public Comando_Inicio_Sesion(UserManager<Usuario> userManager, LoginModel userModel, ApplicationSettings appSettings, SignInManager<Usuario> signInManager)
         {
             this._userManager = userManager;
             this._userModel = userModel;
             this._appSettings = appSettings;
+            this._signInManager = signInManager;
         }
 
 

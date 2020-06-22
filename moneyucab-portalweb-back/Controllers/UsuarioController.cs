@@ -75,9 +75,9 @@ namespace moneyucab_portalweb_back.Controllers
             {
                 // Busco el usuario en la base de datos - Get user in database
                 await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email, null).Ejecutar();
-
+                await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
                 // Obtengo el resultado de iniciar sesión 
-                var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings).Ejecutar();
+                var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings, _signInManager).Ejecutar();
                 return Ok(result);
             }
             catch (MoneyUcabException ex)

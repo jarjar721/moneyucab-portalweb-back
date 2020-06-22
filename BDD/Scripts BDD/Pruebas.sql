@@ -16,4 +16,3 @@ SELECT Reintegro(1, 'pjfariakiddo@gmail.com', --Debes colocar la referencia acá
 SELECT * FROM REINTEGRO;
 SELECT Reintegro_Tarjeta(1, 1, 100, --Debes colocar el id del reintegro acá
 						 3);
-

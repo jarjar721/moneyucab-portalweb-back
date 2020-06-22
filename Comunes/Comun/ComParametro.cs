@@ -24,11 +24,11 @@ namespace Comunes.Comun
         public void LlenadoDataNpgsql(NpgsqlDataReader data)
         {
             this._idParametro = data.GetInt32(0 + _offset);
-            this._nombre = data.GetString(3);
-            this._estatus = data.GetInt32(4);
-            this._tipoParametro._offset = 9 + _offset;
+            this._nombre = data.GetString(3 + _offset);
+            this._estatus = data.GetInt32(4 + _offset);
+            this._tipoParametro._offset = 5 + _offset;
             this._tipoParametro.LlenadoDataNpgsql(data);
-            this._frecuencia._offset = 5 + _offset;
+            this._frecuencia._offset = 8 + _offset;
             this._frecuencia.LlenadoDataNpgsql(data);
         }
     }

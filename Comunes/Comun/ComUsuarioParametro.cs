@@ -37,7 +37,7 @@ namespace Comunes.Comun
             this._idUsuario = data.GetInt32(0 + _offset);
             this._validacion = data.GetString(2 + _offset);
             this._estatus = data.GetInt32(3 + _offset);
-            this._parametro._offset = 5;
+            this._parametro._offset = 4;
             this._parametro.LlenadoDataNpgsql(data);
         }
     }

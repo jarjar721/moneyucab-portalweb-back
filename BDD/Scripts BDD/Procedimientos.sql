@@ -199,13 +199,13 @@ END
 $BODY$
 LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION Parametros()
-			RETURNS TABLE(idparametro int,idtipoparametro_parametro int,idfrecuencia_parametro int, nombre varchar, estatus int, 
-						  	idfrecuencia int, codigo_frecuencia char, descripcion_frecuencia varchar, estatus_frecuencia int,
-						 	idtipoparametro int, descripcion_tipo_parametro varchar, estatus_tipo_parametro int) AS $BODY$
+			RETURNS TABLE(idparametro int,idtipoparametro int,idfrecuencia_parametro int, nombre varchar, estatus_parametro int,
+						  	idtipoparametro_tipo_parametro int, descripcion_tipo_parametro varchar, estatus_tipo_parametro int,
+						  	idfrecuencia int, codigo_frecuencia char, descripcion_frecuencia varchar, estatus_frecuencia int) AS $BODY$
 DECLARE
 BEGIN
-	RETURN QUERY SELECT * FROM Parametro JOIN Frecuencia B ON B.IdFrecuencia = Parametro.idFrecuencia
-											JOIN TipoParametro C ON C.IdTipoParametro = Parametro.idTipoParametro;
+	RETURN QUERY SELECT * FROM Parametro JOIN TipoParametro C ON C.IdTipoParametro = Parametro.idTipoParametro 
+										  JOIN Frecuencia B ON B.IdFrecuencia = Parametro.idFrecuencia;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -293,9 +293,11 @@ CREATE OR REPLACE FUNCTION Reintegros_Activos(INT, INT)
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
-		RETURN QUERY SELECT * FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
+		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
 	END IF;
-	RETURN QUERY SELECT * FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
+	RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud,
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -305,9 +307,11 @@ CREATE OR REPLACE FUNCTION Reintegros_Cancelados(INT, INT)
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
-		RETURN QUERY SELECT * FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
+		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
 	END IF;
-	RETURN QUERY SELECT * FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
+	RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -317,9 +321,11 @@ CREATE OR REPLACE FUNCTION Reintegros_Exitosos(INT, INT)
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
-		RETURN QUERY SELECT * FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Consolidado');
+		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Consolidado');
 	END IF;
-	RETURN QUERY SELECT * FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Consolidado');
+	RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud,
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Consolidado');
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -331,9 +337,11 @@ CREATE OR REPLACE FUNCTION Cobros_Activos(INT, INT)
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
-		RETURN QUERY SELECT * FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('En Proceso', 'Solicitado');
+		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('En Proceso', 'Solicitado');
 	END IF;
-	RETURN QUERY SELECT * FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('En Proceso', 'Solicitado');
+	RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('En Proceso', 'Solicitado');
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -343,9 +351,11 @@ CREATE OR REPLACE FUNCTION Cobros_Cancelados(INT, INT)
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
-		RETURN QUERY SELECT * FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('Cancelado', 'Caducado');
+		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('Cancelado', 'Caducado');
 	END IF;
-	RETURN QUERY SELECT * FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Cancelado', 'Caducado');
+	RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Cancelado', 'Caducado');
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -355,9 +365,11 @@ CREATE OR REPLACE FUNCTION Cobros_Exitosos(INT, INT)
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
-		RETURN QUERY SELECT * FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('Consolidado');
+		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('Consolidado');
 	END IF;
-	RETURN QUERY SELECT * FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Consolidado');
+	RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Consolidado');
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -425,11 +437,23 @@ DECLARE
 	idUsuario_Solicitante int;
 BEGIN
 		SELECT idUsuario FROM Usuario into idUsuario_Solicitante WHERE Usuario.email = $2;
-		IF idUsuario_Solicitante = NULL then
+		IF idUsuario_Solicitante IS NULL then
 			RAISE EXCEPTION 'No existe ese usuario.';
 		END IF;
 		INSERT INTO Pago (idUsuario_Solicitante, idUsuario_Receptor, fecha_solicitud, monto, estatus, referencia)
 		VALUES (idUsuario_Solicitante, $1, current_date, $3, 'Solicitado', NULL);
+		RETURN TRUE;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION Cancelar_Cobro(INT)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+	idUsuario_Solicitante int;
+BEGIN
+		UPDATE Pago SET estatus = 'Cancelado' WHERE idPago = $1;
 		RETURN TRUE;
 END;
 $$;
@@ -444,11 +468,23 @@ DECLARE
 	idUsuario_Receptor int;
 BEGIN
 		SELECT idUsuario FROM Usuario into idUsuario_Receptor WHERE Usuario.email = $2;
-		IF idUsuario_Receptor = NULL then
+		IF idUsuario_Receptor IS NULL then
 			RAISE EXCEPTION 'No existe ese usuario.';
 		END IF;
 		INSERT INTO Reintegro (idUsuario_Solicitante, idUsuario_Receptor, fecha_solicitud, estatus, referencia, referencia_reintegro)
 		VALUES ($1, idUsuario_Receptor, current_date, 'Solicitado', $3, NULL);
+		RETURN TRUE;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION Cancelar_Reintegro(INT)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+	idUsuario_Solicitante int;
+BEGIN
+		UPDATE Reintegro SET estatus = 'Cancelado' WHERE idReintegro = $1;
 		RETURN TRUE;
 END;
 $$;
@@ -496,7 +532,7 @@ CREATE OR REPLACE FUNCTION Pago_Monedero(INT, INT, DOUBLE PRECISION, INT)
 LANGUAGE plpgsql    
 AS $$
 DECLARE
-	idCuentaMonedero int;
+	idCuentaMonedero int:= null;
 	tipoOperacion int;
 	referenciaValid varchar;
 BEGIN
@@ -505,7 +541,7 @@ BEGIN
 		SELECT Cuenta.idCuenta FROM Cuenta INTO idCuentaMonedero
 							JOIN TipoCuenta ON TipoCuenta.idTipoCuenta = Cuenta.idTipoCuenta AND TipoCuenta.descripcion = 'Monedero'
 											WHERE Cuenta.idUsuario = $2;
-		IF idCuentaMonedero = NULL then
+		IF idCuentaMonedero IS NULL then
 			RAISE EXCEPTION 'No existe esa cuenta.';
 		END IF;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
@@ -569,7 +605,7 @@ BEGIN
 		SELECT Cuenta.idCuenta FROM Cuenta INTO idCuentaMonedero
 							JOIN TipoCuenta ON TipoCuenta.idTipoCuenta = Cuenta.idTipoCuenta AND TipoCuenta.descripcion = 'Monedero'
 											WHERE Cuenta.idUsuario = $2;
-		IF idCuentaMonedero = NULL then
+		IF idCuentaMonedero IS NULL then
 			RAISE EXCEPTION 'No existe esa cuenta.';
 		END IF;
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
@@ -621,6 +657,34 @@ BEGIN
 		SELECT TipoOperacion.idTipoOperacion FROM TipoOperacion into tipoOperacion WHERE descripcion = 'Recarga';
 		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
 			VALUES ($1, tipoOperacion, $3, current_date, current_time, referenciaValid);
+		RETURN TRUE;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION Ejecutar_Cierre(INT)
+												RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+	referenciaValid varchar;
+	tarjetas CURSOR FOR SELECT *
+						FROM Tarjeta A WHERE A.idUsuario = $1;
+	cuentas CURSOR FOR SELECT *
+						FROM Cuenta A WHERE A.idUsuario = $1;
+	tipoOperacion int;
+BEGIN
+		referenciaValid:= ($1 || '' || current_date || '' || current_time || '');
+		FOR Tarjeta IN Tarjetas LOOP
+			INSERT INTO OperacionTarjeta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
+				VALUES ($1, Tarjeta.idTarjeta, current_date, current_time, 0, referenciaValid);
+		END LOOP;
+		FOR Cuenta IN Cuentas LOOP
+			INSERT INTO OperacionCuenta(idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
+				VALUES ($1, Cuenta.idCuenta, current_date, current_time, 0, referenciaValid);
+		END LOOP;
+		SELECT TipoOperacion.idTipoOperacion FROM TipoOperacion into tipoOperacion WHERE descripcion = 'Cierre';
+		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
+			VALUES ($1, tipoOperacion, 0, current_date, current_time, referenciaValid);
 		RETURN TRUE;
 END;
 $$;
