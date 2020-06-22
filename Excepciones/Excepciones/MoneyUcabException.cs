@@ -53,7 +53,7 @@ namespace Excepciones
 
         public static Object response_error_desconocido(Exception ex)
         {
-            return new { Error = "Error desconocido. Comunicarse con el administrador e informar: " + ex.TargetSite };
+            return new { Error = "Error desconocido. Comunicarse con el administrador e informar: " + ex.StackTrace };
         }
     }
 }

@@ -6,13 +6,13 @@ namespace Comunes.Comun
 {
     public class ComOperacionCuenta : EntidadComun, IEntidadComun
     {
-        private int _idOperacionCuenta;
-        private int _idUsuarioReceptor;
-        private int _idCuenta;
-        private NpgsqlDate _fecha;
-        //private string _hora;
-        private double _monto;
-        private string _referencia;
+        private int _idOperacionCuenta { get; set; }
+        private int _idUsuarioReceptor { get; set; }
+        private int _idCuenta { get; set; }
+        private NpgsqlDate _fecha { get; set; }
+        //private string _hora{ get; set; }
+        private double _monto { get; set; }
+        private string _referencia { get; set; }
 
         public ComOperacionCuenta()
         {

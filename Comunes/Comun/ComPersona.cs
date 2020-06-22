@@ -7,9 +7,9 @@ namespace Comunes.Comun
     public class ComPersona : EntidadComun, IEntidadComun, IFormularioRegistro
     {
         private ComEstadoCivil _EstadoCivil = new ComEstadoCivil();
-        private string _nombre;
-        private string _apellido;
-        private NpgsqlDate _fecha_nacimiento;
+        private string _nombre { get; set; }
+        private string _apellido { get; set; }
+        private NpgsqlDate _fecha_nacimiento { get; set; }
 
         public ComPersona()
         {

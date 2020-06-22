@@ -5,9 +5,9 @@ namespace Comunes.Comun
 {
     public class ComTipoOperacion : EntidadComun, IEntidadComun
     {
-        private int _idTipoIdentificacion;
-        private string _descripcion;
-        private int _estatus;
+        private int _idTipoIdentificacion { get; set; }
+        private string _descripcion { get; set; }
+        private int _estatus { get; set; }
 
         public ComTipoOperacion()
         {

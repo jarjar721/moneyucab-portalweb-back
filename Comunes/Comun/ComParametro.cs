@@ -7,9 +7,9 @@ namespace Comunes.Comun
     {
         private ComTipoParametro _tipoParametro = new ComTipoParametro();
         private ComFrecuencia _frecuencia = new ComFrecuencia();
-        public int _idParametro;
-        private string _nombre;
-        private int _estatus;
+        public int _idParametro { get; set; }
+        private string _nombre { get; set; }
+        private int _estatus { get; set; }
 
         public ComParametro()
         {

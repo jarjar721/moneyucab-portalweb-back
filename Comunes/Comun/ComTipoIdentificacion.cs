@@ -5,10 +5,10 @@ namespace Comunes.Comun
 {
     public class ComTipoIdentificacion : EntidadComun, IEntidadComun
     {
-        public int _idTipoIdentificacion;
-        private char _codigo;
-        private string _descripcion;
-        private int _estatus;
+        public int _idTipoIdentificacion { get; set; }
+        private char _codigo { get; set; }
+        private string _descripcion { get; set; }
+        private int _estatus { get; set; }
 
         public ComTipoIdentificacion()
         {

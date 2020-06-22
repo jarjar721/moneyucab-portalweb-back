@@ -5,10 +5,10 @@ namespace Comunes.Comun
 {
     public class ComFrecuencia : EntidadComun, IEntidadComun
     {
-        private int _idFrecuencia;
-        private char _codigo;
-        private string _descripcion;
-        private int _estatus;
+        private int _idFrecuencia { get; set; }
+        private char _codigo { get; set; }
+        private string _descripcion { get; set; }
+        private int _estatus { get; set; }
 
         public ComFrecuencia()
         {

@@ -8,9 +8,9 @@ namespace Comunes.Comun
 
         private ComTipoCuenta _tipoCuenta = new ComTipoCuenta();
         private ComBanco _banco = new ComBanco();
-        private int _idCuenta;
-        private int _idUsuario;
-        private string _numero;
+        private int _idCuenta { get; set; }
+        private int _idUsuario { get; set; }
+        private string _numero { get; set; }
 
         public ComCuenta()
         {

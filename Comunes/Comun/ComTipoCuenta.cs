@@ -5,9 +5,9 @@ namespace Comunes.Comun
 {
     public class ComTipoCuenta : EntidadComun, IEntidadComun
     {
-        public int _idTipoCuenta;
-        private string _descripcion;
-        private int _estatus;
+        public int _idTipoCuenta { get; set; }
+        private string _descripcion { get; set; }
+        private int _estatus { get; set; }
 
         public ComTipoCuenta()
         {

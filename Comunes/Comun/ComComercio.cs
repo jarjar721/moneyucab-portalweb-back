@@ -5,9 +5,9 @@ namespace Comunes.Comun
 {
     public class ComComercio : EntidadComun, IEntidadComun, IFormularioRegistro
     {
-        private string _razon_social;
-        private string _nombre_representante;
-        private string _apellido_representante;
+        private string _razon_social { get; set; }
+        private string _nombre_representante { get; set; }
+        private string _apellido_representante { get; set; }
 
         public ComComercio()
         {

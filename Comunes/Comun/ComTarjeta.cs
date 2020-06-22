@@ -9,12 +9,12 @@ namespace Comunes.Comun
 
         private ComTipoTarjeta _tipoTarjeta = new ComTipoTarjeta();
         private ComBanco _banco = new ComBanco();
-        private int _idTarjeta;
-        private int _idUsuario;
-        private int _numero;
-        private NpgsqlDate _fecha_vencimiento;
-        private int _cvc;
-        private int _estatus;
+        private int _idTarjeta { get; set; }
+        private int _idUsuario { get; set; }
+        private int _numero { get; set; }
+        private NpgsqlDate _fecha_vencimiento { get; set; }
+        private int _cvc { get; set; }
+        private int _estatus { get; set; }
 
         public ComTarjeta()
         {

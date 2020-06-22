@@ -151,7 +151,7 @@ namespace DAO
                 //Logger para el manejo de errores
                 //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                throw ex;
             }
             catch (Exception ex)
             {

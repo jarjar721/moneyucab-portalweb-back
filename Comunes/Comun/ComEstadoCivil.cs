@@ -5,10 +5,10 @@ namespace Comunes.Comun
 {
     public class ComEstadoCivil : EntidadComun, IEntidadComun
     {
-        public int _idEstadoCivil;
-        private string _descripcion;
-        private char _codigo;
-        private int _estatus;
+        public int _idEstadoCivil { get; set; }
+        private string _descripcion { get; set; }
+        private char _codigo { get; set; }
+        private int _estatus { get; set; }
 
         public ComEstadoCivil()
         {

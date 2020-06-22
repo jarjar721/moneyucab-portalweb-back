@@ -6,13 +6,13 @@ namespace Comunes.Comun
 {
     public class ComReintegro : EntidadComun, IEntidadComun
     {
-        private int _idReintegro;
-        private int _idUsuarioSolicitante;
-        private int _idUsuarioReceptor;
-        private NpgsqlDate _fecha;
-        private string _referencia_reintegro;
-        private string _referencia;
-        private string _estatus;
+        private int _idReintegro { get; set; }
+        private int _idUsuarioSolicitante { get; set; }
+        private int _idUsuarioReceptor { get; set; }
+        private NpgsqlDate _fecha { get; set; }
+        private string _referencia_reintegro { get; set; }
+        private string _referencia { get; set; }
+        private string _estatus { get; set; }
 
         public ComReintegro()
         {

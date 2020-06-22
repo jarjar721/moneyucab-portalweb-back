@@ -9,12 +9,12 @@ namespace Comunes.Comun
         private ComTipoOperacion _TipoOperacion = new ComTipoOperacion();
         private ComOperacionTarjeta _OperacionTarjeta = new ComOperacionTarjeta();
         private ComOperacionCuenta _OperacionCuenta = new ComOperacionCuenta();
-        private int _idOperacionMonedero;
-        private int _idUsuario;
-        private double _monto;
-        private NpgsqlDate _fecha;
-        //private NpgsqlDateTime _hora;
-        private string _referencia;
+        private int _idOperacionMonedero { get; set; }
+        private int _idUsuario { get; set; }
+        private double _monto { get; set; }
+        private NpgsqlDate _fecha { get; set; }
+        //private NpgsqlDateTime _hora{ get; set; }
+        private string _referencia { get; set; }
 
         public ComOperacionMonedero()
         {

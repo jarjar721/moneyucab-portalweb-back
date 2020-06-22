@@ -1,10 +1,13 @@
-﻿using Excepciones;
+﻿using Comunes.Comun;
+using DAO;
+using Excepciones;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using moneyucab_portalweb_back.Comandos;
 using moneyucab_portalweb_back.Entities;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -12,11 +15,11 @@ namespace moneyucab_portalweb_back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LogicController : ControllerBase
+    public class DashboardController : ControllerBase
     {
         private UserManager<Usuario> _userManager;
 
-        public LogicController(UserManager<Usuario> userManager)
+        public DashboardController(UserManager<Usuario> userManager)
         {
             _userManager = userManager;
         }
@@ -24,7 +27,6 @@ namespace moneyucab_portalweb_back.Controllers
         //Operaciones de consulta---------------------------------------------------------------
 
         [HttpGet]
-        [Authorize]
         [Route("EstadosCiviles")]
         //GET: /api/Dashboard/EstadosCiviles
         public async Task<Object> EstadosCiviles()
@@ -32,8 +34,8 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-
-                return Ok();
+                DAOBase dao = new DAOBase();
+                return Ok(dao.Bancos());
             }
             catch (MoneyUcabException ex)
             {

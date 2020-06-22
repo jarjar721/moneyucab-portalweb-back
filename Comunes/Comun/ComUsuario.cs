@@ -10,17 +10,17 @@ namespace Comunes.Comun
         private ComComercio _comercio = new ComComercio();
         private ComPersona _persona = new ComPersona();
         private ComTipoIdentificacion _tipoIdentificacion = new ComTipoIdentificacion();
-        private int _idUsuario;
-        private string _idEntity;
-        private string _usuario;
-        private NpgsqlDate _fecha_registro;
-        private int _nro_identificacion;
-        private string _email;
-        private string _telefono;
-        private string _direccion;
-        private int _estatus;
-        private string _contrasena;
-        private int _idTipoUsuario;
+        private int _idUsuario { get; set; }
+        private string _idEntity { get; set; }
+        private string _usuario { get; set; }
+        private NpgsqlDate _fecha_registro { get; set; }
+        private int _nro_identificacion { get; set; }
+        private string _email { get; set; }
+        private string _telefono { get; set; }
+        private string _direccion { get; set; }
+        private int _estatus { get; set; }
+        private string _contrasena { get; set; }
+        private int _idTipoUsuario { get; set; }
 
         public ComUsuario()
         {
