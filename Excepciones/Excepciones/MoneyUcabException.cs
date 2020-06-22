@@ -50,5 +50,10 @@ namespace Excepciones
         {
             return new { error = this.Error, codigo = this.Codigo };
         }
+
+        public static Object response_error_desconocido(Exception ex)
+        {
+            return new { Error = "Error desconocido. Comunicarse con el administrador e informar: " + ex.TargetSite };
+        }
     }
 }

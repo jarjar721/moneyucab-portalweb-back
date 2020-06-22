@@ -41,7 +41,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
                 return true;
             }
             //Se realiza el throw acá
-            UsuarioExistenteException.UsuarioExistente();
+            UsuarioExistenteException.UsuarioNoExistente();
             return false;
         }
 
