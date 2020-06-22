@@ -24,8 +24,10 @@ namespace DAO
             conn_string.Host = "127.0.0.1";
             conn_string.Port = 5432;
             conn_string.Username = "postgres";
-            conn_string.Password = "lolazo123";
-            conn_string.Database = "postgres";
+            //conn_string.Password = "lolazo123";
+            conn_string.Password = "Surfing123";                
+            //conn_string.Database = "postgres";
+            conn_string.Database = "Desarrollo";        
             //StringConexion = ConfigurationManager.AppSettings.Get("IdentityConnection");
             StringConexion = conn_string.ToString();
         }

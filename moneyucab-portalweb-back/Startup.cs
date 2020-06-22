@@ -7,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
+using moneyucab_portalweb_back.Contextos;
 using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.IdentityExtentions;
 using moneyucab_portalweb_back.Migrations;
@@ -31,7 +33,12 @@ namespace moneyucab_portalweb_back
         {
             // Inject App Settings
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
+            //RF12
+            services.AddDbContext<DatosUsuarioDBContext> (options =>
+                   options.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
 
+            services.AddTransient<ComandoDatosUsuario, ComandoDatosUsuario>();
+            //
             services.AddControllers();
 
             // Servicio que realiza la enlace con la BD por medio de un string de conexión.
