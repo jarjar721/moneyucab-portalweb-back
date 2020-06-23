@@ -1,5 +1,5 @@
 ﻿using moneyucab_portalweb_back.Contextos;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
 using System;
 using System.Collections.Generic;
 using System.Linq;

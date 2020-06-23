@@ -74,9 +74,6 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
         public List<ComTipoTarjeta> TiposTarjeta()
@@ -96,6 +93,7 @@ namespace DAO
                 ComTipoTarjeta row = new ComTipoTarjeta();
                 while (LectorTablaSQL.Read())
                 {
+                    row = new ComTipoTarjeta();
                     row.LlenadoDataNpgsql(LectorTablaSQL);
                     tiposTarjetas.Add(row);
                 }
@@ -1762,7 +1760,7 @@ namespace DAO
             }
         }
 
-        public void Ejecutar_Cierre(int IdUsuario)
+        public ComOperacionMonedero Ejecutar_Cierre(int IdUsuario)
         {
             try
             {
@@ -1773,6 +1771,12 @@ namespace DAO
                 ComandoSQL.CommandText = string.Format("SELECT Ejecutar_Cierre(@IdUsuario)");
                 ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuario", IdUsuario));
                 LectorTablaSQL = ComandoSQL.ExecuteReader();
+                if (LectorTablaSQL.Read())
+                {
+                    ComOperacionMonedero operacion_monedero = new ComOperacionMonedero();
+                    operacion_monedero.LlenadoDataNpgsql(LectorTablaSQL);
+                    return operacion_monedero;
+                }
             }
             catch (NpgsqlException ex)
             {
@@ -1797,6 +1801,85 @@ namespace DAO
                 }
                 else
                     throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
+                Desconectar();
+            }
+            return null;
+        }
+
+        public void EliminarCuenta(int CuentaId)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Eliminar_Cuenta(@CuentaId)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", CuentaId));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo registrar al cuenta", 202);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar al cuenta", 202);
+                Desconectar();
+            }
+        }
+
+        public void EliminarTarjeta(int TarjetaId)
+        {
+            try
+            {
+                Conectar();
+
+                ComandoSQL = Conector.CreateCommand();
+
+                ComandoSQL.CommandText = string.Format("SELECT Eliminar_Tarjeta(@TarjetaId)");
+                ComandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", TarjetaId));
+                LectorTablaSQL = ComandoSQL.ExecuteReader();
+            }
+            catch (NpgsqlException ex)
+            {
+                //Manejo de errores para el cierre de la conexión.
+                //Logger para el manejo de errores
+                Desconectar();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                if (LectorTablaSQL.Read())
+                {
+                    if (!LectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo eliminar la tarjeta", 202);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo eliminar la tarjeta", 202);
                 Desconectar();
             }
         }

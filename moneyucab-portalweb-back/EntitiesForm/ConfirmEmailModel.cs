@@ -1,4 +1,4 @@
-﻿namespace moneyucab_portalweb_back.Models.FormModels
+﻿namespace moneyucab_portalweb_back.EntitiesForm
 {
     public class ConfirmEmailModel
     {

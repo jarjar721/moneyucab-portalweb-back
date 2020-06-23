@@ -6,11 +6,13 @@ using moneyucab_portalweb_back.Comandos;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
-using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models;
-using moneyucab_portalweb_back.Models.FormModels;
+using moneyucab_portalweb_back.EntitiesForm;
 using System;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace moneyucab_portalweb_back.Controllers
 {
@@ -77,7 +79,8 @@ namespace moneyucab_portalweb_back.Controllers
             {
                 // Busco el usuario en la base de datos - Get user in database
                 await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email, null).Ejecutar();
-                await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
+                //Se comprueba la confirmación de email en este punto
+                //await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
                 // Obtengo el resultado de iniciar sesión 
                 var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings, _signInManager).Ejecutar();
                 return Ok(result);
@@ -165,6 +168,26 @@ namespace moneyucab_portalweb_back.Controllers
                 await FabricaComandos.Fabricar_Cmd_Resetear_Password(_userManager, model).Ejecutar();
 
                 return Ok(new { key = "ResetPasswordSuccess", message = "¡Contraseña restablecida!" });
+            }
+            catch (MoneyUcabException ex)
+            {
+                return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+            }
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("Modification")]
+        public async Task<IActionResult> Modification([FromBody]ModificacionUsuario formulario)
+        {
+            try
+            {
+                return Ok(await FabricaComandos.Fabricar_Cmd_Modificar_Usuario(formulario.usuario, formulario.email, formulario.telefono, formulario.direccion, formulario.IdUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {

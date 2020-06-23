@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace moneyucab_portalweb_back.Entities
+namespace moneyucab_portalweb_back.EntitiesForm
 {
 	public class DatosUsuario
 	{
 		public int idUsuario { get; set; }
 		public int idTipoUsuario { get; set; }
 		public int idTipoIdentificacion { get; set; }
-		//public int idEntity { get; set; }
+		public int idEntity { get; set; }
 		public string usuario { get; set; }
 		public DateTime fechaRegistro { get; set; }
 		public int nroIdentificacion { get; set; }
@@ -30,7 +30,7 @@ namespace moneyucab_portalweb_back.Entities
 				mapeoDatosUsuario.Property(x => x.idUsuario).HasColumnName("idusuario");
 				mapeoDatosUsuario.Property(x => x.idTipoUsuario).HasColumnName("idtipousuario");
 				mapeoDatosUsuario.Property(x => x.idTipoIdentificacion).HasColumnName("idtipoidentificacion");
-				//mapeoDatosUsuario.Property(x => x.idEntity).HasColumnName("idEntity");
+				mapeoDatosUsuario.Property(x => x.idEntity).HasColumnName("idEntity");
 				mapeoDatosUsuario.Property(x => x.usuario).HasColumnName("usuario");
 				mapeoDatosUsuario.Property(x => x.fechaRegistro).HasColumnName("fecha_registro");
 				mapeoDatosUsuario.Property(x => x.nroIdentificacion).HasColumnName("nro_identificacion");

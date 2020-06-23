@@ -1,8 +1,10 @@
 ﻿using Comandos;
 using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
-using moneyucab_portalweb_back.Entities;
+using Microsoft.IdentityModel.Tokens;
+using moneyucab_portalweb_back.EntitiesForm;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,24 +13,18 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
     public class Comando_Verificar_Autenticacion : Comando<Object>
     {
-        private ClaimsPrincipal User;
+        //private FormP formulario;
         private UserManager<Usuario> _userManager;
 
-        public Comando_Verificar_Autenticacion(ClaimsPrincipal User, UserManager<Usuario> _userManager)
+        public Comando_Verificar_Autenticacion(ClaimsPrincipal User)
         {
-            this.User = User;
+            //this.formulario = formulario;
             this._userManager = _userManager;
         }
 
-        async public Task<Object> Ejecutar()
+        async public Task<Boolean> Ejecutar()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                AutenticacionException.UsuarioNoAutenticado();
-            }
-            string userId = User.Claims.First(c => c.Type == "UserID").Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            return user;
+            throw new NotImplementedException();
         }
 
 
