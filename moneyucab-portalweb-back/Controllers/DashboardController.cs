@@ -27,6 +27,31 @@ namespace moneyucab_portalweb_back.Controllers
         //Operaciones de consulta---------------------------------------------------------------
 
         [HttpGet]
+        [Authorize]
+        [Route("Home")]
+        //GET: /api/Dashbard/Home
+        public async Task<Object> getHomeDashboard()
+        {
+            string userId = User.FindFirst("UserID").Value;
+            var user = await _userManager.FindByIdAsync(userId);
+            var emailConfirmed = false;
+
+            // Check if email has been confirmed
+            if (await _userManager.IsEmailConfirmedAsync(user))
+            {
+                emailConfirmed = true;
+            }
+
+            return new
+            {
+                user.UserName,
+                emailConfirmed
+                //aqui se agregan ls campos que quieres devolver al front
+            };
+
+        }
+
+        [HttpGet]
         [Route("EstadosCiviles")]
         //GET: /api/Dashboard/EstadosCiviles
         public async Task<Object> EstadosCiviles()
