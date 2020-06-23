@@ -4,18 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
 using moneyucab_portalweb_back.Entities;
 
 namespace moneyucab_portalweb_back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CobroController : ControllerBase
+    public class TransferController : ControllerBase
     {
         [HttpPost]
         [Route("RealizarCobro")]
-        public IActionResult Cuenta([FromBody]Cobro cobro) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public IActionResult RealizarCobro([FromBody]Cobro cobro) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
 
 

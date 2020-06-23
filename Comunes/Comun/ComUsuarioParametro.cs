@@ -6,10 +6,10 @@ namespace Comunes.Comun
 {
     public class ComUsuarioParametro : EntidadComun, IEntidadComun, IFormularioInsert
     {
-        private int _idUsuario { get; set; }
-        private ComParametro _parametro = new ComParametro();
-        private string _validacion { get; set; }
-        private int _estatus { get; set; }
+        public int _idUsuario { get; set; }
+        public ComParametro _parametro = new ComParametro();
+        public string _validacion { get; set; }
+        public int _estatus { get; set; }
 
         public ComUsuarioParametro()
         {

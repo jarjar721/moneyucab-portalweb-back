@@ -6,15 +6,15 @@ namespace Comunes.Comun
 {
     public class ComOperacionMonedero : EntidadComun, IEntidadComun
     {
-        private ComTipoOperacion _TipoOperacion = new ComTipoOperacion();
-        private ComOperacionTarjeta _OperacionTarjeta = new ComOperacionTarjeta();
-        private ComOperacionCuenta _OperacionCuenta = new ComOperacionCuenta();
-        private int _idOperacionMonedero { get; set; }
-        private int _idUsuario { get; set; }
-        private double _monto { get; set; }
-        private NpgsqlDate _fecha { get; set; }
+        public ComTipoOperacion _TipoOperacion = new ComTipoOperacion();
+        public ComOperacionTarjeta _OperacionTarjeta = new ComOperacionTarjeta();
+        public ComOperacionCuenta _OperacionCuenta = new ComOperacionCuenta();
+        public int _idOperacionMonedero { get; set; }
+        public int _idUsuario { get; set; }
+        public double _monto { get; set; }
+        public NpgsqlDate _fecha { get; set; }
         //private NpgsqlDateTime _hora{ get; set; }
-        private string _referencia { get; set; }
+        public string _referencia { get; set; }
 
         public ComOperacionMonedero()
         {

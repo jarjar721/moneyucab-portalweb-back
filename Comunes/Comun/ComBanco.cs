@@ -6,8 +6,8 @@ namespace Comunes.Comun
     public class ComBanco : EntidadComun, IEntidadComun
     {
         public int _idBanco { get; set; }
-        private string _nombre { get; set; }
-        private int _estatus { get; set; }
+        public string _nombre { get; set; }
+        public int _estatus { get; set; }
 
         public ComBanco()
         {

@@ -295,9 +295,10 @@ BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
-	END IF;
-	RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud,
+	ELSE 
+		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud,
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
+	END IF;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -309,9 +310,10 @@ BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
-	END IF;
-	RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
+	ELSE
+		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
+	END IF;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -323,9 +325,10 @@ BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Consolidado');
-	END IF;
-	RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud,
+	ELSE
+		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud,
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Consolidado');
+	END IF;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -339,9 +342,10 @@ BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
 							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('En Proceso', 'Solicitado');
-	END IF;
-	RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
+	ELSE
+		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
 							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('En Proceso', 'Solicitado');
+	END IF;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -353,9 +357,10 @@ BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
 							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('Cancelado', 'Caducado');
-	END IF;
-	RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
+	ELSE
+		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
 							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Cancelado', 'Caducado');
+	END IF;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -367,9 +372,10 @@ BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
 							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('Consolidado');
+	ELSE
+		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
+							 	Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Consolidado');
 	END IF;
-	RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
-							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Consolidado');
 END
 $BODY$
 LANGUAGE plpgsql;

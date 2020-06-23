@@ -6,11 +6,11 @@ namespace Comunes.Comun
     public class ComCuenta : EntidadComun, IEntidadComun, IFormularioInsert
     {
 
-        private ComTipoCuenta _tipoCuenta = new ComTipoCuenta();
-        private ComBanco _banco = new ComBanco();
-        private int _idCuenta { get; set; }
-        private int _idUsuario { get; set; }
-        private string _numero { get; set; }
+        public ComTipoCuenta _tipoCuenta = new ComTipoCuenta();
+        public ComBanco _banco = new ComBanco();
+        public int _idCuenta { get; set; }
+        public int _idUsuario { get; set; }
+        public string _numero { get; set; }
 
         public ComCuenta()
         {

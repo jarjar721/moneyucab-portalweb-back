@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using moneyucab_portalweb_back.Comandos;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
 using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.FormModels;
@@ -14,7 +16,7 @@ namespace moneyucab_portalweb_back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private UserManager<Usuario> _userManager;
         private SignInManager<Usuario> _signInManager;
@@ -23,7 +25,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         private readonly string clientBaseURI = "http://localhost:4200/#/";
 
-        public UsuarioController(
+        public AuthenticationController(
             UserManager<Usuario> userManager,
             SignInManager<Usuario> signInManager,
             IOptions<ApplicationSettings> appSettings,

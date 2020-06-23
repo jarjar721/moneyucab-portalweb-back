@@ -8,10 +8,10 @@ using System.Collections.Generic;
 
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Utilidades
 {	//este se habia hecho antes de la logica de los comandos por eso no lo usa
-	public class ComandoDatosUsuario
+	public class EntityDatosUsuario
 	{
 		private readonly DatosUsuarioDBContext _datosUsuarioDBContext;
-		public ComandoDatosUsuario(DatosUsuarioDBContext datosUsuarioDBContext)
+		public EntityDatosUsuario(DatosUsuarioDBContext datosUsuarioDBContext)
 		{
 			_datosUsuarioDBContext = datosUsuarioDBContext;
 		}
@@ -24,22 +24,13 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Utilidades
 
 		public Boolean insertar(DatosUsuario _datosUsuario)
 		{
-			try
-			{
 				_datosUsuarioDBContext.DatosUsuario.Add(_datosUsuario);
 				_datosUsuarioDBContext.SaveChanges();
 				return true;
-			}
-			catch (Exception error)
-			{
-				return false;
-			}
 		}
 
 		public Boolean Editar(DatosUsuario _datosUsuario)
 		{
-			try
-			{
 				var datosUsuarioBaseDeDatos = _datosUsuarioDBContext.DatosUsuario.Where(busqueda => busqueda.idUsuario == _datosUsuario.idUsuario).FirstOrDefault();
 
 				datosUsuarioBaseDeDatos.usuario = _datosUsuario.usuario;
@@ -48,30 +39,16 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Utilidades
 				datosUsuarioBaseDeDatos.telefono = _datosUsuario.telefono;
 				datosUsuarioBaseDeDatos.direccion = _datosUsuario.direccion;
 				_datosUsuarioDBContext.SaveChanges();
-
-				return true;
-			}
-			catch(Exception error)
-			{
-				return false;
-			}
+			return true;
 		}
 
 		public Boolean Eliminar(int usuarioID)
 		{
-			try
-			{
 				var usuarioBaseDeDatos = _datosUsuarioDBContext.DatosUsuario.Where(busqueda => busqueda.idUsuario == usuarioID).FirstOrDefault();
 				_datosUsuarioDBContext.Remove(usuarioBaseDeDatos);
 
-				_datosUsuarioDBContext.SaveChanges();
-
-				return true;
-			}
-			catch(Exception error)
-			{
-				return false;
-			}
+				_datosUsuarioDBContext.SaveChanges(); 
+			return true;
 		}
 
 	}

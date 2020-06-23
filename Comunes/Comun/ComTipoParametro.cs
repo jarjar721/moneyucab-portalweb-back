@@ -5,9 +5,9 @@ namespace Comunes.Comun
 {
     public class ComTipoParametro : EntidadComun, IEntidadComun
     {
-        private int _idTipoParametro { get; set; }
-        private string _descripcion { get; set; }
-        private int _estatus { get; set; }
+        public int _idTipoParametro { get; set; }
+        public string _descripcion { get; set; }
+        public int _estatus { get; set; }
 
         public ComTipoParametro()
         {

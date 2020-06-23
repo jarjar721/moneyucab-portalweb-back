@@ -7,14 +7,14 @@ namespace Comunes.Comun
     public class ComTarjeta : EntidadComun, IEntidadComun, IFormularioInsert
     {
 
-        private ComTipoTarjeta _tipoTarjeta = new ComTipoTarjeta();
-        private ComBanco _banco = new ComBanco();
-        private int _idTarjeta { get; set; }
-        private int _idUsuario { get; set; }
-        private int _numero { get; set; }
-        private NpgsqlDate _fecha_vencimiento { get; set; }
-        private int _cvc { get; set; }
-        private int _estatus { get; set; }
+        public ComTipoTarjeta _tipoTarjeta = new ComTipoTarjeta();
+        public ComBanco _banco = new ComBanco();
+        public int _idTarjeta { get; set; }
+        public int _idUsuario { get; set; }
+        public int _numero { get; set; }
+        public NpgsqlDate _fecha_vencimiento { get; set; }
+        public int _cvc { get; set; }
+        public int _estatus { get; set; }
 
         public ComTarjeta()
         {

@@ -6,10 +6,10 @@ namespace Comunes.Comun
 {
     public class ComPersona : EntidadComun, IEntidadComun, IFormularioRegistro
     {
-        private ComEstadoCivil _EstadoCivil = new ComEstadoCivil();
-        private string _nombre { get; set; }
-        private string _apellido { get; set; }
-        private NpgsqlDate _fecha_nacimiento { get; set; }
+        public ComEstadoCivil _EstadoCivil = new ComEstadoCivil();
+        public string _nombre { get; set; }
+        public string _apellido { get; set; }
+        public NpgsqlDate _fecha_nacimiento { get; set; }
 
         public ComPersona()
         {

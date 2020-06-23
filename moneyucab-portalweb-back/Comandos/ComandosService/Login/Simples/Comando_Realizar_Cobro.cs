@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace moneyucab_portalweb_back.Comandos.ComandosService.Utilidades
+namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
 	public class Comando_Realizar_Cobro
 	{

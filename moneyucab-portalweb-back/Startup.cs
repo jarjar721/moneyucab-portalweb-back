@@ -37,7 +37,7 @@ namespace moneyucab_portalweb_back
             services.AddDbContext<DatosUsuarioDBContext> (options =>
                    options.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
 
-            services.AddTransient<ComandoDatosUsuario, ComandoDatosUsuario>();
+            services.AddTransient<EntityDatosUsuario, EntityDatosUsuario>();
             //
             services.AddControllers();
 

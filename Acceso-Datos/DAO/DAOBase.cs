@@ -25,11 +25,11 @@ namespace DAO
             conn_string.Port = 5432;
             conn_string.Username = "postgres";
             //conn_string.Password = "lolazo123";
-            conn_string.Password = "Surfing123";                
+            conn_string.Password = "lolazo123";                
             //conn_string.Database = "postgres";
-            conn_string.Database = "Desarrollo";        
+            conn_string.Database = "postgres";        
             //StringConexion = ConfigurationManager.AppSettings.Get("IdentityConnection");
-            StringConexion = conn_string.ToString();
+            StringConexion = conn_string.ToString(); 
         }
 
         //Operaciones de consulta---------------------------------------------------------------

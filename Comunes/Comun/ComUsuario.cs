@@ -7,20 +7,20 @@ namespace Comunes.Comun
     public class ComUsuario : EntidadComun, IEntidadComun, IFormularioRegistro
     {
 
-        private ComComercio _comercio = new ComComercio();
-        private ComPersona _persona = new ComPersona();
-        private ComTipoIdentificacion _tipoIdentificacion = new ComTipoIdentificacion();
-        private int _idUsuario { get; set; }
-        private string _idEntity { get; set; }
-        private string _usuario { get; set; }
-        private NpgsqlDate _fecha_registro { get; set; }
-        private int _nro_identificacion { get; set; }
-        private string _email { get; set; }
-        private string _telefono { get; set; }
-        private string _direccion { get; set; }
-        private int _estatus { get; set; }
-        private string _contrasena { get; set; }
-        private int _idTipoUsuario { get; set; }
+        public ComComercio _comercio = new ComComercio();
+        public ComPersona _persona = new ComPersona();
+        public ComTipoIdentificacion _tipoIdentificacion = new ComTipoIdentificacion();
+        public int _idUsuario { get; set; }
+        public string _idEntity { get; set; }
+        public string _usuario { get; set; }
+        public NpgsqlDate _fecha_registro { get; set; }
+        public int _nro_identificacion { get; set; }
+        public string _email { get; set; }
+        public string _telefono { get; set; }
+        public string _direccion { get; set; }
+        public int _estatus { get; set; }
+        public string _contrasena { get; set; }
+        public int _idTipoUsuario { get; set; }
 
         public ComUsuario()
         {

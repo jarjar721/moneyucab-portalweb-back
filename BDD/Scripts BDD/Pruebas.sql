@@ -12,7 +12,8 @@ SELECT Cobro(1, 'pjfariakiddo2@gmail.com', 100);
 SELECT Pago_Tarjeta(1, 2, 100, 1);
 SELECT * FROM PAGO; --De acá obtienes la referencia del pago;
 SELECT Reintegro(1, 'pjfariakiddo@gmail.com', --Debes colocar la referencia acá
-				'12020-06-1723:59:53.757907-042');
+				'12020-06-2218:53:42.045715-042');
+				SELECT * FROM Reintegros_Activos(1, 1)
 SELECT * FROM REINTEGRO;
 SELECT Reintegro_Tarjeta(1, 1, 100, --Debes colocar el id del reintegro acá
 						 3);

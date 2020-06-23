@@ -5,11 +5,11 @@ namespace Comunes.Comun
 {
     public class ComParametro : EntidadComun, IEntidadComun
     {
-        private ComTipoParametro _tipoParametro = new ComTipoParametro();
-        private ComFrecuencia _frecuencia = new ComFrecuencia();
+        public ComTipoParametro _tipoParametro = new ComTipoParametro();
+        public ComFrecuencia _frecuencia = new ComFrecuencia();
         public int _idParametro { get; set; }
-        private string _nombre { get; set; }
-        private int _estatus { get; set; }
+        public string _nombre { get; set; }
+        public int _estatus { get; set; }
 
         public ComParametro()
         {

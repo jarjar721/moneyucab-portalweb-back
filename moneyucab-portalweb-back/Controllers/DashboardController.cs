@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using moneyucab_portalweb_back.Comandos;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
 using moneyucab_portalweb_back.Entities;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,7 @@ namespace moneyucab_portalweb_back.Controllers
         //Operaciones de consulta---------------------------------------------------------------
 
         [HttpGet]
+        [Authorize]
         [Route("EstadosCiviles")]
         //GET: /api/Dashboard/EstadosCiviles
         public async Task<Object> EstadosCiviles()
@@ -34,8 +37,7 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-                DAOBase dao = new DAOBase();
-                return Ok(dao.Bancos());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Estados_Civiles().Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -57,8 +59,7 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Tipos_Tarjetas().Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -80,8 +81,7 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Bancos().Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -104,8 +104,7 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Tipos_Cuentas().Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -128,7 +127,7 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Tipos_Parametros().Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -151,7 +150,7 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Frecuencias().Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -174,7 +173,7 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Parametros().Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -196,8 +195,7 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Tipos_Operaciones().Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -219,8 +217,8 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-
-                return Ok();
+                
+                return Ok(await FabricaComandos.Fabricar_Cmd_Tipos_Identificaciones().Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -237,13 +235,13 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("Tarjetas")]
         //GET: /api/Dashboard/Tarjetas
-        public async Task<Object> Tarjetas(int UsuarioId)
+        public async Task<Object> Tarjetas([FromQuery]int UsuarioId)
         {
 
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Tarjetas(UsuarioId).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -260,13 +258,13 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("Cuentas")]
         //GET: /api/Dashboard/Cuentas
-        public async Task<Object> Cuentas(int UsuarioId)
+        public async Task<Object> Cuentas([FromQuery]int UsuarioId)
         {
 
             try
             {
 
-                return Ok();
+                return Ok(FabricaComandos.Fabricar_Cmd_Cuentas(UsuarioId).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -283,13 +281,13 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("ReintegrosActivos")]
         //GET: /api/Dashboard/ReintegrosActivos
-        public async Task<Object> ReintegrosActivos(int UsuarioId, int solicitante)
+        public async Task<Object> ReintegrosActivos([FromQuery] ConsultaIdSol form)
         {
 
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegros_Activos(form.UsuarioId, form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -306,13 +304,13 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("ReintegrosCancelados")]
         //GET: /api/Dashboard/ReintegrosCancelados
-        public async Task<Object> ReintegrosCancelados(int UsuarioId, int solicitante)
+        public async Task<Object> ReintegrosCancelados([FromQuery]ConsultaIdSol form)
         {
 
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegros_Cancelados(form.UsuarioId, form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -329,13 +327,13 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("ReintegrosExitosos")]
         //GET: /api/Dashboard/ReintegrosExitosos
-        public async Task<Object> ReintegrosExitosos(int UsuarioId, int solicitante)
+        public async Task<Object> ReintegrosExitosos([FromQuery]ConsultaIdSol form)
         {
 
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegros_Exitosos(form.UsuarioId, form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -352,13 +350,13 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("CobrosActivos")]
         //GET: /api/Dashboard/CobrosActivos
-        public async Task<Object> CobrosActivos(int UsuarioId, int solicitante)
+        public async Task<Object> CobrosActivos([FromQuery] ConsultaIdSol form)
         {
 
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Cobros_Activos(form.UsuarioId, form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -375,13 +373,13 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("CobrosCancelados")]
         //GET: /api/Dashboard/CobrosCancelados
-        public async Task<Object> CobrosCancelados(int UsuarioId, int solicitante)
+        public async Task<Object> CobrosCancelados([FromQuery] ConsultaIdSol form)
         {
 
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Cobros_Cancelados(form.UsuarioId, form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -398,13 +396,13 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("CobrosExitosos")]
         //GET: /api/Dashboard/CobrosExitosos
-        public async Task<Object> CobrosExitosos(int UsuarioId, int solicitante)
+        public async Task<Object> CobrosExitosos([FromQuery] ConsultaIdSol form)
         {
 
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Cobros_Exitosos(form.UsuarioId, form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -421,13 +419,13 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("ParametrosUsuario")]
         //GET: /api/Dashboard/ParametrosUsuario
-        public async Task<Object> ParametrosUsuario(int UsuarioId)
+        public async Task<Object> ParametrosUsuario([FromQuery]int UsuarioId)
         {
 
             try
             {
 
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Parametros_Usuario(UsuarioId).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
@@ -444,105 +442,13 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("InformacionPersona")]
         //GET: /api/Dashboard/InformacionPersona
-        public async Task<Object> InformacionPersona(string usuario)
+        public async Task<Object> InformacionPersona([FromQuery]string Usuario)
         {
 
             try
             {
 
-                return Ok();
-            }
-            catch (MoneyUcabException ex)
-            {
-                //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
-            }
-        }
-
-        [HttpGet]
-        [Authorize]
-        [Route("SaldoMonedero")]
-        //GET: /api/Dashboard/SaldoMonedero
-        public async Task<Object> SaldoMonedero(int UsuarioId)
-        {
-
-            try
-            {
-
-                return Ok();
-            }
-            catch (MoneyUcabException ex)
-            {
-                //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
-            }
-        }
-
-        [HttpGet]
-        [Authorize]
-        [Route("HistorialOperacionesTarjeta")]
-        //GET: /api/Dashboard/HistorialOperacionesTarjeta
-        public async Task<Object> HistorialOperacionesTarjeta(int tarjetaId)
-        {
-
-            try
-            {
-
-                return Ok();
-            }
-            catch (MoneyUcabException ex)
-            {
-                //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
-            }
-        }
-        
-        [HttpGet]
-        [Authorize]
-        [Route("HistorialOperacionesCuenta")]
-        //GET: /api/Dashboard/HistorialOperacionesCuenta
-        public async Task<Object> HistorialOperacionesCuenta(int CuentaId)
-        {
-
-            try
-            {
-
-                return Ok();
-            }
-            catch (MoneyUcabException ex)
-            {
-                //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
-            }
-        }
-
-        [HttpGet]
-        [Authorize]
-        [Route("HistorialOperacionesMonedero")]
-        //GET: /api/Dashboard/HistorialOperacionesMonedero
-        public async Task<Object> HistorialOperacionesMonedero(int UsuarioId)
-        {
-
-            try
-            {
-
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Informacion_Persona(Usuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {

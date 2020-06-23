@@ -6,8 +6,8 @@ namespace Comunes.Comun
     public class ComTipoTarjeta : EntidadComun, IEntidadComun
     {
         public int _idTipoTarjeta { get; set; }
-        private string _descripcion { get; set; }
-        private int _estatus { get; set; }
+        public string _descripcion { get; set; }
+        public int _estatus { get; set; }
 
         public ComTipoTarjeta()
         {
