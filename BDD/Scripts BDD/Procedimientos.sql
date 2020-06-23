@@ -90,9 +90,12 @@ tipo_cuenta int;
 numero_cuenta varchar:= $3 || 'MONEDERO';
 banco int;
 BEGIN
-		--SELECT "Id" FROM AspNetUsers into entity_user_id WHERE UserName = $3 or Email = $6;
-		INSERT INTO Usuario (/*"idEntity",*/ idtipousuario,idtipoidentificacion,usuario,fecha_registro,nro_identificacion,email,telefono,direccion,estatus)
-		VALUES (/*entity_user_id,*/ $1, $2, $3, current_date, $5, $6, $7, $8, $9);
+		SELECT "Id" FROM AspNetUsers into entity_user_id WHERE UserName = $3 or Email = $6;
+		IF entity_user_id IS NULL THEN
+			RAISE EXCEPTION 'No existe el usuario registrado en Entity';
+		END IF;
+		INSERT INTO Usuario ("idEntity", idtipousuario,idtipoidentificacion,usuario,fecha_registro,nro_identificacion,email,telefono,direccion,estatus)
+		VALUES (entity_user_id, $1, $2, $3, current_date, $5, $6, $7, $8, $9);
 		SELECT IdUsuario FROM Usuario into usuario WHERE Usuario.usuario = $3;
 		INSERT INTO CONTRASENA (idUsuario, contrasena, intentos_fallidos, estatus)
 		VALUES
@@ -132,8 +135,14 @@ CREATE OR REPLACE FUNCTION Registro_Tarjeta(INT, INT, INT, INT, DATE, INT, INT)
 LANGUAGE plpgsql    
 AS $$
 DECLARE
+	numero_tarjeta int;
 BEGIN
-		INSERT INTO Tarjeta (idUsuario, idTipoTarjeta, idBanco, numero, fecha_vencimiento, cvc, estatus) VALUES ($1, $2, $3, $4, $5, $6, $7);
+		SELECT Tarjeta.idTarjeta FROM Tarjeta into numero_tarjeta WHERE Tarjeta.numero = $4 AND Tarjeta.fecha_vencimiento = $5 AND Tarjeta.cvc = 6 AND Tarjeta.Banco = $3;
+		IF numero_tarjeta IS NOT NULL THEN
+			UPDATE Tarjeta SET estatus = 1 WHERE Tarjeta.idTarjeta = numero_tarjeta;
+		ELSE
+			INSERT INTO Tarjeta (idUsuario, idTipoTarjeta, idBanco, numero, fecha_vencimiento, cvc, estatus) VALUES ($1, $2, $3, $4, $5, $6, $7);
+		END IF;
 		RETURN TRUE;
 END;
 $$;
@@ -668,7 +677,10 @@ END;
 $$;
 
 CREATE OR REPLACE FUNCTION Ejecutar_Cierre(INT)
-												RETURNS BOOLEAN
+												RETURNS TABLE(idoperacionesMonedero int, idusuario int, idtipoOperacion int, monto decimal, fecha date, hora time, referencia varchar,
+						 idtipooperacion_tipo_operacion int, descripcion_tipo_operacion varchar, estatus_tipo_operacion int,
+						 idoperaciontarjeta int, idtarjeta int, idusuarioreceptor_op_tarjeta int, fecha_op_tarjeta date, hora_op_tarjeta time, monto_op_tarjeta decimal, referencia_op_tarjeta varchar,
+						 idoperacionCuenta int, idCuenta int, idusuarioreceptor_op_cuenta int, fecha_op_cuenta date, hora_op_cuenta time, monto_op_cuenta decimal, referencia_op_cuenta varchar)
 LANGUAGE plpgsql    
 AS $$
 DECLARE
@@ -678,6 +690,10 @@ DECLARE
 	cuentas CURSOR FOR SELECT *
 						FROM Cuenta A WHERE A.idUsuario = $1;
 	tipoOperacion int;
+	Totalizacion_cuenta double precision;
+	totalizacion_tarjeta double precision
+	op_limit_cuenta int;
+	op_limit_tarjeta int;
 BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '');
 		FOR Tarjeta IN Tarjetas LOOP
@@ -691,7 +707,18 @@ BEGIN
 		SELECT TipoOperacion.idTipoOperacion FROM TipoOperacion into tipoOperacion WHERE descripcion = 'Cierre';
 		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
 			VALUES ($1, tipoOperacion, 0, current_date, current_time, referenciaValid);
-		RETURN TRUE;
+		SELECT OperacionCuenta.idOperacionCuenta FROM OperacionCuenta into op_limit_cuenta
+													JOIN OperacionesMonedero ON OperacionesMonedero.referencia = referenciaValid and OperacionCuenta.referencia = OperacionesMonedero.referencia
+													WHERE OperacionesMonedero.idTipoOperacion = tipoOperacion ORDER BY Fecha DESC LIMIT 1;
+		SELECT OperacionTarjeta.idOperacionTarjeta FROM OperacionTarjeta into op_limit_tarjeta
+													JOIN OperacionesMonedero ON OperacionesMonedero.referencia = referenciaValid and OperacionTarjeta.referencia = OperacionesMonedero.referencia
+													WHERE OperacionesMonedero.idTipoOperacion = tipoOperacion ORDER BY Fecha DESC LIMIT 1;
+		SELECT SUM(COALESCE(OperacionCuenta.monto,0)) FROM OperacionCuenta INTO Totalizacion_Cuenta WHERE OperacionCuenta.idOperacionCuenta > op_limit_cuenta;
+		SELECT SUM(COALESCE(OperacionTarjeta.monto,0)) FROM OperacionTarjeta INTO Totalizacion_Tarjeta WHERE OperacionTarjeta.idOperacionCuenta > op_limit_tarjeta;
+		RETURN QUERY SELECT * FROM OperacionesMonedero JOIN TipoOperacion ON TipoOperacion.idTipoOperacion = OperacionesMonedero.idTipoOperacion
+													LEFT JOIN OperacionTarjeta ON OperacionesMonedero.referencia = OperacionTarjeta.referencia
+													LEFT JOIN OperacionCuenta ON OperacionesMonedero.referencia = OperacionCuenta.referencia
+													WHERE OperacionesMonedero.referencia = referenciaValid ORDER BY OperacionesMonedero.fecha DESC;
 END;
 $$;
 
@@ -709,6 +736,29 @@ tipo_cuenta int;
 banco int;
 BEGIN
 		UPDATE Usuario SET usuario = $1, email= $2, telefono=$3, direccion=$4 WHERE Usuario.idUsuario = $5;
+		RETURN TRUE;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION Eliminar_Tarjeta(INT)
+												RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+BEGIN
+		UPDATE Tarjeta SET estatus = 2 WHERE Tarjeta.idTarjeta = $1;
+		RETURN TRUE;
+END;
+$$;
+
+--No válido
+CREATE OR REPLACE FUNCTION Eliminar_Cuenta(INT)
+												RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+BEGIN
+		UPDATE Cuenta SET estatus = 2 WHERE Cuenta.idCuenta = $1;
 		RETURN TRUE;
 END;
 $$;

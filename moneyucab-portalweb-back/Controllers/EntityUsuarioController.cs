@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
 
 namespace moneyucab_portalweb_back.Controllers
 {

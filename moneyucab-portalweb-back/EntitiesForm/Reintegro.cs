@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.EntitiesForm
 {
-	public class Cobro
+	public class Reintegro
 	{
 		public int idUsuarioSolicitante { get; set; }
 		public string emailPagador { get; set; }
-		public int monto { get; set; }
+		public string referencia { get; set; }
 	}
 }

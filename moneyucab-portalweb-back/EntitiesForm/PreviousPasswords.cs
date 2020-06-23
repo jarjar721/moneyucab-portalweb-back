@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace moneyucab_portalweb_back.Entities
+namespace moneyucab_portalweb_back.EntitiesForm
 {
     public class PreviousPasswords
     {

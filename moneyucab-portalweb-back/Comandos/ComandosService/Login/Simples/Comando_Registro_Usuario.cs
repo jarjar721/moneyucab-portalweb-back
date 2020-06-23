@@ -1,9 +1,11 @@
 ﻿using Comandos;
+using Excepciones;
 using Microsoft.AspNetCore.Identity;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
 using moneyucab_portalweb_back.Models;
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
@@ -37,6 +39,19 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             };
             // Se crea el usuario en la base de datos
             var result = await _userManager.CreateAsync(usuario, _userModel.Password);
+
+            //Se debe ingresar en este punto la validación DAO con el sistema propio y no con Identity
+            try
+            {
+                await FabricaComandos.Fabricar_Cmd_Registro_Usuario_DAO(_userModel).Ejecutar();
+            }
+            catch(Exception ex)
+            {
+                await _userManager.DeleteAsync(usuario);
+                throw new MoneyUcabException(ex);
+            }
+            //-------------------------------------------------------
+
             // Se genera el codigo para confirmar el email del usuario recien creado
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
             // Se codifica el token para poder enviarlo por parametro
@@ -67,10 +82,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             };
 
             // Se envía el mensaje al correo del usuario registrado
-            await _emailSender.SendEmailAsync(emailDetails);
-            //Se debe ingresar en este punto la validación DAO con el sistema propio y no con Identity
-
-            //-------------------------------------------------------
+            _emailSender.SendEmailAsync(emailDetails);
 
             return result;
         }

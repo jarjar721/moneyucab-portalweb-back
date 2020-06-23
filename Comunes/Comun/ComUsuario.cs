@@ -40,7 +40,7 @@ namespace Comunes.Comun
             this._email = email;
             this._telefono = telefono;
             this._direccion = direccion;
-            this._estatus = estatus;
+            this._estatus = 1;
             this._tipoIdentificacion = tipoIdentificacion;
             this._idTipoUsuario = 1;
             this._contrasena = contrasena;

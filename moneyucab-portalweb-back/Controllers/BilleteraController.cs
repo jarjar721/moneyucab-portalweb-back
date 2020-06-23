@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
+using moneyucab_portalweb_back.Comandos;
+using Excepciones;
 
 namespace moneyucab_portalweb_back.Controllers
 {
@@ -16,20 +18,22 @@ namespace moneyucab_portalweb_back.Controllers
     {
         [HttpPost] // api/Billetera/cuenta
         [Route("Cuenta")]
-        public IActionResult Cuenta([FromBody]BilleteraCuenta billeteraCuenta) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<IActionResult> CuentaAsync([FromBody]BilleteraCuenta billeteraCuenta) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
 
 
             try
             {
-                Comando_Registrar_Billetera_Cuenta comando_Registrar_Billetera_Cuenta = new Comando_Registrar_Billetera_Cuenta(billeteraCuenta.idUsuario,billeteraCuenta.idTipoCuenta,billeteraCuenta.idBanco,billeteraCuenta.numero);
-                var resultado = comando_Registrar_Billetera_Cuenta.Ejecutar();
-                return Ok(resultado);
-                
+                return Ok(await FabricaComandos.Fabricar_Cmd_Registrar_Cuenta(billeteraCuenta.idUsuario, billeteraCuenta.idTipoCuenta, billeteraCuenta.idBanco, billeteraCuenta.numero).Ejecutar());
+
             }
-            catch (Exception error)
+            catch (MoneyUcabException ex)
             {
-                return BadRequest(false);
+                return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
             }
 
 
@@ -37,42 +41,46 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost] // api/Billetera/tarjeta
         [Route("tarjeta")]
-        public IActionResult Tarjeta([FromBody]BilleteraTarjeta billeteraTarjeta) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<IActionResult> TarjetaAsync([FromBody]BilleteraTarjeta billeteraTarjeta) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
 
 
             try
             {
-
-                Comando_Registrar_Billetera_Tarjeta comando_Registrar_Billetera_Tarjeta = new Comando_Registrar_Billetera_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco, billeteraTarjeta.numero, billeteraTarjeta.cvc, billeteraTarjeta.estatus);
-                var resultado = comando_Registrar_Billetera_Tarjeta.Ejecutar();
-                return Ok(resultado);
+                return Ok(await FabricaComandos.Fabricar_Cmd_Registrar_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco,
+                    billeteraTarjeta.numero, billeteraTarjeta.fecha_vencimiento, billeteraTarjeta.cvc, billeteraTarjeta.estatus).Ejecutar());
             }
-            catch (Exception error)
+            catch (MoneyUcabException ex)
             {
-                return BadRequest(false);
+                return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
             }
 
 
         }
 
+        //Comando inválido por los momentos
         [HttpDelete] // api/Billetera/eliminarcuenta
         [Route("EliminarCuenta")]
-        public IActionResult EliminarCuenta([FromBody]BilleteraCuenta billeteraCuenta) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<IActionResult> EliminarCuentaAsync([FromQuery]int CuentaId)
         {
 
 
             try
             {
-                Comando_Eliminar_Billetera_Cuenta comando_Eliminar_Billetera_Cuenta = new Comando_Eliminar_Billetera_Cuenta(billeteraCuenta.idUsuario, billeteraCuenta.idTipoCuenta, billeteraCuenta.idBanco, billeteraCuenta.numero);
-                comando_Eliminar_Billetera_Cuenta.Ejecutar();
-                var resultado = comando_Eliminar_Billetera_Cuenta.eliminacionCorrecta;
-                return Ok(resultado);
+                return Ok(await FabricaComandos.Fabricar_Cmd_Eliminar_Cuenta(CuentaId).Ejecutar());
 
             }
-            catch (Exception error)
+            catch (MoneyUcabException ex)
             {
-                return BadRequest(false);
+                return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
             }
 
 
@@ -80,20 +88,21 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpDelete] // api/Billetera/eliminartarjeta
         [Route("EliminarTarjeta")]
-        public IActionResult EliminarTarjeta([FromBody]BilleteraTarjeta billeteraTarjeta) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<IActionResult> EliminarTarjetaAsync([FromQuery]int TarjetaId)
         {
 
 
             try
             {
-                Comando_Eliminar_Billetera_Tarjeta comando_Eliminar_Billetera_Tarjeta = new Comando_Eliminar_Billetera_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco, billeteraTarjeta.numero, billeteraTarjeta.cvc, billeteraTarjeta.estatus);
-                comando_Eliminar_Billetera_Tarjeta.Ejecutar();
-                var resultado = comando_Eliminar_Billetera_Tarjeta.eliminacionCorrecta;
-                return Ok(resultado);
+                return Ok( await FabricaComandos.Fabricar_Cmd_Eliminar_Tarjeta(TarjetaId).Ejecutar());
             }
-            catch (Exception error)
+            catch (MoneyUcabException ex)
             {
-                return BadRequest(false);
+                return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
             }
 
 

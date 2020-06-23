@@ -269,10 +269,11 @@ CREATE INDEX "IX_AspNetRoleClaims_RoleId"
 
 CREATE TABLE public."PreviousPasswords"
 (
+	"PasswordID" INT NOT NULL,
     "PasswordHash" VARCHAR(1000) NOT NULL,
     "FechaCreacion" DATE NOT NULL,
     "UsuarioID" text,
-    CONSTRAINT "PK_PreviousPasswords" PRIMARY KEY ("PasswordHash"),
+    CONSTRAINT "PK_PreviousPasswords" PRIMARY KEY ("PasswordID"),
     CONSTRAINT "FK_PreviousPasswords_AspNetUsers_UsuarioID" FOREIGN KEY ("UsuarioID")
         REFERENCES public."AspNetUsers" ("Id") MATCH SIMPLE
         ON UPDATE NO ACTION

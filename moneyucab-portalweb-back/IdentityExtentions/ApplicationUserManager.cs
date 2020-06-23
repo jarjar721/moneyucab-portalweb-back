@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
