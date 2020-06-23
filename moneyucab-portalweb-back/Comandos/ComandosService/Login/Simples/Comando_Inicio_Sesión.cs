@@ -55,7 +55,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
 
-                return (new { token });
+                return (new { token, userID = user.Id });
 
             }
             //Realiza un throw con el error especificado.
