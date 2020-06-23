@@ -41,7 +41,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost]
         [Route("Register")]
-        //Post: /api/Usuario/Register
+        //Post: /api/Authentication/Register
         public async Task<Object> Register(RegistrationModel userModel)
         {
             try
@@ -70,14 +70,14 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost]
         [Route("Login")]
-        //Post: /api/Usuario/Login
+        //Post: /api/Authentication/Login
         public async Task<IActionResult> Login(LoginModel model)
         {
             try
             {
                 // Busco el usuario en la base de datos - Get user in database
                 await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email, null).Ejecutar();
-                await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
+                // await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
                 // Obtengo el resultado de iniciar sesión 
                 var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings, _signInManager).Ejecutar();
                 return Ok(result);
@@ -97,7 +97,7 @@ namespace moneyucab_portalweb_back.Controllers
         [HttpPost]
         [Route("ConfirmedEmail")]
         //[AllowAnonymous]
-        //Post: /api/Usuario/ConfirmedEmail
+        //Post: /api/Authentication/ConfirmedEmail
         public async Task<IActionResult> ConfirmEmail(ConfirmEmailModel model)
         {
             try
@@ -127,7 +127,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost]
         [Route("ForgotPasswordEmail")]
-        //Post: /api/Usuario/ForgotPasswordEmail
+        //Post: /api/Authentication/ForgotPasswordEmail
         public async Task<IActionResult> SendForgotPasswordEmail(ForgotPasswordModel model)
         {
             try
@@ -152,7 +152,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost]
         [Route("ResetPassword")]
-        //Post: /api/Usuario/ResetPassword
+        //Post: /api/Authentication/ResetPassword
         public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
         {
             try
