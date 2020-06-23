@@ -12,12 +12,16 @@ namespace moneyucab_portalweb_back.EntitiesForm
         }
 
         [Key, Column(Order = 0)]
-        public string PasswordHash { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid PasswordID { get; set; }
 
         [Column(Order = 1)]
-        public DateTime FechaCreacion { get; set; }
+        public string PasswordHash { get; set; }
 
         [Column(Order = 2)]
+        public DateTime FechaCreacion { get; set; }
+
+        [Column(Order = 3)]
         public string UsuarioID { get; set; }
 
         public virtual Usuario Usuario { get; set; }
