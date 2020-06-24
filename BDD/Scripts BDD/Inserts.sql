@@ -8,7 +8,7 @@
 3: bloqueado - No puede realizar operaciones ni ingresar a la plataforma según su contexto
 4: inactivo - No se puede volver a usar
 */
-
+select * from usuario;
 
 --Estado Civil--
 --Casado: C

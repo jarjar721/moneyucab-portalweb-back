@@ -28,17 +28,17 @@ namespace moneyucab_portalweb_back.EntitiesForm
         {
             if (this.comercio)
             {
-                ComEstadoCivil estadoCivil = new ComEstadoCivil(1, "", 's', 1);
-                ComPersona persona = new ComPersona(estadoCivil, nombre, apellido, new NpgsqlDate(ano_nacimiento, mes_nacimiento, dia_nacimiento));
+                ComComercio comercio_reg = new ComComercio(razon_social, nombre, apellido);
                 ComTipoIdentificacion tipoIdentificacion = new ComTipoIdentificacion(idTipoIdentificacion, 'v', "", 1);
-                ComUsuario usuario = new ComUsuario(null, persona, tipoIdentificacion, 0, "", UserName, new NpgsqlDate(ano_registro, mes_registro, dia_registro), nro_identificacion, Email, telefono, direccion, 1, Password);
+                ComUsuario usuario = new ComUsuario(comercio_reg, null, tipoIdentificacion, 0, "", UserName, new NpgsqlDate(ano_registro, mes_registro, dia_registro), nro_identificacion, Email, telefono, direccion, 1, Password);
                 return usuario;
             }
             else
             {
                 ComTipoIdentificacion tipoIdentificacion = new ComTipoIdentificacion(idTipoIdentificacion, 'v', "", 1);
-                ComComercio comercio = new ComComercio("Carnicería C.A", "Pedro", "Faria");
-                ComUsuario usuario = new ComUsuario(comercio, null, tipoIdentificacion, 0, "", UserName, new NpgsqlDate(ano_registro, mes_registro, dia_registro), nro_identificacion, Email, telefono, direccion, 1, Password);
+                ComEstadoCivil estadoCivil = new ComEstadoCivil(1, "", 's', 1);
+                ComPersona persona = new ComPersona(estadoCivil, nombre, apellido, new NpgsqlDate(ano_nacimiento, mes_nacimiento, dia_nacimiento));
+                ComUsuario usuario = new ComUsuario(null, persona, tipoIdentificacion, 0, "", UserName, new NpgsqlDate(ano_registro, mes_registro, dia_registro), nro_identificacion, Email, telefono, direccion, 1, Password);
                 return usuario;
             }
         }

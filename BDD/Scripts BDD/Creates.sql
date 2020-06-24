@@ -269,7 +269,7 @@ CREATE INDEX "IX_AspNetRoleClaims_RoleId"
 
 CREATE TABLE public."PreviousPasswords"
 (
-	"PasswordID" INT NOT NULL,
+	"PasswordID" uuid not null,
     "PasswordHash" VARCHAR(1000) NOT NULL,
     "FechaCreacion" DATE NOT NULL,
     "UsuarioID" text,
@@ -350,7 +350,7 @@ CREATE TABLE IF NOT EXISTS Public.Usuario (
   CONSTRAINT "FK_Usuario_TipoIdentificación" FOREIGN KEY (idTipoIdentificacion)
         REFERENCES public.TipoIdentificacion (idTipoIdentificacion) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE CASCADE--,
+        ON DELETE CASCADE,
   CONSTRAINT "FK_Usuario_Entity" FOREIGN KEY ("idEntity")
         REFERENCES public."AspNetUsers" ("Id") MATCH SIMPLE
         ON UPDATE NO ACTION

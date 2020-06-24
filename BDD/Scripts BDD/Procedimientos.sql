@@ -90,7 +90,7 @@ tipo_cuenta int;
 numero_cuenta varchar:= $3 || 'MONEDERO';
 banco int;
 BEGIN
-		SELECT "Id" FROM AspNetUsers into entity_user_id WHERE UserName = $3 or Email = $6;
+		SELECT "Id" FROM "AspNetUsers" into entity_user_id WHERE "AspNetUsers"."UserName" = $3 or "AspNetUsers"."Email" = $6;
 		IF entity_user_id IS NULL THEN
 			RAISE EXCEPTION 'No existe el usuario registrado en Entity';
 		END IF;
@@ -691,7 +691,7 @@ DECLARE
 						FROM Cuenta A WHERE A.idUsuario = $1;
 	tipoOperacion int;
 	Totalizacion_cuenta double precision;
-	totalizacion_tarjeta double precision
+	totalizacion_tarjeta double precision;
 	op_limit_cuenta int;
 	op_limit_tarjeta int;
 BEGIN

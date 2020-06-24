@@ -49,7 +49,7 @@ namespace Comunes.Comun
         public void LlenadoDataFormPersona(NpgsqlCommand ComandoSQL)
         {
             //ComandoSQL.Parameters.Add(new NpgsqlParameter("EntityId", this._idEntity));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoUsuarioId", this._idUsuario));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoUsuarioId", this._idTipoUsuario));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoIdentificacionId", this._tipoIdentificacion._idTipoIdentificacion));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("Usuario", this._usuario));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("FechaRegistro", this._fecha_registro));
