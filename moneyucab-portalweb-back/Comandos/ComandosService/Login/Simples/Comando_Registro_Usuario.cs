@@ -43,7 +43,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             //Se debe ingresar en este punto la validación DAO con el sistema propio y no con Identity
             try
             {
-                // await FabricaComandos.Fabricar_Cmd_Registro_Usuario_DAO(_userModel).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Registro_Usuario_DAO(_userModel).Ejecutar();
             }
             catch(Exception ex)
             {
