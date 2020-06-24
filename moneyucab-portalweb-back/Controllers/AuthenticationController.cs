@@ -1,4 +1,5 @@
 ﻿using Excepciones;
+using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -78,7 +79,15 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
                 // Busco el usuario en la base de datos - Get user in database
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.email, model.email, null).Ejecutar();
+                try
+                {
+                    await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.email, model.email, null).Ejecutar();
+                }
+                catch (UsuarioExistenteException ex)
+                {
+                    if (ex.codigo != 17)
+                        UsuarioExistenteException.UsuarioNoExistente();
+                }
                 // await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
                 // Obtengo el resultado de iniciar sesión 
                 var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings, _signInManager).Ejecutar();
