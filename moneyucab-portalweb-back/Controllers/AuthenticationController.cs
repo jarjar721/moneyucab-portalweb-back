@@ -55,7 +55,7 @@ namespace moneyucab_portalweb_back.Controllers
                 //Se realiza el registro del usuario
                 var result = await FabricaComandos.Fabricar_Cmd_Registro_Usuario(_userManager, UserModel, _appSettings, _emailSender).Ejecutar();
 
-                return Ok(new { key = "RegisterMessage", message = "Registro exitoso" });
+                return Ok(new { key = "RegisterMessage", message = "Registro exitoso" , result});
             }
             catch (MoneyUcabException ex)
             {
@@ -82,7 +82,7 @@ namespace moneyucab_portalweb_back.Controllers
                 // await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
                 // Obtengo el resultado de iniciar sesión 
                 var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings, _signInManager).Ejecutar();
-                return Ok(new { key = "LoginMessage", message = "Ingreso exitoso" });
+                return Ok(new { key = "LoginMessage", message = "Ingreso exitoso", result });
             }
             catch (MoneyUcabException ex)
             {
@@ -110,8 +110,9 @@ namespace moneyucab_portalweb_back.Controllers
                 //Busco al usuario por su ID
 
                 await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, null, null, model.idUsuario).Ejecutar();
+                var result = await FabricaComandos.Fabricar_Cmd_Confirmar_Email(model.idUsuario, _userManager, model).Ejecutar();
                 //Se responde positivamente por el proceso.
-                return Ok(await FabricaComandos.Fabricar_Cmd_Confirmar_Email(model.idUsuario, _userManager, model).Ejecutar());
+                return Ok(new { key = "ModificationSuccess", message = "¡Modificación exitosa!", result });
             }
             catch (MoneyUcabException ex)
             {
@@ -136,8 +137,8 @@ namespace moneyucab_portalweb_back.Controllers
                 // Busco el usuario en la base de datos - Get user in database
                 await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.email, model.email, null).Ejecutar();
                 //Proceso de envío y recuperación de contraseña.    
-                await FabricaComandos.Fabricar_Cmd_Olvido_Contraseña(_userManager, model, _appSettings, _emailSender).Ejecutar();
-                return Ok(new { key = "ForgotPasswordEmailSent", message = "Un mensaje ha sido enviado a su email con instrucciones para restablecer su contraseña" });
+                var result = await FabricaComandos.Fabricar_Cmd_Olvido_Contraseña(_userManager, model, _appSettings, _emailSender).Ejecutar();
+                return Ok(new { key = "ForgotPasswordEmailSent", message = "Un mensaje ha sido enviado a su email con instrucciones para restablecer su contraseña", result});
             }
             catch (MoneyUcabException ex)
             {
@@ -163,9 +164,9 @@ namespace moneyucab_portalweb_back.Controllers
 
                 // Busco al usuario por su ID
                 await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, null, null, model.idUsuario).Ejecutar();
-                await FabricaComandos.Fabricar_Cmd_Resetear_Password(_userManager, model).Ejecutar();
+                var result = await FabricaComandos.Fabricar_Cmd_Resetear_Password(_userManager, model).Ejecutar();
 
-                return Ok(new { key = "ResetPasswordSuccess", message = "¡Contraseña restablecida!" });
+                return Ok(new { key = "ResetPasswordSuccess", message = "¡Contraseña restablecida!", result});
             }
             catch (MoneyUcabException ex)
             {
@@ -185,7 +186,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Modificar_Usuario(formulario.usuario, formulario.email, formulario.telefono, formulario.direccion, formulario.idUsuario).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Modificar_Usuario(formulario.usuario, formulario.email, formulario.telefono, formulario.direccion, formulario.idUsuario).Ejecutar();
+                return Ok(new { key = "ModificationSuccess", message = "¡Modificación exitosa!" , result});
             }
             catch (MoneyUcabException ex)
             {

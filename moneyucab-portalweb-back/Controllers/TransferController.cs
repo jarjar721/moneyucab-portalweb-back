@@ -24,7 +24,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Realizar_Cobro(Cobro.idUsuarioSolicitante, Cobro.emailPagador, Cobro.monto).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Realizar_Cobro(Cobro.idUsuarioSolicitante, Cobro.emailPagador, Cobro.monto).Ejecutar();
+                return Ok(new { key = "RealizarCobro", message = "Cobro realizado", result });
 
             }
             catch (MoneyUcabException ex)
@@ -44,7 +45,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Solicitar_Reintegro(Reintegro.idUsuarioSolicitante, Reintegro.emailPagador, Reintegro.referencia).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Solicitar_Reintegro(Reintegro.idUsuarioSolicitante, Reintegro.emailPagador, Reintegro.referencia).Ejecutar();
+                return Ok(new { key = "SolicitudReintegro", message = "Reintegro solicitado", result });
 
             }
             catch (MoneyUcabException ex)
@@ -64,7 +66,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Cancelar_Cobro(IdCobro).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Cancelar_Cobro(IdCobro).Ejecutar();
+                return Ok(new { key = "CancelarCobro", message = "Cobro cancelado", result });
 
             }
             catch (MoneyUcabException ex)
@@ -84,7 +87,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Cancelar_Reintegro(IdReintegro).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Cancelar_Reintegro(IdReintegro).Ejecutar();
+                return Ok(new { key = "CancelarReintegro", message = "Reintegro cancelado", result });
 
             }
             catch (MoneyUcabException ex)
@@ -104,7 +108,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Pago_Cuenta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Pago_Cuenta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar();
+                return Ok(new { key = "RealizarPagoCuenta", message = "Pago realizado", result });
 
             }
             catch (MoneyUcabException ex)
@@ -124,7 +129,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Pago_Tarjeta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Pago_Tarjeta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar();
+                return Ok(new { key = "RealizarPagoTarjeta", message = "Pago realizado", result });
 
             }
             catch (MoneyUcabException ex)
@@ -144,7 +150,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Pago_Monedero(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Pago_Monedero(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar();
+                return Ok(new { key = "RealizarPagoMonedero", message = "Pago realizado", result });
 
             }
             catch (MoneyUcabException ex)
@@ -164,7 +171,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegro_Cuenta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Reintegro_Cuenta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar();
+                return Ok(new { key = "RealizarReintegroCuenta", message = "Reintegro realizado", result });
 
             }
             catch (MoneyUcabException ex)
@@ -184,7 +192,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegro_Tarjeta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Reintegro_Tarjeta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar();
+                return Ok(new { key = "RealizarReintegroTarjeta", message = "Reintegro realizado", result });
 
             }
             catch (MoneyUcabException ex)
@@ -204,7 +213,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegro_Monedero(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Reintegro_Monedero(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar();
+                return Ok(new { key = "RealizarReintegroMonedero", message = "Reintegro realizado", result });
 
             }
             catch (MoneyUcabException ex)
@@ -225,7 +235,8 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Establecer_Parametro(Formulario.idUsuario, Formulario.idParametro, Formulario.validacion, Formulario.estatus).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Establecer_Parametro(Formulario.idUsuario, Formulario.idParametro, Formulario.validacion, Formulario.estatus).Ejecutar();
+                return Ok(new { key = "EstablecerParametro", message = "Parametro Establecido", result });
 
             }
             catch (MoneyUcabException ex)

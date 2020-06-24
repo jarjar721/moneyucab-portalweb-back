@@ -24,8 +24,8 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-                await FabricaComandos.Fabricar_Cmd_Registrar_Cuenta(BilleteraCuenta.idUsuario, BilleteraCuenta.idTipoCuenta, BilleteraCuenta.idBanco, BilleteraCuenta.numero).Ejecutar();
-                return Ok(new { key = "RegistoCuenta", message = "Registro exitoso" });
+                var result = await FabricaComandos.Fabricar_Cmd_Registrar_Cuenta(BilleteraCuenta.idUsuario, BilleteraCuenta.idTipoCuenta, BilleteraCuenta.idBanco, BilleteraCuenta.numero).Ejecutar();
+                return Ok(new { key = "RegistoCuenta", message = "Registro exitoso" , result});
 
             }
             catch (MoneyUcabException ex)
@@ -48,9 +48,9 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-                await FabricaComandos.Fabricar_Cmd_Registrar_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco,
+                var result = await FabricaComandos.Fabricar_Cmd_Registrar_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco,
                     billeteraTarjeta.numero, billeteraTarjeta.fechaVencimiento, billeteraTarjeta.cvc, billeteraTarjeta.estatus).Ejecutar();
-                return Ok(new { key = "RegistoTarjeta", message = "Registro exitoso" });
+                return Ok(new { key = "RegistoTarjeta", message = "Registro exitoso", result  });
             }
             catch (MoneyUcabException ex)
             {
@@ -73,8 +73,8 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-                await FabricaComandos.Fabricar_Cmd_Eliminar_Cuenta(CuentaId).Ejecutar();
-                return Ok(new { key = "EliminacionTarjeta", message = "Eliminacion exitosa" });
+                var result = await FabricaComandos.Fabricar_Cmd_Eliminar_Cuenta(CuentaId).Ejecutar();
+                return Ok(new { key = "EliminacionTarjeta", message = "Eliminacion exitosa", result });
 
             }
             catch (MoneyUcabException ex)
@@ -97,8 +97,8 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-                await FabricaComandos.Fabricar_Cmd_Eliminar_Tarjeta(TarjetaId).Ejecutar();
-                return Ok(new { key = "EliminacionTarjeta", message = "Eliminacion exitosa" });
+                var result = await FabricaComandos.Fabricar_Cmd_Eliminar_Tarjeta(TarjetaId).Ejecutar();
+                return Ok(new { key = "EliminacionTarjeta", message = "Eliminacion exitosa", result });
             }
             catch (MoneyUcabException ex)
             {

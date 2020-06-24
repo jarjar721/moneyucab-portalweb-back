@@ -48,7 +48,7 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try {
                 var resultado = _comandoDatosUsuario.Insertar(DatosUsuario);
-                return Ok(resultado);
+                return Ok(new { key = "InsertionSuccess", message = "¡Inserción exitosa!", resultado});
             }
             catch (MoneyUcabException ex)
             {
@@ -68,7 +68,7 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
                 var resultado = _comandoDatosUsuario.Editar(DatosUsuario);
-                return Ok(resultado);
+                return Ok(new { key = "ModificationSuccess", message = "¡Modificación exitosa!", resultado});
             }
             catch (MoneyUcabException ex)
             {
@@ -86,7 +86,7 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try{
                 var resultado = _comandoDatosUsuario.Eliminar(IdUsuario);
-                return Ok(resultado);
+                return Ok(new { key = "EliminationSuccess", message = "¡Eliminación exitosa!", resultado });
             }
             catch (MoneyUcabException ex)
             {
