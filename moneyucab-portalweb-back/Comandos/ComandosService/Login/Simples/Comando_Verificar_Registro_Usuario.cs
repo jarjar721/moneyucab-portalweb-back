@@ -13,10 +13,10 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
         private UserManager<Usuario> _userManager;
         private RegistrationModel _userModel;
 
-        public Comando_Verificar_Registro_Usuario(UserManager<Usuario> userManager, RegistrationModel userModel)
+        public Comando_Verificar_Registro_Usuario(UserManager<Usuario> UserManager, RegistrationModel UserModel)
         {
-            this._userManager = userManager;
-            this._userModel = userModel;
+            this._userManager = UserManager;
+            this._userModel = UserModel;
         }
 
         async public Task<Object> Ejecutar()
@@ -25,11 +25,11 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             // Chequeo que el username no este registrado
             try
             {
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, _userModel.UserName, _userModel.Email, null).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, _userModel.usuario, _userModel.email, null).Ejecutar();
             }
             catch (UsuarioExistenteException ex)
             {
-                if (ex.Codigo == 11)
+                if (ex.codigo == 11)
                 {
                     //Se captura si no existe previamente el usuario.
                     //Se debe ingresar en este punto la validación DAO con el sistema propio y no con Identity

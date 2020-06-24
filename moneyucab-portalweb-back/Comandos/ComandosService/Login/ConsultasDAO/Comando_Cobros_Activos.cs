@@ -9,17 +9,17 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 {
 	public class Comando_Cobros_Activos
 	{
-		private int UsuarioId;
-		private int solicitante;
-		public Comando_Cobros_Activos(int UsuarioId, int solicitante)
+		private int _idUsuario;
+		private int _solicitante;
+		public Comando_Cobros_Activos(int IdUsuario, int Solicitante)
 		{
-			this.UsuarioId = UsuarioId;
-			this.solicitante = solicitante;
+			this._idUsuario = IdUsuario;
+			this._solicitante = Solicitante;
 		}
 		async public Task<List<ComPago>> Ejecutar()
 		{
-			DAOBase dao = FabricaDAO.crearDaoBase();
-			return dao.CobrosActivos(this.UsuarioId, this.solicitante);
+			DAOBase dao = FabricaDAO.CrearDaoBase();
+			return dao.CobrosActivos(this._idUsuario, this._solicitante);
 		}
 		
 		

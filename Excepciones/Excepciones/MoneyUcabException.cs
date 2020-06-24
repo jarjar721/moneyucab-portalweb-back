@@ -8,31 +8,31 @@ namespace Excepciones
         protected int _codigo;
         protected Exception _excepcionOrigen;
 
-        public MoneyUcabException(Exception ex)
+        public MoneyUcabException(Exception Ex)
         {
-            this.ExcepcionOrigen = ex;
+            this.excepcionOrigen = Ex;
         }
 
-        public MoneyUcabException(string error, int codigo)
+        public MoneyUcabException(string Error, int Codigo)
         {
-            this.Error = error;
-            this.Codigo = codigo;
+            this.error = Error;
+            this.codigo = Codigo;
         }
 
-        public MoneyUcabException(Exception ex, string error, int codigo)
+        public MoneyUcabException(Exception Ex, string Error, int Codigo)
         {
-            this.ExcepcionOrigen = ex;
-            this.Error = error;
-            this.Codigo = codigo;
+            this.excepcionOrigen = Ex;
+            this.error = Error;
+            this.codigo = Codigo;
         }
 
-        public string Error
+        public string error
         {
             get { return _error; }
             set { _error = value; }
         }
 
-        public int Codigo
+        public int codigo
         {
             get { return _codigo; }
             set { _codigo = value; }
@@ -40,20 +40,20 @@ namespace Excepciones
 
         public MoneyUcabException() { }
 
-        public Exception ExcepcionOrigen
+        public Exception excepcionOrigen
         {
             get { return _excepcionOrigen; }
             set { _excepcionOrigen = value; }
         }
 
-        public Object response()
+        public Object Response()
         {
-            return new { error = this.Error, codigo = this.Codigo };
+            return new { error = this.error, codigo = this.codigo };
         }
 
-        public static Object response_error_desconocido(Exception ex)
+        public static Object ResponseErrorDesconocido(Exception Ex)
         {
-            return new { Error = "Error desconocido. Comunicarse con el administrador e informar: " + ex.StackTrace };
+            return new { Error = "Error desconocido. Comunicarse con el administrador e informar: " + Ex.StackTrace };
         }
     }
 }

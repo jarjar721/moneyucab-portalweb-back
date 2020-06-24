@@ -30,63 +30,63 @@ namespace moneyucab_portalweb_back.IdentityExtentions
         {
         }
 
-        public override async Task<IdentityResult> CreateAsync(Usuario user, string password)
+        public override async Task<IdentityResult> CreateAsync(Usuario User, string Password)
         {
-            await base.CreateAsync(user, password);
-            await AddToPreviousPasswordsAsync(user, password);
+            await base.CreateAsync(User, Password);
+            await AddToPreviousPasswordsAsync(User, Password);
             return await Task.FromResult(IdentityResult.Success);
         }
 
-        public override async Task<IdentityResult> ChangePasswordAsync(Usuario user, string currentPassword, string newPassword)
+        public override async Task<IdentityResult> ChangePasswordAsync(Usuario User, string CurrentPassword, string NewPassword)
         {
-            if (await IsPreviousPassword(user.Id, newPassword))
+            if (await IsPreviousPassword(User.Id, NewPassword))
             {
                 return await Task.FromResult(IdentityResult.Failed());
             }
-            var result = await base.ChangePasswordAsync(user, currentPassword, newPassword);
+            var result = await base.ChangePasswordAsync(User, CurrentPassword, NewPassword);
             if (result.Succeeded)
             {
-                await AddToPreviousPasswordsAsync(await FindByIdAsync(user.Id), PasswordHasher.HashPassword(user, newPassword));
+                await AddToPreviousPasswordsAsync(await FindByIdAsync(User.Id), PasswordHasher.HashPassword(User, NewPassword));
             }
             return result;
         }
 
-        public override async Task<IdentityResult> ResetPasswordAsync(Usuario user, string token, string newPassword)
+        public override async Task<IdentityResult> ResetPasswordAsync(Usuario User, string Token, string NewPassword)
         {
-            if (await IsPreviousPassword(user.Id, newPassword))
+            if (await IsPreviousPassword(User.Id, NewPassword))
             {
                 return await Task.FromResult(IdentityResult.Failed());
             }
-            var result = await base.ResetPasswordAsync(user, token, newPassword);
+            var result = await base.ResetPasswordAsync(User, Token, NewPassword);
             if (result.Succeeded)
             {
-                await AddToPreviousPasswordsAsync(await FindByIdAsync(user.Id), PasswordHasher.HashPassword(user, newPassword));
+                await AddToPreviousPasswordsAsync(await FindByIdAsync(User.Id), PasswordHasher.HashPassword(User, NewPassword));
             }
             return result;
         }
 
-        public Task AddToPreviousPasswordsAsync(Usuario user, string password)
+        public Task AddToPreviousPasswordsAsync(Usuario User, string Password)
         {
-            user.PreviousUserPasswords.Add(
+            User.PreviousUserPasswords.Add(
                 new PreviousPasswords()
                 {
-                    UsuarioID = user.Id,
-                    PasswordHash = password
+                    UsuarioID = User.Id,
+                    PasswordHash = Password
                 }
             );
-            return UpdateAsync(user);
+            return UpdateAsync(User);
         }
 
-        private async Task<bool> IsPreviousPassword(string userId, string newPassword)
+        private async Task<bool> IsPreviousPassword(string IdUsuario, string NewPassword)
         {
-            var user = await FindByIdAsync(userId);
+            var user = await FindByIdAsync(IdUsuario);
             var hashedPassword = user.PasswordHash;
             if (
                 user.PreviousUserPasswords
                 .OrderByDescending(x => x.FechaCreacion)
                 .Select(x => x.PasswordHash)
                 .Take(PASSWORD_HISTORY_LIMIT)
-                .Where(x => PasswordHasher.VerifyHashedPassword(user, hashedPassword, newPassword) != PasswordVerificationResult.Failed)
+                .Where(x => PasswordHasher.VerifyHashedPassword(user, hashedPassword, NewPassword) != PasswordVerificationResult.Failed)
                 .Any()
             )
             {

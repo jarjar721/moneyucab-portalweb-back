@@ -9,7 +9,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 {
 	public class Comando_Informacion_Persona
 	{
-		private string _Usuario;
+		private string _usuario;
 
 		public Comando_Informacion_Persona()
 		{
@@ -18,13 +18,13 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 
 		public Comando_Informacion_Persona(string Usuario)
 		{
-			this._Usuario = Usuario;
+			this._usuario = Usuario;
 		}
 
 		async public Task<ComUsuario> Ejecutar()
 		{
-			DAOBase dao = FabricaDAO.crearDaoBase();
-			return dao.InformacionPersona(this._Usuario);
+			DAOBase dao = FabricaDAO.CrearDaoBase();
+			return dao.InformacionPersona(this._usuario);
 		}
 		
 		

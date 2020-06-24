@@ -31,25 +31,25 @@ namespace DAO
         /// </summary>
         private NpgsqlDataReader _lectorTablaSQL;
 
-        public NpgsqlConnection Conector
+        public NpgsqlConnection conector
         {
             get { return _conector; }
             set { _conector = value; }
         }
 
-        public string StringConexion
+        public string stringConexion
         {
             get { return _stringConexion; }
             set { _stringConexion = value; }
         }
 
-        public NpgsqlCommand ComandoSQL
+        public NpgsqlCommand comandoSQL
         {
             get { return _comandoSQL; }
             set { _comandoSQL = value; }
         }
 
-        public NpgsqlDataReader LectorTablaSQL
+        public NpgsqlDataReader lectorTablaSQL
         {
             get { return _lectorTablaSQL; }
             set { _lectorTablaSQL = value; }
@@ -63,8 +63,8 @@ namespace DAO
 
             try
             {
-                Conector = new NpgsqlConnection(StringConexion);
-                Conector.Open();
+                conector = new NpgsqlConnection(stringConexion);
+                conector.Open();
             }
             catch (NpgsqlException ex)
             {
@@ -82,10 +82,10 @@ namespace DAO
         /// </summary>
         public void Desconectar()
         {
-            if (Conector != null)
+            if (conector != null)
             {
-                Conector.Close();
-                Conector.Dispose();
+                conector.Close();
+                conector.Dispose();
             }
         }
 

@@ -9,20 +9,20 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
     public class Comando_Confirmar_Email : Comando<Boolean>
     {
-        private string UserId;
+        private string _userId;
         private UserManager<Usuario> _userManager;
-        private ConfirmEmailModel model;
+        private ConfirmEmailModel _model;
 
-        public Comando_Confirmar_Email(string UserId, UserManager<Usuario> userManager, ConfirmEmailModel model)
+        public Comando_Confirmar_Email(string UserId, UserManager<Usuario> UserManager, ConfirmEmailModel Model)
         {
-            this.UserId = UserId;
-            this._userManager = userManager;
-            this.model = model;
+            this._userId = UserId;
+            this._userManager = UserManager;
+            this._model = Model;
         }
 
         async public Task<Boolean> Ejecutar()
         {
-            var usuario = await _userManager.FindByIdAsync(UserId);
+            var usuario = await _userManager.FindByIdAsync(_userId);
             if (usuario.EmailConfirmed) //Si ya es un usuario con email confirmado
             {
                 //Código 1 para error de usuario con email confirmado
@@ -30,7 +30,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             }
 
             // Decodificando el token
-            var decodedToken = model.ConfirmationToken.Replace("_", "/").Replace("-", "+").Replace(".", "=");
+            var decodedToken = _model.confirmationToken.Replace("_", "/").Replace("-", "+").Replace(".", "=");
 
             // Cambia en la BD el "ConfirmEmail" a TRUE
             var result = await _userManager.ConfirmEmailAsync(usuario, decodedToken);

@@ -20,19 +20,19 @@ namespace moneyucab_portalweb_back.Controllers
         [HttpGet] // api/Saldo/consultar
         [Authorize]
         [Route("Consultar")]
-        public async Task<Object> Consultar([FromQuery]int UsuarioId) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> Consultar([FromQuery]int IdUsuario) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Verificar_Saldo(UsuarioId).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Verificar_Saldo(IdUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
     }

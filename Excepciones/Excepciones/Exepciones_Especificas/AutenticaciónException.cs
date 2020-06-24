@@ -6,8 +6,8 @@
         public static void UsuarioNoAutenticado()
         {
             AutenticacionException exception = new AutenticacionException();
-            exception.Codigo = 15;
-            exception.Error = "El usuario no está autenticado";
+            exception.codigo = 15;
+            exception.error = "El usuario no está autenticado";
             throw exception;
         }
     }

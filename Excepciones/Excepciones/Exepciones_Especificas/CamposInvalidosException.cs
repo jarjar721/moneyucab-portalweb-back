@@ -9,12 +9,12 @@
         /// <summary>
         /// Establece el error, pudiendo controlando la forma en que se expresa.
         /// </summary>
-        /// <param name="campo">Establece el campo el cual ocurrió el error.</param>
-        public static void CamposInvalidos(string campo)
+        /// <param name="Campo">Establece el campo el cual ocurrió el error.</param>
+        public static void CamposInvalidos(string Campo)
         {
             CamposInvalidosException exception = new CamposInvalidosException();
-            exception.Codigo = 8;
-            exception.Error = "Campo invalido en el formulario: " + campo + ".";
+            exception.codigo = 8;
+            exception.error = "Campo invalido en el formulario: " + Campo + ".";
             throw exception;
         }
     }

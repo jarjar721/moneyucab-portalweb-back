@@ -10,23 +10,23 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.LogicaDAO
 {
 	public class Comando_Registro_Usuario_DAO
 	{
-		private RegistrationModel formulario;
+		private RegistrationModel _formulario;
 
-		public Comando_Registro_Usuario_DAO(RegistrationModel formulario)
+		public Comando_Registro_Usuario_DAO(RegistrationModel Formulario)
 		{
-			this.formulario = formulario;
+			this._formulario = Formulario;
 		}
 		async public Task<Boolean> Ejecutar()
 		{
-			DAOBase dao = FabricaDAO.crearDaoBase();
-			if (this.formulario.comercio)
+			DAOBase dao = FabricaDAO.CrearDaoBase();
+			if (this._formulario.comercio)
             {
-				dao.RegistroUsuarioComercio(this.formulario.Formatear_Formulario());
+				dao.RegistroUsuarioComercio(this._formulario.Formatear_Formulario());
 				return true;
             }
             else
             {
-				dao.RegistroUsuarioPersona(this.formulario.Formatear_Formulario());
+				dao.RegistroUsuarioPersona(this._formulario.Formatear_Formulario());
 				return true;
 			}
 		}

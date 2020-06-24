@@ -18,9 +18,9 @@ namespace moneyucab_portalweb_back.Controllers
     {
         private readonly EntityDatosUsuario _comandoDatosUsuario;
 
-        public EntityUsuarioController(EntityDatosUsuario comandoDatosUsuario)
+        public EntityUsuarioController(EntityDatosUsuario ComandoDatosUsuario)
         {
-            _comandoDatosUsuario = comandoDatosUsuario;
+            _comandoDatosUsuario = ComandoDatosUsuario;
         }
 
         [HttpGet] // api/DatosUsuario/consultar
@@ -29,72 +29,72 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                var resultado = _comandoDatosUsuario.consultar();
+                var resultado = _comandoDatosUsuario.Consultar();
                 return Ok(resultado);
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
         [HttpPost] //api/DatosUsuario/insertar
         [Route("Insertar")]
-        public IActionResult Agregar([FromBody] DatosUsuario _datosUsuario)
+        public IActionResult Agregar([FromBody] DatosUsuario DatosUsuario)
         {
             try {
-                var resultado = _comandoDatosUsuario.insertar(_datosUsuario);
+                var resultado = _comandoDatosUsuario.Insertar(DatosUsuario);
                 return Ok(resultado);
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
 
         }
 
         [HttpPut] //api/DatosUsuario/editar
         [Route("Editar")]
-        public IActionResult Editar([FromBody] DatosUsuario _datosUsuario)
+        public IActionResult Editar([FromBody] DatosUsuario DatosUsuario)
         {
             try
             {
-                var resultado = _comandoDatosUsuario.Editar(_datosUsuario);
+                var resultado = _comandoDatosUsuario.Editar(DatosUsuario);
                 return Ok(resultado);
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
         [HttpDelete]  // api/DatosUsuario/eliminar/5
-        [Route("eliminar/{UsuarioID}")]
-        public IActionResult Eliminar(int UsuarioID) //NoticiaID igual qeu ene el route
+        [Route("eliminar/{IdUsuario}")]
+        public IActionResult Eliminar(int IdUsuario) //NoticiaID igual qeu ene el route
         {
             try{
-                var resultado = _comandoDatosUsuario.Eliminar(UsuarioID);
+                var resultado = _comandoDatosUsuario.Eliminar(IdUsuario);
                 return Ok(resultado);
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
     }

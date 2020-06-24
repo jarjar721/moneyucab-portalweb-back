@@ -22,9 +22,9 @@ namespace moneyucab_portalweb_back.Controllers
     {
         private UserManager<Usuario> _userManager;
 
-        public DashboardController(UserManager<Usuario> userManager)
+        public DashboardController(UserManager<Usuario> UserManager)
         {
-            _userManager = userManager;
+            _userManager = UserManager;
         }
 
         //Operaciones de consulta---------------------------------------------------------------
@@ -43,11 +43,11 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -65,11 +65,11 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -87,11 +87,11 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -110,11 +110,11 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -133,11 +133,11 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
         
@@ -156,11 +156,11 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
         
@@ -179,11 +179,11 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
         
@@ -201,11 +201,11 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
         
@@ -224,11 +224,11 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
         
@@ -236,22 +236,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("Tarjetas")]
         //GET: /api/Dashboard/Tarjetas
-        public async Task<Object> Tarjetas([FromQuery]int UsuarioId)
+        public async Task<Object> Tarjetas([FromQuery]int IdUsuario)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Tarjetas(UsuarioId).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Tarjetas(IdUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -259,22 +259,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("Cuentas")]
         //GET: /api/Dashboard/Cuentas
-        public async Task<Object> Cuentas([FromQuery]int UsuarioId)
+        public async Task<Object> Cuentas([FromQuery]int IdUsuario)
         {
 
             try
             {
 
-                return Ok(FabricaComandos.Fabricar_Cmd_Cuentas(UsuarioId).Ejecutar());
+                return Ok(FabricaComandos.Fabricar_Cmd_Cuentas(IdUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -282,22 +282,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("ReintegrosActivos")]
         //GET: /api/Dashboard/ReintegrosActivos
-        public async Task<Object> ReintegrosActivos([FromQuery] ConsultaIdSol form)
+        public async Task<Object> ReintegrosActivos([FromQuery] ConsultaIdSol Form)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegros_Activos(form.UsuarioId, form.solicitante).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegros_Activos(Form.idUsuario, Form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -305,22 +305,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("ReintegrosCancelados")]
         //GET: /api/Dashboard/ReintegrosCancelados
-        public async Task<Object> ReintegrosCancelados([FromQuery]ConsultaIdSol form)
+        public async Task<Object> ReintegrosCancelados([FromQuery]ConsultaIdSol Form)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegros_Cancelados(form.UsuarioId, form.solicitante).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegros_Cancelados(Form.idUsuario, Form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -328,22 +328,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("ReintegrosExitosos")]
         //GET: /api/Dashboard/ReintegrosExitosos
-        public async Task<Object> ReintegrosExitosos([FromQuery]ConsultaIdSol form)
+        public async Task<Object> ReintegrosExitosos([FromQuery]ConsultaIdSol Form)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegros_Exitosos(form.UsuarioId, form.solicitante).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegros_Exitosos(Form.idUsuario, Form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -351,22 +351,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("CobrosActivos")]
         //GET: /api/Dashboard/CobrosActivos
-        public async Task<Object> CobrosActivos([FromQuery] ConsultaIdSol form)
+        public async Task<Object> CobrosActivos([FromQuery] ConsultaIdSol Form)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Cobros_Activos(form.UsuarioId, form.solicitante).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Cobros_Activos(Form.idUsuario, Form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -374,22 +374,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("CobrosCancelados")]
         //GET: /api/Dashboard/CobrosCancelados
-        public async Task<Object> CobrosCancelados([FromQuery] ConsultaIdSol form)
+        public async Task<Object> CobrosCancelados([FromQuery] ConsultaIdSol Form)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Cobros_Cancelados(form.UsuarioId, form.solicitante).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Cobros_Cancelados(Form.idUsuario, Form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -397,22 +397,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("CobrosExitosos")]
         //GET: /api/Dashboard/CobrosExitosos
-        public async Task<Object> CobrosExitosos([FromQuery] ConsultaIdSol form)
+        public async Task<Object> CobrosExitosos([FromQuery] ConsultaIdSol Form)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Cobros_Exitosos(form.UsuarioId, form.solicitante).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Cobros_Exitosos(Form.idUsuario, Form.solicitante).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -420,22 +420,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("ParametrosUsuario")]
         //GET: /api/Dashboard/ParametrosUsuario
-        public async Task<Object> ParametrosUsuario([FromQuery]int UsuarioId)
+        public async Task<Object> ParametrosUsuario([FromQuery]int IdUsuario)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Parametros_Usuario(UsuarioId).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Parametros_Usuario(IdUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -454,11 +454,11 @@ namespace moneyucab_portalweb_back.Controllers
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 

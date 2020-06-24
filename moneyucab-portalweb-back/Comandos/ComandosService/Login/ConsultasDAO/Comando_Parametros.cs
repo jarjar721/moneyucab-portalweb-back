@@ -16,7 +16,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 		}
 		async public Task<List<ComParametro>> Ejecutar()
 		{
-			DAOBase dao = FabricaDAO.crearDaoBase();
+			DAOBase dao = FabricaDAO.CrearDaoBase();
 			return dao.Parametros();
 		}
 		

@@ -6,49 +6,49 @@ namespace Comunes.Comun
 {
     public class ComOperacionMonedero : EntidadComun, IEntidadComun
     {
-        public ComTipoOperacion _TipoOperacion = new ComTipoOperacion();
-        public ComOperacionTarjeta _OperacionTarjeta = new ComOperacionTarjeta();
-        public ComOperacionCuenta _OperacionCuenta = new ComOperacionCuenta();
-        public int _idOperacionMonedero { get; set; }
-        public int _idUsuario { get; set; }
-        public double _monto { get; set; }
-        public NpgsqlDate _fecha { get; set; }
+        public ComTipoOperacion tipoOperacion = new ComTipoOperacion();
+        public ComOperacionTarjeta operacionTarjeta = new ComOperacionTarjeta();
+        public ComOperacionCuenta operacionCuenta = new ComOperacionCuenta();
+        public int idOperacionMonedero { get; set; }
+        public int idUsuario { get; set; }
+        public double monto { get; set; }
+        public NpgsqlDate fecha { get; set; }
         //private NpgsqlDateTime _hora{ get; set; }
-        public string _referencia { get; set; }
+        public string referencia { get; set; }
 
         public ComOperacionMonedero()
         {
             
         }
 
-        public void LlenadoDataNpgsql(NpgsqlDataReader data)
+        public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this._TipoOperacion._offset = 7;
-            this._TipoOperacion.LlenadoDataNpgsql(data);
+            this.tipoOperacion.offset = 7;
+            this.tipoOperacion.LlenadoDataNpgsql(Data);
             try
             {
-                this._OperacionTarjeta._offset = 10;
-                this._OperacionTarjeta.LlenadoDataNpgsql(data);
+                this.operacionTarjeta.offset = 10;
+                this.operacionTarjeta.LlenadoDataNpgsql(Data);
             }
             catch (InvalidCastException)
             {
-                this._OperacionTarjeta = null;
+                this.operacionTarjeta = null;
             }
             try
             {
-                this._OperacionCuenta._offset = 17;
-                this._OperacionCuenta.LlenadoDataNpgsql(data);
+                this.operacionCuenta.offset = 17;
+                this.operacionCuenta.LlenadoDataNpgsql(Data);
             }
             catch (InvalidCastException)
             {
-                this._OperacionCuenta = null;
+                this.operacionCuenta = null;
             }
-            this._idOperacionMonedero = data.GetInt32(0 + _offset);
-            this._idUsuario = data.GetInt32(1 + _offset);
-            this._fecha = data.GetDate(4 + _offset);
+            this.idOperacionMonedero = Data.GetInt32(0 + offset);
+            this.idUsuario = Data.GetInt32(1 + offset);
+            this.fecha = Data.GetDate(4 + offset);
             //this._hora = data.GetDateTime(5 + _offset);
-            this._monto = data.GetDouble(3 + _offset);
-            this._referencia = data.GetString(6 + _offset);
+            this.monto = Data.GetDouble(3 + offset);
+            this.referencia = Data.GetString(6 + offset);
         }
     }
 }

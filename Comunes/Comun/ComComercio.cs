@@ -5,27 +5,27 @@ namespace Comunes.Comun
 {
     public class ComComercio : EntidadComun, IEntidadComun, IFormularioRegistro
     {
-        public string _razon_social { get; set; }
-        public string _nombre_representante { get; set; }
-        public string _apellido_representante { get; set; }
+        public string razonSocial { get; set; }
+        public string nombreRepresentante { get; set; }
+        public string apellidoRepresentante { get; set; }
 
         public ComComercio()
         {
 
         }
 
-        public ComComercio(string razonSocial, string nombreRepresentante, string apellidoRepresentante)
+        public ComComercio(string RazonSocial, string NombreRepresentante, string ApellidoRepresentante)
         {
-            this._razon_social = razonSocial;
-            this._nombre_representante = nombreRepresentante;
-            this._apellido_representante = apellidoRepresentante;
+            this.razonSocial = RazonSocial;
+            this.nombreRepresentante = NombreRepresentante;
+            this.apellidoRepresentante = ApellidoRepresentante;
         }
 
         public void LlenadoDataFormComercio(NpgsqlCommand ComandoSQL)
         {
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("RazonSocial", this._razon_social));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("Nombre", this._nombre_representante));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("Apellido", this._apellido_representante));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("RazonSocial", this.razonSocial));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Nombre", this.nombreRepresentante));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Apellido", this.apellidoRepresentante));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("FechaNacimiento", new NpgsqlTypes.NpgsqlDate(2020, 5, 30)));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("IdEstadoCivil", 1));
         }
@@ -35,11 +35,11 @@ namespace Comunes.Comun
             throw new MoneyUcabException(null, "Llenado de información inválido", 100);
         }
 
-        public void LlenadoDataNpgsql(NpgsqlDataReader data)
+        public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this._razon_social = data.GetString(0 + _offset);
-            this._nombre_representante = data.GetString(1 + _offset);
-            this._apellido_representante = data.GetString(2 + _offset);
+            this.razonSocial = Data.GetString(0 + offset);
+            this.nombreRepresentante = Data.GetString(1 + offset);
+            this.apellidoRepresentante = Data.GetString(2 + offset);
         }
     }
 }

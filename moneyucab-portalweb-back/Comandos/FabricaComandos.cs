@@ -1,15 +1,12 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
-using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.LogicaDAO;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.EntitiesForm;
 using moneyucab_portalweb_back.Models;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using NpgsqlTypes;
-using moneyucab_portalweb_back.Comandos.ComandosService.Login.LogicaDAO;
 
 namespace moneyucab_portalweb_back.Comandos
 {
@@ -20,49 +17,49 @@ namespace moneyucab_portalweb_back.Comandos
     public static class FabricaComandos
     {
 
-        public static Comando_Verificar_Registro_Usuario Fabricar_Cmd_Verificar_Registro_Usuario(UserManager<Usuario> _userManager, RegistrationModel _registration)
+        public static Comando_Verificar_Registro_Usuario Fabricar_Cmd_Verificar_Registro_Usuario(UserManager<Usuario> UserManager, RegistrationModel Registration)
         {
-            return new Comando_Verificar_Registro_Usuario(_userManager, _registration);
+            return new Comando_Verificar_Registro_Usuario(UserManager, Registration);
         }
 
-        public static Comando_Registro_Usuario Fabricar_Cmd_Registro_Usuario(UserManager<Usuario> _userManager, RegistrationModel _registration, ApplicationSettings appSettings, IEmailSender _emailSender)
+        public static Comando_Registro_Usuario Fabricar_Cmd_Registro_Usuario(UserManager<Usuario> UserManager, RegistrationModel Registration, ApplicationSettings AppSettings, IEmailSender EmailSender)
         {
-            return new Comando_Registro_Usuario(_userManager, _registration, appSettings, _emailSender);
+            return new Comando_Registro_Usuario(UserManager, Registration, AppSettings, EmailSender);
         }
 
-        public static Comando_Existencia_Usuario Fabricar_Cmd_Existencia_Usuario(UserManager<Usuario> _userManager, string userName, string email, string userId)
+        public static Comando_Existencia_Usuario Fabricar_Cmd_Existencia_Usuario(UserManager<Usuario> UserManager, string Usuario, string Email, string IdUsuario)
         {
-            return new Comando_Existencia_Usuario(_userManager, userName, email, userId);
+            return new Comando_Existencia_Usuario(UserManager, Usuario, Email, IdUsuario);
         }
 
-        public static Comando_Inicio_Sesion Fabricar_Cmd_Inicio_Sesion(UserManager<Usuario> _userManager, LoginModel _registration, ApplicationSettings appSettings, SignInManager<Usuario> signInManager)
+        public static Comando_Inicio_Sesion Fabricar_Cmd_Inicio_Sesion(UserManager<Usuario> UserManager, LoginModel Registration, ApplicationSettings AppSettings, SignInManager<Usuario> SignInManager)
         {
-            return new Comando_Inicio_Sesion(_userManager, _registration, appSettings, signInManager);
+            return new Comando_Inicio_Sesion(UserManager, Registration, AppSettings, SignInManager);
         }
 
-        public static Comando_Verificar_Parametros Fabricar_Cmd_Verificar_Parametros(params string[] parametros)
+        public static Comando_Verificar_Parametros Fabricar_Cmd_Verificar_Parametros(params string[] Parametros)
         {
-            return new Comando_Verificar_Parametros(parametros);
+            return new Comando_Verificar_Parametros(Parametros);
         }
 
-        public static Comando_Confirmar_Email Fabricar_Cmd_Confirmar_Email(string userId, UserManager<Usuario> userManager, ConfirmEmailModel _userModel)
+        public static Comando_Confirmar_Email Fabricar_Cmd_Confirmar_Email(string IdUsuario, UserManager<Usuario> UserManager, ConfirmEmailModel UserModel)
         {
-            return new Comando_Confirmar_Email(userId, userManager, _userModel);
+            return new Comando_Confirmar_Email(IdUsuario, UserManager, UserModel);
         }
 
-        public static Comando_Olvido_Contraseña Fabricar_Cmd_Olvido_Contraseña(UserManager<Usuario> userManager, ForgotPasswordModel model, ApplicationSettings appSettings, IEmailSender emailSender)
+        public static Comando_Olvido_Contraseña Fabricar_Cmd_Olvido_Contraseña(UserManager<Usuario> UserManager, ForgotPasswordModel Model, ApplicationSettings AppSettings, IEmailSender EmailSender)
         {
-            return new Comando_Olvido_Contraseña(userManager, model, appSettings, emailSender);
+            return new Comando_Olvido_Contraseña(UserManager, Model, AppSettings, EmailSender);
         }
 
-        public static Comando_Resetear_Password Fabricar_Cmd_Resetear_Password(UserManager<Usuario> userManager, ResetPasswordModel model)
+        public static Comando_Resetear_Password Fabricar_Cmd_Resetear_Password(UserManager<Usuario> UserManager, ResetPasswordModel Model)
         {
-            return new Comando_Resetear_Password(userManager, model);
+            return new Comando_Resetear_Password(UserManager, Model);
         }
 
-        public static Comando_Verificar_Email_Confirmado Fabricar_Cmd_Verificar_Email_Confirmado(string User, UserManager<Usuario> _userManager)
+        public static Comando_Verificar_Email_Confirmado Fabricar_Cmd_Verificar_Email_Confirmado(string Usuario, UserManager<Usuario> UserManager)
         {
-            return new Comando_Verificar_Email_Confirmado(User, _userManager);
+            return new Comando_Verificar_Email_Confirmado(Usuario, UserManager);
         }
 
         public static Comando_Estados_Civiles Fabricar_Cmd_Estados_Civiles()
@@ -110,54 +107,54 @@ namespace moneyucab_portalweb_back.Comandos
             return new Comando_Tipos_Identificaciones();
         }
 
-        public static Comando_Reintegros_Activos Fabricar_Cmd_Reintegros_Activos(int UsuarioId, int solicitante)
+        public static Comando_Reintegros_Activos Fabricar_Cmd_Reintegros_Activos(int IdUsuario, int Solicitante)
         {
-            return new Comando_Reintegros_Activos(UsuarioId, solicitante);
+            return new Comando_Reintegros_Activos(IdUsuario, Solicitante);
         }
 
-        public static Comando_Reintegros_Exitosos Fabricar_Cmd_Reintegros_Exitosos(int UsuarioId, int solicitante)
+        public static Comando_Reintegros_Exitosos Fabricar_Cmd_Reintegros_Exitosos(int IdUsuario, int Solicitante)
         {
-            return new Comando_Reintegros_Exitosos(UsuarioId, solicitante);
+            return new Comando_Reintegros_Exitosos(IdUsuario, Solicitante);
         }
 
-        public static Comando_Reintegros_Cancelados Fabricar_Cmd_Reintegros_Cancelados(int UsuarioId, int solicitante)
+        public static Comando_Reintegros_Cancelados Fabricar_Cmd_Reintegros_Cancelados(int IdUsuario, int Solicitante)
         {
-            return new Comando_Reintegros_Cancelados(UsuarioId, solicitante);
+            return new Comando_Reintegros_Cancelados(IdUsuario, Solicitante);
         }
 
-        public static Comando_Cobros_Activos Fabricar_Cmd_Cobros_Activos(int UsuarioId, int solicitante)
+        public static Comando_Cobros_Activos Fabricar_Cmd_Cobros_Activos(int IdUsuario, int Solicitante)
         {
-            return new Comando_Cobros_Activos(UsuarioId, solicitante);
+            return new Comando_Cobros_Activos(IdUsuario, Solicitante);
         }
 
-        public static Comando_Cobros_Exitosos Fabricar_Cmd_Cobros_Exitosos(int UsuarioId, int solicitante)
+        public static Comando_Cobros_Exitosos Fabricar_Cmd_Cobros_Exitosos(int IdUsuario, int Solicitante)
         {
-            return new Comando_Cobros_Exitosos(UsuarioId, solicitante);
+            return new Comando_Cobros_Exitosos(IdUsuario, Solicitante);
         }
 
-        public static Comando_Cobros_Cancelados Fabricar_Cmd_Cobros_Cancelados(int UsuarioId, int solicitante)
+        public static Comando_Cobros_Cancelados Fabricar_Cmd_Cobros_Cancelados(int IdUsuario, int Solicitante)
         {
-            return new Comando_Cobros_Cancelados(UsuarioId, solicitante);
+            return new Comando_Cobros_Cancelados(IdUsuario, Solicitante);
         }
 
-        public static Comando_Tarjetas Fabricar_Cmd_Tarjetas(int UsuarioId)
+        public static Comando_Tarjetas Fabricar_Cmd_Tarjetas(int IdUsuario)
         {
-            return new Comando_Tarjetas(UsuarioId);
+            return new Comando_Tarjetas(IdUsuario);
         }
 
-        public static Comando_Cuentas Fabricar_Cmd_Cuentas(int UsuarioId)
+        public static Comando_Cuentas Fabricar_Cmd_Cuentas(int IdUsuario)
         {
-            return new Comando_Cuentas(UsuarioId);
+            return new Comando_Cuentas(IdUsuario);
         }
 
-        public static Comando_Parametros_Usuario Fabricar_Cmd_Parametros_Usuario(int UsuarioId)
+        public static Comando_Parametros_Usuario Fabricar_Cmd_Parametros_Usuario(int IdUsuario)
         {
-            return new Comando_Parametros_Usuario(UsuarioId);
+            return new Comando_Parametros_Usuario(IdUsuario);
         }
 
-        public static Comando_Verificar_Saldo Fabricar_Cmd_Verificar_Saldo(int UsuarioId)
+        public static Comando_Verificar_Saldo Fabricar_Cmd_Verificar_Saldo(int IdUsuario)
         {
-            return new Comando_Verificar_Saldo(UsuarioId);
+            return new Comando_Verificar_Saldo(IdUsuario);
         }
 
         public static Comando_Informacion_Persona Fabricar_Cmd_Informacion_Persona(string Usuario)
@@ -170,104 +167,104 @@ namespace moneyucab_portalweb_back.Comandos
             return new Comando_Historial_Operaciones_Monedero(Usuario);
         }
 
-        public static Comando_Historial_Operaciones_Cuenta Fabricar_Cmd_Hist_OpCuenta(int Cuenta)
+        public static Comando_Historial_Operaciones_Cuenta Fabricar_Cmd_Hist_OpCuenta(int IdCuenta)
         {
-            return new Comando_Historial_Operaciones_Cuenta(Cuenta);
+            return new Comando_Historial_Operaciones_Cuenta(IdCuenta);
         }
 
-        public static Comando_Historial_Operaciones_Tarjeta Fabricar_Cmd_Hist_OpTarjeta(int Tarjeta)
+        public static Comando_Historial_Operaciones_Tarjeta Fabricar_Cmd_Hist_OpTarjeta(int IdTarjeta)
         {
-            return new Comando_Historial_Operaciones_Tarjeta(Tarjeta);
+            return new Comando_Historial_Operaciones_Tarjeta(IdTarjeta);
         }
 
-        public static Comando_Registro_Usuario_DAO Fabricar_Cmd_Registro_Usuario_DAO(RegistrationModel form)
+        public static Comando_Registro_Usuario_DAO Fabricar_Cmd_Registro_Usuario_DAO(RegistrationModel Form)
         {
-            return new Comando_Registro_Usuario_DAO(form);
+            return new Comando_Registro_Usuario_DAO(Form);
         }
 
-        public static Comando_Realizar_Cobro Fabricar_Cmd_Realizar_Cobro(int UsuarioId, string email, double monto)
+        public static Comando_Realizar_Cobro Fabricar_Cmd_Realizar_Cobro(int IdUsuario, string Email, double Monto)
         {
-            return new Comando_Realizar_Cobro(UsuarioId, email, monto);
+            return new Comando_Realizar_Cobro(IdUsuario, Email, Monto);
         }
 
-        public static Comando_Solicitar_Reintegro Fabricar_Cmd_Solicitar_Reintegro(int UsuarioId, string email, string referencia)
+        public static Comando_Solicitar_Reintegro Fabricar_Cmd_Solicitar_Reintegro(int IdUsuario, string Email, string Referencia)
         {
-            return new Comando_Solicitar_Reintegro(UsuarioId, email, referencia);
+            return new Comando_Solicitar_Reintegro(IdUsuario, Email, Referencia);
         }
 
-        public static Comando_Cancelar_Cobro Fabricar_Cmd_Cancelar_Cobro(int UsuarioId)
+        public static Comando_Cancelar_Cobro Fabricar_Cmd_Cancelar_Cobro(int IdUsuario)
         {
-            return new Comando_Cancelar_Cobro(UsuarioId);
+            return new Comando_Cancelar_Cobro(IdUsuario);
         }
 
-        public static Comando_Cancelar_Reintegro Fabricar_Cmd_Cancelar_Reintegro(int UsuarioId)
+        public static Comando_Cancelar_Reintegro Fabricar_Cmd_Cancelar_Reintegro(int IdUsuario)
         {
-            return new Comando_Cancelar_Reintegro(UsuarioId);
+            return new Comando_Cancelar_Reintegro(IdUsuario);
         }
 
-        public static Comando_Pago_Cuenta Fabricar_Cmd_Pago_Cuenta(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        public static Comando_Pago_Cuenta Fabricar_Cmd_Pago_Cuenta(int IdUsuarioReceptor, int IdMedioPaga, double Monto, int IdOperacion)
         {
-            return new Comando_Pago_Cuenta(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+            return new Comando_Pago_Cuenta(IdUsuarioReceptor, IdMedioPaga, Monto, IdOperacion);
         }
 
-        public static Comando_Pago_Tarjeta Fabricar_Cmd_Pago_Tarjeta(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        public static Comando_Pago_Tarjeta Fabricar_Cmd_Pago_Tarjeta(int IdUsuarioReceptor, int IdMedioPaga, double Monto, int IdOperacion)
         {
-            return new Comando_Pago_Tarjeta(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+            return new Comando_Pago_Tarjeta(IdUsuarioReceptor, IdMedioPaga, Monto, IdOperacion);
         }
 
-        public static Comando_Pago_Monedero Fabricar_Cmd_Pago_Monedero(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        public static Comando_Pago_Monedero Fabricar_Cmd_Pago_Monedero(int IdUsuarioReceptor, int IdMedioPaga, double Monto, int IdOperacion)
         {
-            return new Comando_Pago_Monedero(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+            return new Comando_Pago_Monedero(IdUsuarioReceptor, IdMedioPaga, Monto, IdOperacion);
         }
 
-        public static Comando_Reintegro_Cuenta Fabricar_Cmd_Reintegro_Cuenta(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        public static Comando_Reintegro_Cuenta Fabricar_Cmd_Reintegro_Cuenta(int IdUsuarioReceptor, int IdMedioPaga, double Monto, int IdOperacion)
         {
-            return new Comando_Reintegro_Cuenta(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+            return new Comando_Reintegro_Cuenta(IdUsuarioReceptor, IdMedioPaga, Monto, IdOperacion);
         }
 
-        public static Comando_Reintegro_Tarjeta Fabricar_Cmd_Reintegro_Tarjeta(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        public static Comando_Reintegro_Tarjeta Fabricar_Cmd_Reintegro_Tarjeta(int IdUsuarioReceptor, int IdMedioPaga, double Monto, int IdOperacion)
         {
-            return new Comando_Reintegro_Tarjeta(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+            return new Comando_Reintegro_Tarjeta(IdUsuarioReceptor, IdMedioPaga, Monto, IdOperacion);
         }
 
-        public static Comando_Reintegro_Monedero Fabricar_Cmd_Reintegro_Monedero(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        public static Comando_Reintegro_Monedero Fabricar_Cmd_Reintegro_Monedero(int IdUsuarioReceptor, int IdMedioPaga, double Monto, int IdOperacion)
         {
-            return new Comando_Reintegro_Monedero(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+            return new Comando_Reintegro_Monedero(IdUsuarioReceptor, IdMedioPaga, Monto, IdOperacion);
         }
 
-        public static Comando_Modificacion_Usuario Fabricar_Cmd_Modificar_Usuario(string usuario, string email, string telefono, string direccion, int IdUsuario)
+        public static Comando_Modificacion_Usuario Fabricar_Cmd_Modificar_Usuario(string Usuario, string Email, string Telefono, string Direccion, int IdUsuario)
         {
-            return new Comando_Modificacion_Usuario(usuario, email, telefono, direccion, IdUsuario);
+            return new Comando_Modificacion_Usuario(Usuario, Email, Telefono, Direccion, IdUsuario);
         }
 
-        public static Comando_Ejecutar_Cierre Fabricar_Cmd_Ejecutar_Cierre(int usuarioId)
+        public static Comando_Ejecutar_Cierre Fabricar_Cmd_Ejecutar_Cierre(int IdUsuario)
         {
-            return new Comando_Ejecutar_Cierre(usuarioId);
+            return new Comando_Ejecutar_Cierre(IdUsuario);
         }
 
-        public static Comando_Eliminar_Billetera_Cuenta Fabricar_Cmd_Eliminar_Cuenta(int usuarioId)
+        public static Comando_Eliminar_Billetera_Cuenta Fabricar_Cmd_Eliminar_Cuenta(int IdUsuario)
         {
-            return new Comando_Eliminar_Billetera_Cuenta(usuarioId);
+            return new Comando_Eliminar_Billetera_Cuenta(IdUsuario);
         }
 
-        public static Comando_Eliminar_Billetera_Tarjeta Fabricar_Cmd_Eliminar_Tarjeta(int usuarioId)
+        public static Comando_Eliminar_Billetera_Tarjeta Fabricar_Cmd_Eliminar_Tarjeta(int IdUsuario)
         {
-            return new Comando_Eliminar_Billetera_Tarjeta(usuarioId);
+            return new Comando_Eliminar_Billetera_Tarjeta(IdUsuario);
         }
 
-        public static Comando_Registrar_Billetera_Tarjeta Fabricar_Cmd_Registrar_Tarjeta(int idUsuario, int idTipoTarjeta, int idBanco, int numero, NpgsqlDate fecha_vencimiento, int cvc, int estatus)
+        public static Comando_Registrar_Billetera_Tarjeta Fabricar_Cmd_Registrar_Tarjeta(int IdUsuario, int IdTipoTarjeta, int IdBanco, int Numero, NpgsqlDate FechaVencimiento, int CVC, int Estatus)
         {
-            return new Comando_Registrar_Billetera_Tarjeta(idUsuario, idTipoTarjeta, idBanco, numero, fecha_vencimiento, cvc, estatus);
+            return new Comando_Registrar_Billetera_Tarjeta(IdUsuario, IdTipoTarjeta, IdBanco, Numero, FechaVencimiento, CVC, Estatus);
         }
 
-        public static Comando_Registrar_Billetera_Cuenta Fabricar_Cmd_Registrar_Cuenta(int idUsuario, int idTipoCuenta, int idBanco, string numero)
+        public static Comando_Registrar_Billetera_Cuenta Fabricar_Cmd_Registrar_Cuenta(int IdUsuario, int IdTipoCuenta, int IdBanco, string Numero)
         {
-            return new Comando_Registrar_Billetera_Cuenta(idUsuario, idTipoCuenta, idBanco, numero);
+            return new Comando_Registrar_Billetera_Cuenta(IdUsuario, IdTipoCuenta, IdBanco, Numero);
         }
 
-        public static Comando_Establecer_Parametro Fabricar_Cmd_Establecer_Parametro(int idUsuario, int idParametro, string validacion, int estatus)
+        public static Comando_Establecer_Parametro Fabricar_Cmd_Establecer_Parametro(int IdUsuario, int IdParametro, string Validacion, int Estatus)
         {
-            return new Comando_Establecer_Parametro(idUsuario, idParametro, validacion, estatus);
+            return new Comando_Establecer_Parametro(IdUsuario, IdParametro, Validacion, Estatus);
         }
     }
 }

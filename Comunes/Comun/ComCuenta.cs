@@ -17,31 +17,31 @@ namespace Comunes.Comun
 
         }
 
-        public ComCuenta(ComTipoCuenta tipoCuenta, ComBanco banco, int idUsuario, string numero)
+        public ComCuenta(ComTipoCuenta TipoCuenta, ComBanco Banco, int IdUsuario, string Numero)
         {
-            this._tipoCuenta = tipoCuenta;
-            this._banco = banco;
-            this._idUsuario = idUsuario;
-            this._numero = numero;
+            this._tipoCuenta = TipoCuenta;
+            this._banco = Banco;
+            this._idUsuario = IdUsuario;
+            this._numero = Numero;
         }
 
         public void LlenadoDataForm(NpgsqlCommand ComandoSQL)
         {
             ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", this._idUsuario));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoCuentaId", this._tipoCuenta._idTipoCuenta));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("BancoId", this._banco._idBanco));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoCuentaId", this._tipoCuenta.idTipoCuenta));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("BancoId", this._banco.idBanco));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("Numero", this._numero));
         }
 
-        public void LlenadoDataNpgsql(NpgsqlDataReader data)
+        public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this._tipoCuenta._offset = 8;
-            this._tipoCuenta.LlenadoDataNpgsql(data);
-            this._banco._offset = 5;
-            this._banco.LlenadoDataNpgsql(data);
-            this._idCuenta = data.GetInt32(0);
-            this._idUsuario = data.GetInt32(1);
-            this._numero = data.GetString(4);
+            this._tipoCuenta.offset = 8;
+            this._tipoCuenta.LlenadoDataNpgsql(Data);
+            this._banco.offset = 5;
+            this._banco.LlenadoDataNpgsql(Data);
+            this._idCuenta = Data.GetInt32(0);
+            this._idUsuario = Data.GetInt32(1);
+            this._numero = Data.GetString(4);
         }
     }
 }

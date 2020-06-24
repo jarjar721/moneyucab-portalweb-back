@@ -6,8 +6,8 @@
         public static void ReseteoPasswordFallido()
         {
             ReseteoPasswordException exception = new ReseteoPasswordException();
-            exception.Codigo = 14;
-            exception.Error = "El password no se logró realizar el reseteo.";
+            exception.codigo = 14;
+            exception.error = "El password no se logró realizar el reseteo.";
             throw exception;
         }
     }

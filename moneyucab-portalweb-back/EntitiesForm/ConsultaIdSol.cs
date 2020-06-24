@@ -7,7 +7,7 @@ namespace moneyucab_portalweb_back.EntitiesForm
 {
 	public class ConsultaIdSol
 	{
-		public int UsuarioId { get; set; }
+		public int idUsuario { get; set; }
 		public int solicitante { get; set; }
 
 	}

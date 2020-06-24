@@ -20,40 +20,40 @@ namespace moneyucab_portalweb_back.Controllers
         [HttpPost]
         [Authorize]
         [Route("RealizarCobro")]
-        public async Task<Object> RealizarCobro([FromBody]Cobro cobro) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> RealizarCobro([FromBody]Cobro Cobro) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Realizar_Cobro(cobro.idUsuarioSolicitante, cobro.emailPagador, cobro.monto).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Realizar_Cobro(Cobro.idUsuarioSolicitante, Cobro.emailPagador, Cobro.monto).Ejecutar());
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
         [HttpPost]
         [Authorize]
         [Route("SolicitarReintegro")]
-        public async Task<Object> SolicitarReintegro([FromBody] Reintegro reintegro) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> SolicitarReintegro([FromBody] Reintegro Reintegro) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Solicitar_Reintegro(reintegro.idUsuarioSolicitante, reintegro.emailPagador, reintegro.referencia).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Solicitar_Reintegro(Reintegro.idUsuarioSolicitante, Reintegro.emailPagador, Reintegro.referencia).Ejecutar());
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -69,11 +69,11 @@ namespace moneyucab_portalweb_back.Controllers
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -89,131 +89,131 @@ namespace moneyucab_portalweb_back.Controllers
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
         [HttpPost]
         [Authorize]
         [Route("RealizarPagoCuenta")]
-        public async Task<Object> Realizar_Pago_Cuenta([FromBody] Transferencia formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> Realizar_Pago_Cuenta([FromBody] Transferencia Formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Pago_Cuenta(formulario.idUsuarioReceptor, formulario.idMedioPaga, formulario.monto, formulario.idOperacion).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Pago_Cuenta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
         [HttpPost]
         [Authorize]
         [Route("RealizarPagoTarjeta")]
-        public async Task<Object> Realizar_Pago_Tarjeta([FromBody] Transferencia formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> Realizar_Pago_Tarjeta([FromBody] Transferencia Formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Pago_Tarjeta(formulario.idUsuarioReceptor, formulario.idMedioPaga, formulario.monto, formulario.idOperacion).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Pago_Tarjeta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
         [HttpPost]
         [Authorize]
         [Route("RealizarPagoMonedero")]
-        public async Task<Object> Realizar_Pago_Monedero([FromBody] Transferencia formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> Realizar_Pago_Monedero([FromBody] Transferencia Formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Pago_Monedero(formulario.idUsuarioReceptor, formulario.idMedioPaga, formulario.monto, formulario.idOperacion).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Pago_Monedero(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
         [HttpPost]
         [Authorize]
         [Route("RealizarReintegroCuenta")]
-        public async Task<Object> Realizar_Reintegro_Cuenta([FromBody] Transferencia formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> Realizar_Reintegro_Cuenta([FromBody] Transferencia Formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegro_Cuenta(formulario.idUsuarioReceptor, formulario.idMedioPaga, formulario.monto, formulario.idOperacion).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegro_Cuenta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
         [HttpPost]
         [Authorize]
         [Route("RealizarReintegroTarjeta")]
-        public async Task<Object> Realizar_Reintegro_Tarjeta([FromBody] Transferencia formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> Realizar_Reintegro_Tarjeta([FromBody] Transferencia Formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegro_Tarjeta(formulario.idUsuarioReceptor, formulario.idMedioPaga, formulario.monto, formulario.idOperacion).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegro_Tarjeta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
         [HttpPost]
         [Authorize]
         [Route("RealizarPagoMonedero")]
-        public async Task<Object> Realizar_Reintegro_Monedero([FromBody] Transferencia formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> Realizar_Reintegro_Monedero([FromBody] Transferencia Formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegro_Monedero(formulario.idUsuarioReceptor, formulario.idMedioPaga, formulario.monto, formulario.idOperacion).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Reintegro_Monedero(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto, Formulario.idOperacion).Ejecutar());
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
 
         }
@@ -221,20 +221,20 @@ namespace moneyucab_portalweb_back.Controllers
         [HttpPost]
         [Authorize]
         [Route("EstablecerParametro")]
-        public async Task<Object> Establecer_Parametro([FromBody] EstParametro formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> Establecer_Parametro([FromBody] EstParametro Formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Establecer_Parametro(formulario.UsuarioId, formulario.ParametroId, formulario.validacion, formulario.estatus).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Establecer_Parametro(Formulario.idUsuario, Formulario.idParametro, Formulario.validacion, Formulario.estatus).Ejecutar());
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
     }

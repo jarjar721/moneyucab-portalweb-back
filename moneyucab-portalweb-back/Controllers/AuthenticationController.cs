@@ -44,28 +44,28 @@ namespace moneyucab_portalweb_back.Controllers
         [HttpPost]
         [Route("Register")]
         //Post: /api/Authentication/Register
-        public async Task<Object> Register(RegistrationModel userModel)
+        public async Task<Object> Register(RegistrationModel UserModel)
         {
             try
             {
                 //Ejecución de comandos para funcionalidad de registro
 
                 // Chequeo que el username no este registrado
-                await FabricaComandos.Fabricar_Cmd_Verificar_Registro_Usuario(this._userManager, userModel).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Verificar_Registro_Usuario(this._userManager, UserModel).Ejecutar();
                 //Se realiza el registro del usuario
-                var result = await FabricaComandos.Fabricar_Cmd_Registro_Usuario(_userManager, userModel, _appSettings, _emailSender).Ejecutar();
+                var result = await FabricaComandos.Fabricar_Cmd_Registro_Usuario(_userManager, UserModel, _appSettings, _emailSender).Ejecutar();
 
-                return Ok(result);
+                return Ok(new { key = "RegisterMessage", message = "Registro exitoso" });
             }
             catch (MoneyUcabException ex)
             {
                 //Debe controlarse un error dentro de la plataforma
                 //Se realiza bad request respondiendo con el objeto obtenido
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -78,20 +78,20 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
                 // Busco el usuario en la base de datos - Get user in database
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email, null).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.email, model.email, null).Ejecutar();
                 // await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
                 // Obtengo el resultado de iniciar sesión 
                 var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings, _signInManager).Ejecutar();
-                return Ok(result);
+                return Ok(new { key = "LoginMessage", message = "Ingreso exitoso" });
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -105,23 +105,22 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
                 // Reviso que los parametros no sean nulos o con errores
-                await FabricaComandos.Fabricar_Cmd_Verificar_Parametros(model.ConfirmationToken, model.UserID).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Verificar_Parametros(model.confirmationToken, model.idUsuario).Ejecutar();
 
                 //Busco al usuario por su ID
 
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, null, null, model.UserID).Ejecutar();
-                await FabricaComandos.Fabricar_Cmd_Confirmar_Email(model.UserID, _userManager, model).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, null, null, model.idUsuario).Ejecutar();
                 //Se responde positivamente por el proceso.
-                return Ok();
+                return Ok(await FabricaComandos.Fabricar_Cmd_Confirmar_Email(model.idUsuario, _userManager, model).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Error al intentar confirmar el email.
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
 
         }
@@ -135,18 +134,18 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
                 // Busco el usuario en la base de datos - Get user in database
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email, null).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.email, model.email, null).Ejecutar();
                 //Proceso de envío y recuperación de contraseña.    
                 await FabricaComandos.Fabricar_Cmd_Olvido_Contraseña(_userManager, model, _appSettings, _emailSender).Ejecutar();
                 return Ok(new { key = "ForgotPasswordEmailSent", message = "Un mensaje ha sido enviado a su email con instrucciones para restablecer su contraseña" });
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
 
         }
@@ -160,21 +159,21 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
                 // Reviso que los parametros no sean nulos o con errores
-                await FabricaComandos.Fabricar_Cmd_Verificar_Parametros(model.NewPassword, model.ResetPasswordToken).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Verificar_Parametros(model.newPassword, model.resetPasswordToken).Ejecutar();
 
                 // Busco al usuario por su ID
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, null, null, model.UserID).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, null, null, model.idUsuario).Ejecutar();
                 await FabricaComandos.Fabricar_Cmd_Resetear_Password(_userManager, model).Ejecutar();
 
                 return Ok(new { key = "ResetPasswordSuccess", message = "¡Contraseña restablecida!" });
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
 
         }
@@ -186,15 +185,15 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Modificar_Usuario(formulario.usuario, formulario.email, formulario.telefono, formulario.direccion, formulario.IdUsuario).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Modificar_Usuario(formulario.usuario, formulario.email, formulario.telefono, formulario.direccion, formulario.idUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
 
         }

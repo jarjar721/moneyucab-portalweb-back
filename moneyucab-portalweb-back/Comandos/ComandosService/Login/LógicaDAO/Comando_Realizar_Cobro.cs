@@ -8,23 +8,21 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
 	public class Comando_Realizar_Cobro
 	{
-		public int idUsuarioSolicitante { get; set; }
-		public String emailPagador { get; set; }
-		public double monto { get; set; }
+		private int _idUsuarioSolicitante { get; set; }
+		private string _emailPagador { get; set; }
+		private double _monto { get; set; }
 
-		public Boolean cobroRealizado = false;
-
-		public Comando_Realizar_Cobro(int _idUsuarioSolicitante,String _emailPagador,double _monto)
+		public Comando_Realizar_Cobro(int IdUsuarioSolicitante,string EmailPagador,double Monto)
 		{
-			idUsuarioSolicitante = _idUsuarioSolicitante;
-			emailPagador = _emailPagador;
-			monto = _monto;
+			this._idUsuarioSolicitante = IdUsuarioSolicitante;
+			this._emailPagador = EmailPagador;
+			this._monto = Monto;
 		}
 
 		async public Task<Boolean> Ejecutar()
 		{
 			DAOBase dao = new DAOBase();
-			dao.Cobro(idUsuarioSolicitante, emailPagador, monto);
+			dao.Cobro(_idUsuarioSolicitante, _emailPagador, _monto);
 			return true;
 		}
 	}

@@ -9,7 +9,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 {
 	public class Comando_Parametros_Usuario
 	{
-		private int _UsuarioId;
+		private int _idUsuario;
 
 		public Comando_Parametros_Usuario()
 		{
@@ -18,13 +18,13 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 
 		public Comando_Parametros_Usuario(int UsuarioId)
 		{
-			this._UsuarioId = UsuarioId;
+			this._idUsuario = UsuarioId;
 		}
 
 		async public Task<List<ComUsuarioParametro>> Ejecutar()
 		{
-			DAOBase dao = FabricaDAO.crearDaoBase();
-			return dao.ParametrosUsuario(this._UsuarioId);
+			DAOBase dao = FabricaDAO.CrearDaoBase();
+			return dao.ParametrosUsuario(this._idUsuario);
 		}
 		
 		

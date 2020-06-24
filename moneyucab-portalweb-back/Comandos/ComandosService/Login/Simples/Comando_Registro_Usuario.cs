@@ -18,14 +18,14 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
         private readonly ApplicationSettings _appSettings;
         private IEmailSender _emailSender;
 
-        private readonly string clientBaseURI = "http://localhost:4200/#/";
+        private readonly string _clientBaseURI = "http://localhost:4200/#/";
 
-        public Comando_Registro_Usuario(UserManager<Usuario> userManager, RegistrationModel userModel, ApplicationSettings appSettings, IEmailSender _emailSender)
+        public Comando_Registro_Usuario(UserManager<Usuario> UserManager, RegistrationModel UserModel, ApplicationSettings AppSettings, IEmailSender EmailSender)
         {
-            this._userManager = userManager;
-            this._userModel = userModel;
-            this._appSettings = appSettings;
-            this._emailSender = _emailSender;
+            this._userManager = UserManager;
+            this._userModel = UserModel;
+            this._appSettings = AppSettings;
+            this._emailSender = EmailSender;
         }
 
         async public Task<Object> Ejecutar()
@@ -33,12 +33,12 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             // Se crea el objeto del usuario a registrar
             var usuario = new Usuario()
             {
-                UserName = _userModel.UserName,
-                Email = _userModel.Email,
+                UserName = _userModel.usuario,
+                Email = _userModel.email,
                 SignupDate = DateTime.Now
             };
             // Se crea el usuario en la base de datos
-            var result = await _userManager.CreateAsync(usuario, _userModel.Password);
+            var result = await _userManager.CreateAsync(usuario, _userModel.password);
 
             //Se debe ingresar en este punto la validación DAO con el sistema propio y no con Identity
             try
@@ -59,20 +59,20 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             // Busco el ID del template que será usado en el correo a enviar.
             var templateID = _appSettings.ConfirmAccountTemplateID;
             // Se crea el link que será anexado al template del correo
-            var callbackURL = clientBaseURI + "account-confirmed/" + usuario.Id + "/" + encodedToken;
+            var callbackURL = _clientBaseURI + "account-confirmed/" + usuario.Id + "/" + encodedToken;
 
             // Se crea el mensaje con sus detalles para el envío
             var emailDetails = new SendEmailDetails
             {
                 FromName = "MoneyUCAB",
                 FromEmail = "moneyucab@gmail.com",
-                ToName = _userModel.UserName,
-                ToEmail = _userModel.Email,
+                ToName = _userModel.usuario,
+                ToEmail = _userModel.email,
                 Subject = "MoneyUCAB - Confirma tu correo electrónico",
                 TemplateID = templateID,
                 TemplateData = new EmailData
                 {
-                    Name = _userModel.UserName,
+                    Name = _userModel.usuario,
                     URL = callbackURL,
                     Message = "¡Nos emociona muchísimo tenerte en la familia! " +
                                 "Para ello, es indispensable que confirmes tu cuenta para gozar de nuestros servicios. " +

@@ -12,21 +12,21 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
     {
 
         private UserManager<Usuario> _userManager;
-        private ForgotPasswordModel model;
+        private ForgotPasswordModel _model;
         private readonly ApplicationSettings _appSettings;
-        private readonly string clientBaseURI = "http://localhost:4200/#/";
+        private readonly string _clientBaseURI = "http://localhost:4200/#/";
         private IEmailSender _emailSender;
 
-        public Comando_Olvido_Contraseña(UserManager<Usuario> userManager, ForgotPasswordModel model, ApplicationSettings appSettings, IEmailSender emailSender)
+        public Comando_Olvido_Contraseña(UserManager<Usuario> UserManager, ForgotPasswordModel Model, ApplicationSettings AppSettings, IEmailSender EmailSender)
         {
-            this._appSettings = appSettings;
-            this._userManager = userManager;
-            this.model = model;
+            this._appSettings = AppSettings;
+            this._userManager = UserManager;
+            this._model = Model;
         }
 
         async public Task<Boolean> Ejecutar()
         {
-            var usuario = await _userManager.FindByEmailAsync(model.Email);
+            var usuario = await _userManager.FindByEmailAsync(_model.email);
             // Se genera el codigo para confirmar el email del usuario recien creado
             var code = await _userManager.GeneratePasswordResetTokenAsync(usuario);
             // Se codifica el token para poder enviarlo por parametro
@@ -34,7 +34,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             // Busco el ID del template que será usado en el correo a enviar.
             var templateID = _appSettings.ConfirmAccountTemplateID;
             // Se crea el link que será anexado al template del correo
-            var callbackURL = clientBaseURI + "pw-reset/" + usuario.Id + "/" + encodedToken;
+            var callbackURL = _clientBaseURI + "pw-reset/" + usuario.Id + "/" + encodedToken;
 
             // Se crea el mensaje con sus detalles para el envío
             var emailDetails = new SendEmailDetails

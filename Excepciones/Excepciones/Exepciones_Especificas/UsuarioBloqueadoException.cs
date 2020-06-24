@@ -4,19 +4,19 @@ namespace Excepciones.Excepciones_Especificas
 {
     public class UsuarioBloqueadoException : MoneyUcabException
     {
-        public static void UsuarioBloqueado(DateTimeOffset date)
+        public static void UsuarioBloqueado(DateTimeOffset Date)
         {
             UsuarioBloqueadoException exception = new UsuarioBloqueadoException();
-            exception.Codigo = 12;
-            exception.Error = "El usuario se encuentra bloqueado desde la fecha: " + date.ToString();
+            exception.codigo = 12;
+            exception.error = "El usuario se encuentra bloqueado desde la fecha: " + Date.ToString();
             throw exception;
         }
 
-        public static void IntentoFallido(int intentos_restantes)
+        public static void IntentoFallido(int IntentosRestantes)
         {
             UsuarioBloqueadoException exception = new UsuarioBloqueadoException();
-            exception.Codigo = 13;
-            exception.Error = "El usuario falló en el intento de realizar login, tiene " + intentos_restantes + " intentos restantes.";
+            exception.codigo = 13;
+            exception.error = "El usuario falló en el intento de realizar login, tiene " + IntentosRestantes + " intentos restantes.";
             throw exception;
         }
     }

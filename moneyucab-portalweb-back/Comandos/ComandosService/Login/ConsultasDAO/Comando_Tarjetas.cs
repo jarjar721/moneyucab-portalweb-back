@@ -9,7 +9,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 {
 	public class Comando_Tarjetas
 	{
-		private int _UsuarioId;
+		private int _idUsuario;
 
 		public Comando_Tarjetas()
 		{
@@ -18,13 +18,13 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 
 		public Comando_Tarjetas(int UsuarioId)
 		{
-			this._UsuarioId = UsuarioId;
+			this._idUsuario = UsuarioId;
 		}
 
 		async public Task<List<ComTarjeta>> Ejecutar()
 		{
-			DAOBase dao = FabricaDAO.crearDaoBase();
-			return dao.Tarjetas(this._UsuarioId);
+			DAOBase dao = FabricaDAO.CrearDaoBase();
+			return dao.Tarjetas(this._idUsuario);
 		}
 		
 		

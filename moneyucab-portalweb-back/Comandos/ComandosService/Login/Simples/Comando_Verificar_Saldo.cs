@@ -10,9 +10,9 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 	{
 		public int _idUsuario;
 
-		public Comando_Verificar_Saldo(int idUsuario)
+		public Comando_Verificar_Saldo(int IdUsuario)
 		{
-			this._idUsuario = idUsuario;
+			this._idUsuario = IdUsuario;
 		}
 
 		async public Task<Double> Ejecutar()

@@ -2,7 +2,7 @@
 {
     public class ConfirmEmailModel
     {
-        public string UserID { get; set; }
-        public string ConfirmationToken { get; set; }
+        public string idUsuario { get; set; }
+        public string confirmationToken { get; set; }
     }
 }

@@ -8,18 +8,18 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
 	public class Comando_Cancelar_Reintegro
 	{
-		public int idReintegro { get; set; }
+		private int _idReintegro { get; set; }
 
 
-		public Comando_Cancelar_Reintegro(int _idReintegro)
+		public Comando_Cancelar_Reintegro(int IdReintegro)
 		{
-			idReintegro = _idReintegro;
+			this._idReintegro = IdReintegro;
 		}
 
 		async public Task<Boolean> Ejecutar()
 		{
 			DAOBase dao = new DAOBase();
-			dao.CancelarReintegro(idReintegro);
+			dao.CancelarReintegro(_idReintegro);
 			return true;
 		}
 	}

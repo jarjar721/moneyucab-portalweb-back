@@ -10,30 +10,30 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
 	public class Comando_Registrar_Billetera_Tarjeta
 	{
-		public int idUsuario { get; set; }
-		public int idTipoTarjeta { get; set; }
-		public int idBanco { get; set; }
-		public int numero { get; set; }
-		public NpgsqlDate fecha_vencimiento { get; set; }
-		public int cvc { get; set; }
-		public int estatus { get; set; }
+		private int _idUsuario { get; set; }
+		private int _idTipoTarjeta { get; set; }
+		private int _idBanco { get; set; }
+		private int _numero { get; set; }
+		private NpgsqlDate _fechaVencimiento { get; set; }
+		private int _cvc { get; set; }
+		private int _estatus { get; set; }
 
-		public Comando_Registrar_Billetera_Tarjeta(int _idUsuario, int _idTipoTarjeta, int _idBanco, int _numero , NpgsqlDate fecha_vencimiento, int _cvc, int _estatus)
+		public Comando_Registrar_Billetera_Tarjeta(int IdUsuario, int IdTipoTarjeta, int IdBanco, int Numero , NpgsqlDate FechaVencimiento, int CVC, int Estatus)
 		{
-			this.idUsuario = _idUsuario;
-			this.idTipoTarjeta = _idTipoTarjeta;
-			this.idBanco = _idBanco;
-			this.numero = _numero;
-			this.fecha_vencimiento = fecha_vencimiento;
-			this.cvc = _cvc;
-			this.estatus = _estatus;
+			this._idUsuario = IdUsuario;
+			this._idTipoTarjeta = IdTipoTarjeta;
+			this._idBanco = IdBanco;
+			this._numero = Numero;
+			this._fechaVencimiento = FechaVencimiento;
+			this._cvc = CVC;
+			this._estatus = Estatus;
 		}
 		async public Task<Boolean> Ejecutar()
 		{
 			DAOBase dao = new DAOBase();
-			ComTipoTarjeta comTipoTarjeta = new ComTipoTarjeta(idTipoTarjeta);
-			ComBanco comBanco = new ComBanco(idBanco);
-			ComTarjeta comTarjeta = new ComTarjeta(comTipoTarjeta, comBanco, idUsuario, numero, fecha_vencimiento, cvc, estatus);
+			ComTipoTarjeta comTipoTarjeta = new ComTipoTarjeta(_idTipoTarjeta);
+			ComBanco comBanco = new ComBanco(_idBanco);
+			ComTarjeta comTarjeta = new ComTarjeta(comTipoTarjeta, comBanco, _idUsuario, _numero, _fechaVencimiento, _cvc, _estatus);
 			dao.RegistroTarjeta(comTarjeta);
 
 			return true;

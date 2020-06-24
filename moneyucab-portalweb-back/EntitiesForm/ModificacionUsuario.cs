@@ -11,6 +11,6 @@ namespace moneyucab_portalweb_back.EntitiesForm
 		public string email { get; set; }
 		public string telefono { get; set; }
 		public string direccion { get; set; } 
-		public int IdUsuario { get; set; }
+		public int idUsuario { get; set; }
 	}
 }
