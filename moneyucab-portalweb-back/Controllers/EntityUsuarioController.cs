@@ -23,7 +23,7 @@ namespace moneyucab_portalweb_back.Controllers
             _comandoDatosUsuario = comandoDatosUsuario;
         }
 
-        [HttpGet] // api/DatosUsuario/consultar
+        [HttpGet] // api/EntityUsuario/consultar
         [Route("Consultar")]
         public IActionResult Consultar()
         {
@@ -42,7 +42,7 @@ namespace moneyucab_portalweb_back.Controllers
             }
         }
 
-        [HttpPost] //api/DatosUsuario/insertar
+        [HttpPost] //api/EntityUsuario/insertar
         [Route("Insertar")]
         public IActionResult Agregar([FromBody] DatosUsuario _datosUsuario)
         {
@@ -61,7 +61,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         }
 
-        [HttpPut] //api/DatosUsuario/editar
+        [HttpPut] //api/EntityUsuario/editar
         [Route("Editar")]
         public IActionResult Editar([FromBody] DatosUsuario _datosUsuario)
         {
@@ -80,7 +80,7 @@ namespace moneyucab_portalweb_back.Controllers
             }
         }
 
-        [HttpDelete]  // api/DatosUsuario/eliminar/5
+        [HttpDelete]  // api/EntityUsuario/eliminar/5
         [Route("eliminar/{UsuarioID}")]
         public IActionResult Eliminar(int UsuarioID) //NoticiaID igual qeu ene el route
         {

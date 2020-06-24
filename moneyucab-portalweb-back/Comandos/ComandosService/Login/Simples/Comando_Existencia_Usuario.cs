@@ -25,7 +25,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 
         async public Task<Boolean> Ejecutar()
         {
-            //Este comando debe retornar una excepción sino consigue  el usuario o email
+            //Este comando debe retornar una excepción sino consigue el usuario o email
             // Chequeo que el username no este registrado
             if (await _userManager.FindByNameAsync(UserName) != null)
             {
@@ -40,7 +40,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             {
                 return true;
             }
-            UsuarioExistenteException.UsuarioNoExistente();
+            // UsuarioExistenteException.UsuarioNoExistente();
             return false;
         }
 
