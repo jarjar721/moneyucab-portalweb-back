@@ -15,15 +15,26 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
     {
         //private FormP formulario;
         private UserManager<Usuario> _userManager;
+        private LoginModel _model;
 
-        public Comando_Verificar_Autenticacion()
+        public Comando_Verificar_Autenticacion(UserManager<Usuario> UserManager, LoginModel Model)
         {
-            throw new NotImplementedException();
+            this._userManager = UserManager;
+            this._model = Model;
         }
 
         async public Task<Boolean> Ejecutar()
         {
-            throw new NotImplementedException();
+            try
+            {
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, _model.email, _model.email, null).Ejecutar();
+            }
+            catch (UsuarioExistenteException ex)
+            {
+                if (ex.codigo != 17)
+                    UsuarioExistenteException.UsuarioNoExistente();
+            }
+            return true;
         }
 
 
