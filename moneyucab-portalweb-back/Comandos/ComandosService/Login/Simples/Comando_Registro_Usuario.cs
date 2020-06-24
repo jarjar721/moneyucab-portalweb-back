@@ -84,9 +84,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             // Se envía el mensaje al correo del usuario registrado
             _emailSender.SendEmailAsync(emailDetails);
 
-            var user = await _userManager.FindByEmailAsync(_userModel.email);
-
-            return (new { userID = user.Id, username = user.UserName, email = _userModel.email });
+            return result;
         }
 
     }
