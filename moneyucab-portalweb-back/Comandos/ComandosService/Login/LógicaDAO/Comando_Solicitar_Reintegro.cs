@@ -8,23 +8,21 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
 	public class Comando_Solicitar_Reintegro
 	{
-		public int idUsuarioSolicitante { get; set; }
-		public String emailPagador { get; set; }
-		public string referencia { get; set; }
+		public int _idUsuarioSolicitante { get; set; }
+		public string _emailPagador { get; set; }
+		public string _referencia { get; set; }
 
-		public Boolean cobroRealizado = false;
-
-		public Comando_Solicitar_Reintegro(int _idUsuarioSolicitante,String _emailPagador,string _referencia)
+		public Comando_Solicitar_Reintegro(int _idUsuarioSolicitante,string _emailPagador,string _referencia)
 		{
-			idUsuarioSolicitante = _idUsuarioSolicitante;
-			emailPagador = _emailPagador;
-			referencia = _referencia;
+			this._idUsuarioSolicitante = _idUsuarioSolicitante;
+			this._emailPagador = _emailPagador;
+			this._referencia = _referencia;
 		}
 
 		async public Task<Boolean> Ejecutar()
 		{
 			DAOBase dao = new DAOBase();
-			dao.Reintegro(idUsuarioSolicitante, emailPagador, referencia);
+			dao.Reintegro(_idUsuarioSolicitante, _emailPagador, _referencia);
 			return true;
 		}
 	}

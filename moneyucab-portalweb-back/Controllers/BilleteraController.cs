@@ -18,22 +18,23 @@ namespace moneyucab_portalweb_back.Controllers
     {
         [HttpPost] // api/Billetera/cuenta
         [Route("Cuenta")]
-        public async Task<IActionResult> CuentaAsync([FromBody]BilleteraCuenta billeteraCuenta) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<IActionResult> CuentaAsync([FromBody]BilleteraCuenta BilleteraCuenta) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
 
 
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Registrar_Cuenta(billeteraCuenta.idUsuario, billeteraCuenta.idTipoCuenta, billeteraCuenta.idBanco, billeteraCuenta.numero).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Registrar_Cuenta(BilleteraCuenta.idUsuario, BilleteraCuenta.idTipoCuenta, BilleteraCuenta.idBanco, BilleteraCuenta.numero).Ejecutar();
+                return Ok(new { key = "RegistoCuenta", message = "Registro exitoso" , result});
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
 
 
@@ -47,16 +48,17 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Registrar_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco,
-                    billeteraTarjeta.numero, billeteraTarjeta.fecha_vencimiento, billeteraTarjeta.cvc, billeteraTarjeta.estatus).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Registrar_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco,
+                    billeteraTarjeta.numero, billeteraTarjeta.fechaVencimiento, billeteraTarjeta.cvc, billeteraTarjeta.estatus).Ejecutar();
+                return Ok(new { key = "RegistoTarjeta", message = "Registro exitoso", result  });
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
 
 
@@ -71,16 +73,17 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-                return Ok(await FabricaComandos.Fabricar_Cmd_Eliminar_Cuenta(CuentaId).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Eliminar_Cuenta(CuentaId).Ejecutar();
+                return Ok(new { key = "EliminacionTarjeta", message = "Eliminacion exitosa", result });
 
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
 
 
@@ -94,15 +97,16 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-                return Ok( await FabricaComandos.Fabricar_Cmd_Eliminar_Tarjeta(TarjetaId).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Eliminar_Tarjeta(TarjetaId).Ejecutar();
+                return Ok(new { key = "EliminacionTarjeta", message = "Eliminacion exitosa", result });
             }
             catch (MoneyUcabException ex)
             {
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
 
 

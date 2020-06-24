@@ -29,7 +29,7 @@ namespace DAO
             //conn_string.Database = "postgres";
             conn_string.Database = "Desarrollo";        
             //StringConexion = ConfigurationManager.AppSettings.Get("IdentityConnection");
-            StringConexion = conn_string.ToString(); 
+            stringConexion = conn_string.ToString();
         }
 
         //Operaciones de consulta---------------------------------------------------------------
@@ -42,16 +42,16 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Estados_Civiles();");
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Estados_Civiles();");
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComEstadoCivil> estadosCiviles = new List<ComEstadoCivil>();
                 ComEstadoCivil row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComEstadoCivil();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     estadosCiviles.Add(row);
                 }
                 return estadosCiviles;
@@ -85,16 +85,16 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM tipos_tarjeta();");
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM tipos_tarjeta();");
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComTipoTarjeta> tiposTarjetas = new List<ComTipoTarjeta>();
                 ComTipoTarjeta row = new ComTipoTarjeta();
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComTipoTarjeta();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     tiposTarjetas.Add(row);
                 }
                 return tiposTarjetas;
@@ -131,16 +131,16 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Bancos();");
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Bancos();");
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComBanco> bancos = new List<ComBanco>();
                 ComBanco row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComBanco();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     bancos.Add(row);
                 }
                 return bancos;
@@ -177,16 +177,16 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Cuentas();");
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Cuentas();");
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComTipoCuenta> tiposCuentas = new List<ComTipoCuenta>();
                 ComTipoCuenta row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComTipoCuenta();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     tiposCuentas.Add(row);
                 }
                 return tiposCuentas;
@@ -223,16 +223,16 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Parametros();");
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Parametros();");
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComTipoParametro> tiposParametros = new List<ComTipoParametro>();
                 ComTipoParametro row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComTipoParametro();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     tiposParametros.Add(row);
                 }
                 return tiposParametros;
@@ -269,16 +269,16 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Frecuencias();");
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Frecuencias();");
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComFrecuencia> frecuencias = new List<ComFrecuencia>();
                 ComFrecuencia row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComFrecuencia();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     frecuencias.Add(row);
                 }
                 return frecuencias;
@@ -315,16 +315,16 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Parametros();");
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Parametros();");
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComParametro> parametros = new List<ComParametro>();
                 ComParametro row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComParametro();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     parametros.Add(row);
                 }
                 return parametros;
@@ -361,16 +361,16 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Operaciones();");
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Operaciones();");
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComTipoOperacion> tiposOperaciones = new List<ComTipoOperacion>();
                 ComTipoOperacion row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComTipoOperacion();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     tiposOperaciones.Add(row);
                 }
                 return tiposOperaciones;
@@ -407,16 +407,16 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Identificaciones();");
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Tipos_Identificaciones();");
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComTipoIdentificacion> tiposIdentificaciones = new List<ComTipoIdentificacion>();
                 ComTipoIdentificacion row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComTipoIdentificacion();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     tiposIdentificaciones.Add(row);
                 }
                 return tiposIdentificaciones;
@@ -444,7 +444,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public List<ComTarjeta> Tarjetas(int UsuarioId)
+        public List<ComTarjeta> Tarjetas(int IdUsuario)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -453,17 +453,17 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Tarjetas(@UsuarioId);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Tarjetas(@UsuarioId);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComTarjeta> tarjetas = new List<ComTarjeta>();
                 ComTarjeta row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComTarjeta();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     tarjetas.Add(row);
                 }
                 return tarjetas;
@@ -491,7 +491,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public List<ComCuenta> Cuentas(int UsuarioId)
+        public List<ComCuenta> Cuentas(int IdUsuario)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -500,17 +500,17 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Cuentas(@UsuarioId);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Cuentas(@UsuarioId);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComCuenta> cuentas = new List<ComCuenta>();
                 ComCuenta row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComCuenta();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     cuentas.Add(row);
                 }
                 return cuentas;
@@ -538,7 +538,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public List<ComReintegro> ReintegrosActivos(int UsuarioId, int solicitante)
+        public List<ComReintegro> ReintegrosActivos(int IdUsuario, int Solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -547,18 +547,18 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Reintegros_Activos(@UsuarioId, @solicitante);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Reintegros_Activos(@UsuarioId, @solicitante);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", Solicitante));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComReintegro> reintegros = new List<ComReintegro>();
                 ComReintegro row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComReintegro();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     reintegros.Add(row);
                 }
                 return reintegros;
@@ -586,7 +586,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public List<ComReintegro> ReintegrosCancelados(int UsuarioId, int solicitante)
+        public List<ComReintegro> ReintegrosCancelados(int IdUsuario, int Solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -595,18 +595,18 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Reintegros_Cancelados(@UsuarioId, @solicitante);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Reintegros_Cancelados(@UsuarioId, @solicitante);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", Solicitante));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComReintegro> reintegros = new List<ComReintegro>();
                 ComReintegro row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComReintegro();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     reintegros.Add(row);
                 }
                 return reintegros;
@@ -634,7 +634,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public List<ComReintegro> ReintegrosExitosos(int UsuarioId, int solicitante)
+        public List<ComReintegro> ReintegrosExitosos(int IdUsuario, int Solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -643,18 +643,18 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Reintegros_Exitosos(@UsuarioId, @solicitante);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Reintegros_Exitosos(@UsuarioId, @solicitante);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", Solicitante));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComReintegro> reintegros = new List<ComReintegro>();
                 ComReintegro row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComReintegro();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     reintegros.Add(row);
                 }
                 return reintegros;
@@ -682,7 +682,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public List<ComPago> CobrosActivos(int UsuarioId, int solicitante)
+        public List<ComPago> CobrosActivos(int IdUsuario, int Solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -691,18 +691,18 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Cobros_Activos(@UsuarioId, @solicitante);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Cobros_Activos(@UsuarioId, @solicitante);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", Solicitante));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComPago> cobros = new List<ComPago>();
                 ComPago row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComPago();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     cobros.Add(row);
                 }
                 return cobros;
@@ -730,7 +730,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public List<ComPago> CobrosCancelados(int UsuarioId, int solicitante)
+        public List<ComPago> CobrosCancelados(int IdUsuario, int Solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -739,18 +739,18 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Cobros_Cancelados(@UsuarioId, @solicitante);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Cobros_Cancelados(@UsuarioId, @solicitante);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", Solicitante));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComPago> cobros = new List<ComPago>();
                 ComPago row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComPago();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     cobros.Add(row);
                 }
                 return cobros;
@@ -778,7 +778,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public List<ComPago> CobrosExitosos(int UsuarioId, int solicitante)
+        public List<ComPago> CobrosExitosos(int IdUsuario, int Solicitante)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -787,18 +787,18 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Cobros_Exitosos(@UsuarioId, @solicitante);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", solicitante));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Cobros_Exitosos(@UsuarioId, @solicitante);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("solicitante", Solicitante));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComPago> cobros = new List<ComPago>();
                 ComPago row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComPago();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     cobros.Add(row);
                 }
                 return cobros;
@@ -826,7 +826,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public List<ComUsuarioParametro> ParametrosUsuario(int UsuarioId)
+        public List<ComUsuarioParametro> ParametrosUsuario(int IdUsuario)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -835,17 +835,17 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Parametros_Usuario(@UsuarioId);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Parametros_Usuario(@UsuarioId);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComUsuarioParametro> parametrosUsuario = new List<ComUsuarioParametro>();
                 ComUsuarioParametro row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComUsuarioParametro();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     parametrosUsuario.Add(row);
                 }
                 return parametrosUsuario;
@@ -873,7 +873,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public ComUsuario InformacionPersona(string usuario)
+        public ComUsuario InformacionPersona(string Usuario)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -882,15 +882,15 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Informacion_persona(@usuario);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("usuario", usuario));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                comandoSQL.CommandText = string.Format("SELECT * FROM Informacion_persona(@usuario);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("usuario", Usuario));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
                 {
                     ComUsuario informacion_persona = new ComUsuario();
-                    informacion_persona.LlenadoDataNpgsql(LectorTablaSQL);
+                    informacion_persona.LlenadoDataNpgsql(lectorTablaSQL);
                     return informacion_persona;
                 }
                 else
@@ -922,7 +922,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public double SaldoMonedero(int UsuarioId)
+        public double SaldoMonedero(int IdUsuario)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -931,13 +931,13 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Saldo_Monedero(@UsuarioId);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
-                LectorTablaSQL.Read();
-                saldo = LectorTablaSQL.GetDouble(0);
+                comandoSQL.CommandText = string.Format("SELECT Saldo_Monedero(@UsuarioId);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
+                lectorTablaSQL.Read();
+                saldo = lectorTablaSQL.GetDouble(0);
                 return saldo;
             }
             catch (NpgsqlException ex)
@@ -964,7 +964,7 @@ namespace DAO
         }
 
         //Debe retornar el historial de operaciones
-        public List<ComOperacionTarjeta> HistorialOperacionesTarjeta(int tarjetaId)
+        public List<ComOperacionTarjeta> HistorialOperacionesTarjeta(int IdTarjeta)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -973,17 +973,17 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Historial_Operaciones_Tarjetas(@tarjetaId);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("tarjetaId", tarjetaId));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Historial_Operaciones_Tarjetas(@tarjetaId);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("tarjetaId", IdTarjeta));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComOperacionTarjeta> operacionesTarjeta = new List<ComOperacionTarjeta>();
                 ComOperacionTarjeta row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComOperacionTarjeta();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     operacionesTarjeta.Add(row);
                 }
                 return operacionesTarjeta;
@@ -1012,7 +1012,7 @@ namespace DAO
         }
 
         //Debe retornar el historial de operaciones
-        public List<ComOperacionCuenta> HistorialOperacionesCuenta(int CuentaId)
+        public List<ComOperacionCuenta> HistorialOperacionesCuenta(int IdCuenta)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -1021,17 +1021,17 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Historial_Operaciones_Cuenta(@CuentaId);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", CuentaId));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Historial_Operaciones_Cuenta(@CuentaId);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", IdCuenta));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComOperacionCuenta> operacionesCuenta = new List<ComOperacionCuenta>();
                 ComOperacionCuenta row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComOperacionCuenta();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     operacionesCuenta.Add(row);
                 }
                 return operacionesCuenta;
@@ -1059,7 +1059,7 @@ namespace DAO
             if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
         }
 
-        public List<ComOperacionMonedero> HistorialOperacionesMonedero(int UsuarioId)
+        public List<ComOperacionMonedero> HistorialOperacionesMonedero(int IdUsuario)
         {
 
             //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
@@ -1068,17 +1068,17 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT * FROM Historial_Operaciones_Monedero(@UsuarioId);");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", UsuarioId));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT * FROM Historial_Operaciones_Monedero(@UsuarioId);");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComOperacionMonedero> operacionesMonedero = new List<ComOperacionMonedero>();
                 ComOperacionMonedero row;
-                while (LectorTablaSQL.Read())
+                while (lectorTablaSQL.Read())
                 {
                     row = new ComOperacionMonedero();
-                    row.LlenadoDataNpgsql(LectorTablaSQL);
+                    row.LlenadoDataNpgsql(lectorTablaSQL);
                     operacionesMonedero.Add(row);
                 }
                 return operacionesMonedero;
@@ -1108,18 +1108,18 @@ namespace DAO
         //--------------------------------------------------------------------------------------
 
         //Operaciones de lógica-----------------------------------------------------------------
-        public void RegistroUsuarioPersona(ComUsuario formulario)
+        public void RegistroUsuarioPersona(ComUsuario Formulario)
         {
             try
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Registro_Usuario(@TipoUsuarioId, @TipoIdentificacionId, @Usuario, @FechaRegistro, @NroIdentificacion, " +
+                comandoSQL.CommandText = string.Format("SELECT Registro_Usuario(@TipoUsuarioId, @TipoIdentificacionId, @Usuario, @FechaRegistro, @NroIdentificacion, " +
                     "@Email, @Telefono, @Direccion, @Estatus, @TipoSol, @Nombre, @Apellido, @Contrasena, @RazonSocial, @IdEstadoCivil, @FechaNacimiento)");
-                formulario.LlenadoDataFormPersona(ComandoSQL);
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                Formulario.LlenadoDataFormPersona(comandoSQL);
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1135,9 +1135,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo registrar al usuario", 201);
                     }
@@ -1148,18 +1148,18 @@ namespace DAO
             }
         }
 
-        public void RegistroUsuarioComercio(ComUsuario formulario)
+        public void RegistroUsuarioComercio(ComUsuario Formulario)
         {
             try
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Registro_Usuario(@TipoUsuarioId, @TipoIdentificacionId, @Usuario, @FechaRegistro, @NroIdentificacion, " +
+                comandoSQL.CommandText = string.Format("SELECT Registro_Usuario(@TipoUsuarioId, @TipoIdentificacionId, @Usuario, @FechaRegistro, @NroIdentificacion, " +
                     "@Email, @Telefono, @Direccion, @Estatus, @TipoSol, @Nombre, @Apellido, @Contrasena, @RazonSocial, @IdEstadoCivil, @FechaNacimiento)");
-                formulario.LlenadoDataFormComercio(ComandoSQL);
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                Formulario.LlenadoDataFormComercio(comandoSQL);
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1175,9 +1175,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo registrar al usuario", 201);
                     }
@@ -1188,17 +1188,17 @@ namespace DAO
             }
         }
         
-        public void RegistroCuenta(ComCuenta formulario)
+        public void RegistroCuenta(ComCuenta Formulario)
         {
             try
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Registro_Cuenta(@UsuarioId, @TipoCuentaId, @BancoId, @Numero)");
-                formulario.LlenadoDataForm(ComandoSQL);
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Registro_Cuenta(@UsuarioId, @TipoCuentaId, @BancoId, @Numero)");
+                Formulario.LlenadoDataForm(comandoSQL);
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1214,9 +1214,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo registrar al cuenta", 202);
                     }
@@ -1227,17 +1227,17 @@ namespace DAO
             }
         }
 
-        public void RegistroTarjeta(ComTarjeta formulario)
+        public void RegistroTarjeta(ComTarjeta Formulario)
         {
             try
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Registro_Tarjeta(@UsuarioId, @TipoTarjetaId, @BancoId, @Numero, @FechaVencimiento, @cvc, @Estatus)");
-                formulario.LlenadoDataForm(ComandoSQL);
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Registro_Tarjeta(@UsuarioId, @TipoTarjetaId, @BancoId, @Numero, @FechaVencimiento, @cvc, @Estatus)");
+                Formulario.LlenadoDataForm(comandoSQL);
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1253,9 +1253,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo registrar la tarjeta", 202);
                     }
@@ -1266,17 +1266,17 @@ namespace DAO
             }
         }
 
-        public void EstablecerParametro(ComUsuarioParametro formulario)
+        public void EstablecerParametro(ComUsuarioParametro Formulario)
         {
             try
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Establecer_Parametro(@UsuarioId, @ParametroId, @Validacion, @Estatus)");
-                formulario.LlenadoDataForm(ComandoSQL);
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Establecer_Parametro(@UsuarioId, @ParametroId, @Validacion, @Estatus)");
+                Formulario.LlenadoDataForm(comandoSQL);
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1292,9 +1292,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo registrar el parámetro", 203);
                     }
@@ -1311,13 +1311,13 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Cobro(@UsuarioId, @UsuarioACobrar, @Monto)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuarioCobrador));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioACobrar", IdUsuarioPaga));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Cobro(@UsuarioId, @UsuarioACobrar, @Monto)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuarioCobrador));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioACobrar", IdUsuarioPaga));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1333,9 +1333,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1352,13 +1352,13 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Reintegro(@UsuarioId, @UsuarioACobrar, @Referencia)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuarioCobrador));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioACobrar", IdUsuarioPaga));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("Referencia", Referencia));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Reintegro(@UsuarioId, @UsuarioACobrar, @Referencia)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuarioCobrador));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioACobrar", IdUsuarioPaga));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Referencia", Referencia));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1374,9 +1374,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1393,11 +1393,11 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Cancelar_Cobro(@IdCobro)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Cancelar_Cobro(@IdCobro)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1413,9 +1413,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1432,11 +1432,11 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Cancelar_Reintegro(@IdReintegro)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdReintegro", IdReintegro));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Cancelar_Reintegro(@IdReintegro)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdReintegro", IdReintegro));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1452,9 +1452,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1471,14 +1471,14 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Pago_Tarjeta(@IdUsuarioReceptor, @IdTarjetaPago, @Monto, @IdCobro)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdTarjetaPago", IdTarjetaPago));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Pago_Tarjeta(@IdUsuarioReceptor, @IdTarjetaPago, @Monto, @IdCobro)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdTarjetaPago", IdTarjetaPago));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1494,9 +1494,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1513,14 +1513,14 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Pago_Cuenta(@IdUsuarioReceptor, @IdCuentaPago, @Monto, @IdCobro)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCuentaPago", IdCuentaPago));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Pago_Cuenta(@IdUsuarioReceptor, @IdCuentaPago, @Monto, @IdCobro)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdCuentaPago", IdCuentaPago));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1536,9 +1536,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1555,14 +1555,14 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Pago_Monedero(@IdUsuarioReceptor, @IdUsuarioPago, @Monto, @IdCobro)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioPago", IdUsuarioPago));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Pago_Monedero(@IdUsuarioReceptor, @IdUsuarioPago, @Monto, @IdCobro)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioPago", IdUsuarioPago));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1578,9 +1578,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1597,14 +1597,14 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Reintegro_Tarjeta(@IdUsuarioReceptor, @IdTarjetaPago, @Monto, @IdCobro)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdTarjetaPago", IdTarjetaPago));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Reintegro_Tarjeta(@IdUsuarioReceptor, @IdTarjetaPago, @Monto, @IdCobro)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdTarjetaPago", IdTarjetaPago));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1620,9 +1620,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1639,14 +1639,14 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Reintegro_Cuenta(@IdUsuarioReceptor, @IdCuentaPago, @Monto, @IdCobro)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCuentaPago", IdCuentaPago));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Reintegro_Cuenta(@IdUsuarioReceptor, @IdCuentaPago, @Monto, @IdCobro)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdCuentaPago", IdCuentaPago));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1662,9 +1662,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1681,14 +1681,14 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Pago_Tarjeta(@IdUsuarioReceptor, @IdUsuarioPago, @Monto, @IdCobro)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioPago", IdUsuarioPago));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Pago_Tarjeta(@IdUsuarioReceptor, @IdUsuarioPago, @Monto, @IdCobro)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioPago", IdUsuarioPago));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1704,9 +1704,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1717,21 +1717,21 @@ namespace DAO
             }
         }
 
-        public void Modificación_Usuario(string usuario, string email, string telefono, string direccion, int IdUsuario)
+        public void Modificación_Usuario(string Usuario, string Email, string Telefono, string Direccion, int IdUsuario)
         {
             try
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Modificación_Usuario(@usuario, @email, @telefono, @direccion)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuario));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("usuario", usuario));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("email", email));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("telefono", telefono));
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("direccion", direccion));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Modificación_Usuario(@usuario, @email, @telefono, @direccion)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuario));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("usuario", Usuario));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("email", Email));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("telefono", Telefono));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("direccion", Direccion));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1747,9 +1747,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1766,15 +1766,15 @@ namespace DAO
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Ejecutar_Cierre(@IdUsuario)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuario", IdUsuario));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
-                if (LectorTablaSQL.Read())
+                comandoSQL.CommandText = string.Format("SELECT Ejecutar_Cierre(@IdUsuario)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuario", IdUsuario));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
                 {
                     ComOperacionMonedero operacion_monedero = new ComOperacionMonedero();
-                    operacion_monedero.LlenadoDataNpgsql(LectorTablaSQL);
+                    operacion_monedero.LlenadoDataNpgsql(lectorTablaSQL);
                     return operacion_monedero;
                 }
             }
@@ -1792,9 +1792,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                     }
@@ -1806,17 +1806,17 @@ namespace DAO
             return null;
         }
 
-        public void EliminarCuenta(int CuentaId)
+        public void EliminarCuenta(int IdCuenta)
         {
             try
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Eliminar_Cuenta(@CuentaId)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", CuentaId));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Eliminar_Cuenta(@CuentaId)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", IdCuenta));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1832,9 +1832,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo registrar al cuenta", 202);
                     }
@@ -1845,17 +1845,17 @@ namespace DAO
             }
         }
 
-        public void EliminarTarjeta(int TarjetaId)
+        public void EliminarTarjeta(int IdTarjeta)
         {
             try
             {
                 Conectar();
 
-                ComandoSQL = Conector.CreateCommand();
+                comandoSQL = conector.CreateCommand();
 
-                ComandoSQL.CommandText = string.Format("SELECT Eliminar_Tarjeta(@TarjetaId)");
-                ComandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", TarjetaId));
-                LectorTablaSQL = ComandoSQL.ExecuteReader();
+                comandoSQL.CommandText = string.Format("SELECT Eliminar_Tarjeta(@TarjetaId)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", IdTarjeta));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
             }
             catch (NpgsqlException ex)
             {
@@ -1871,9 +1871,9 @@ namespace DAO
             }
             finally
             {
-                if (LectorTablaSQL.Read())
+                if (lectorTablaSQL.Read())
                 {
-                    if (!LectorTablaSQL.GetBoolean(0))
+                    if (!lectorTablaSQL.GetBoolean(0))
                     {
                         throw new MoneyUcabException("No se pudo eliminar la tarjeta", 202);
                     }

@@ -5,11 +5,11 @@ namespace Comunes.Comun
 {
     public class ComParametro : EntidadComun, IEntidadComun
     {
-        public ComTipoParametro _tipoParametro = new ComTipoParametro();
-        public ComFrecuencia _frecuencia = new ComFrecuencia();
-        public int _idParametro { get; set; }
-        public string _nombre { get; set; }
-        public int _estatus { get; set; }
+        public ComTipoParametro tipoParametro = new ComTipoParametro();
+        public ComFrecuencia frecuencia = new ComFrecuencia();
+        public int idParametro { get; set; }
+        public string nombre { get; set; }
+        public int estatus { get; set; }
 
         public ComParametro()
         {
@@ -18,18 +18,18 @@ namespace Comunes.Comun
 
         public ComParametro(int idParametro)
         {
-            this._idParametro = idParametro;
+            this.idParametro = idParametro;
         }
 
-        public void LlenadoDataNpgsql(NpgsqlDataReader data)
+        public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this._idParametro = data.GetInt32(0 + _offset);
-            this._nombre = data.GetString(3 + _offset);
-            this._estatus = data.GetInt32(4 + _offset);
-            this._tipoParametro._offset = 5 + _offset;
-            this._tipoParametro.LlenadoDataNpgsql(data);
-            this._frecuencia._offset = 8 + _offset;
-            this._frecuencia.LlenadoDataNpgsql(data);
+            this.idParametro = Data.GetInt32(0 + offset);
+            this.nombre = Data.GetString(3 + offset);
+            this.estatus = Data.GetInt32(4 + offset);
+            this.tipoParametro.offset = 5 + offset;
+            this.tipoParametro.LlenadoDataNpgsql(Data);
+            this.frecuencia.offset = 8 + offset;
+            this.frecuencia.LlenadoDataNpgsql(Data);
         }
     }
 }

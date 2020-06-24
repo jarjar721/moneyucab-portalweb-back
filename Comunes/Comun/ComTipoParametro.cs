@@ -5,20 +5,20 @@ namespace Comunes.Comun
 {
     public class ComTipoParametro : EntidadComun, IEntidadComun
     {
-        public int _idTipoParametro { get; set; }
-        public string _descripcion { get; set; }
-        public int _estatus { get; set; }
+        public int idTipoParametro { get; set; }
+        public string descripcion { get; set; }
+        public int estatus { get; set; }
 
         public ComTipoParametro()
         {
 
         }
 
-        public void LlenadoDataNpgsql(NpgsqlDataReader data)
+        public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this._idTipoParametro = data.GetInt32(0 + _offset);
-            this._descripcion = data.GetString(1 + _offset);
-            this._estatus = data.GetInt32(2 + _offset);
+            this.idTipoParametro = Data.GetInt32(0 + offset);
+            this.descripcion = Data.GetString(1 + offset);
+            this.estatus = Data.GetInt32(2 + offset);
         }
     }
 }

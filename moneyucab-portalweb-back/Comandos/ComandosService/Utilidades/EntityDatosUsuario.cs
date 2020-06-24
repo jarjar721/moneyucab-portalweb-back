@@ -11,40 +11,40 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Utilidades
 	public class EntityDatosUsuario
 	{
 		private readonly DatosUsuarioDBContext _datosUsuarioDBContext;
-		public EntityDatosUsuario(DatosUsuarioDBContext datosUsuarioDBContext)
+		public EntityDatosUsuario(DatosUsuarioDBContext DatosUsuarioDBContext)
 		{
-			_datosUsuarioDBContext = datosUsuarioDBContext;
+			_datosUsuarioDBContext = DatosUsuarioDBContext;
 		}
 		
-		public List<DatosUsuario> consultar()
+		public List<DatosUsuario> Consultar()
 		{
-			var resultado = _datosUsuarioDBContext.DatosUsuario.ToList();
+			var resultado = _datosUsuarioDBContext.datosUsuario.ToList();
 			return resultado;
 		}
 
-		public Boolean insertar(DatosUsuario _datosUsuario)
+		public Boolean Insertar(DatosUsuario DatosUsuario)
 		{
-				_datosUsuarioDBContext.DatosUsuario.Add(_datosUsuario);
+				_datosUsuarioDBContext.datosUsuario.Add(DatosUsuario);
 				_datosUsuarioDBContext.SaveChanges();
 				return true;
 		}
 
-		public Boolean Editar(DatosUsuario _datosUsuario)
+		public Boolean Editar(DatosUsuario DatosUsuario)
 		{
-				var datosUsuarioBaseDeDatos = _datosUsuarioDBContext.DatosUsuario.Where(busqueda => busqueda.idUsuario == _datosUsuario.idUsuario).FirstOrDefault();
+				var datosUsuarioBaseDeDatos = _datosUsuarioDBContext.datosUsuario.Where(busqueda => busqueda.idUsuario == DatosUsuario.idUsuario).FirstOrDefault();
 
-				datosUsuarioBaseDeDatos.usuario = _datosUsuario.usuario;
-				datosUsuarioBaseDeDatos.nroIdentificacion = _datosUsuario.nroIdentificacion;
-				datosUsuarioBaseDeDatos.email = _datosUsuario.email;
-				datosUsuarioBaseDeDatos.telefono = _datosUsuario.telefono;
-				datosUsuarioBaseDeDatos.direccion = _datosUsuario.direccion;
+				datosUsuarioBaseDeDatos.usuario = DatosUsuario.usuario;
+				datosUsuarioBaseDeDatos.nroIdentificacion = DatosUsuario.nroIdentificacion;
+				datosUsuarioBaseDeDatos.email = DatosUsuario.email;
+				datosUsuarioBaseDeDatos.telefono = DatosUsuario.telefono;
+				datosUsuarioBaseDeDatos.direccion = DatosUsuario.direccion;
 				_datosUsuarioDBContext.SaveChanges();
 			return true;
 		}
 
-		public Boolean Eliminar(int usuarioID)
+		public Boolean Eliminar(int IdUsuario)
 		{
-				var usuarioBaseDeDatos = _datosUsuarioDBContext.DatosUsuario.Where(busqueda => busqueda.idUsuario == usuarioID).FirstOrDefault();
+				var usuarioBaseDeDatos = _datosUsuarioDBContext.datosUsuario.Where(busqueda => busqueda.idUsuario == IdUsuario).FirstOrDefault();
 				_datosUsuarioDBContext.Remove(usuarioBaseDeDatos);
 
 				_datosUsuarioDBContext.SaveChanges(); 

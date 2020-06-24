@@ -9,22 +9,22 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 {
 	public class Comando_Historial_Operaciones_Cuenta
 	{
-		private int _CuentaId;
+		private int _idCuenta;
 
 		public Comando_Historial_Operaciones_Cuenta()
 		{
 
 		}
 
-		public Comando_Historial_Operaciones_Cuenta(int CuentaId)
+		public Comando_Historial_Operaciones_Cuenta(int IdCuenta)
 		{
-			this._CuentaId = CuentaId;
+			this._idCuenta = IdCuenta;
 		}
 
 		async public Task<List<ComOperacionCuenta>> Ejecutar()
 		{
-			DAOBase dao = FabricaDAO.crearDaoBase();
-			return dao.HistorialOperacionesCuenta(this._CuentaId);
+			DAOBase dao = FabricaDAO.CrearDaoBase();
+			return dao.HistorialOperacionesCuenta(this._idCuenta);
 		}
 		
 		

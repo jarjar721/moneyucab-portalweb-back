@@ -9,17 +9,17 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
 	public class Comando_Ejecutar_Cierre
 	{
-		public int IdUsuario { get; set; }
+		private int _idUsuario { get; set; }
 
-		public Comando_Ejecutar_Cierre(int _IdUsuario)
+		public Comando_Ejecutar_Cierre(int IdUsuario)
 		{
-			IdUsuario = _IdUsuario;
+			_idUsuario = IdUsuario;
 		}
 
 		async public Task<ComOperacionMonedero> Ejecutar()
 		{
 			DAOBase dao = new DAOBase();
-			return dao.Ejecutar_Cierre(IdUsuario);
+			return dao.Ejecutar_Cierre(_idUsuario);
 		}
 	}
 }

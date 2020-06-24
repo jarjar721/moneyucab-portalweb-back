@@ -6,35 +6,35 @@ namespace Comunes.Comun
 {
     public class ComReintegro : EntidadComun, IEntidadComun
     {
-        public int _idReintegro { get; set; }
-        public int _idUsuarioSolicitante { get; set; }
-        public int _idUsuarioReceptor { get; set; }
-        public NpgsqlDate _fecha { get; set; }
-        public string _referencia_reintegro { get; set; }
-        public string _referencia { get; set; }
-        public string _estatus { get; set; }
+        public int idReintegro { get; set; }
+        public int idUsuarioSolicitante { get; set; }
+        public int idUsuarioReceptor { get; set; }
+        public NpgsqlDate fecha { get; set; }
+        public string referencia_reintegro { get; set; }
+        public string referencia { get; set; }
+        public string estatus { get; set; }
 
         public ComReintegro()
         {
 
         }
 
-        public void LlenadoDataNpgsql(NpgsqlDataReader data)
+        public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this._idReintegro = data.GetInt32(0 + _offset);
-            this._idUsuarioSolicitante = data.GetInt32(1 + _offset);
-            this._idUsuarioReceptor = data.GetInt32(2 + _offset);
-            this._fecha = data.GetDate(3 + _offset);
-            this._referencia_reintegro = data.GetString(4 + _offset);
+            this.idReintegro = Data.GetInt32(0 + offset);
+            this.idUsuarioSolicitante = Data.GetInt32(1 + offset);
+            this.idUsuarioReceptor = Data.GetInt32(2 + offset);
+            this.fecha = Data.GetDate(3 + offset);
+            this.referencia_reintegro = Data.GetString(4 + offset);
             try
             {
-                this._referencia = data.GetString(5 + _offset);
+                this.referencia = Data.GetString(5 + offset);
             }
             catch (InvalidCastException)
             {
-                this._referencia = null;
+                this.referencia = null;
             }
-            this._estatus = data.GetString(6 + _offset);
+            this.estatus = Data.GetString(6 + offset);
         }
     }
 }

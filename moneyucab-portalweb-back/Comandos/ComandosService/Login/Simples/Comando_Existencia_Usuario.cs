@@ -11,32 +11,32 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
     {
 
         private UserManager<Usuario> _userManager;
-        private string UserName;
-        private string Email;
-        private string UserId;
+        private string _userName;
+        private string _email;
+        private string _userId;
 
-        public Comando_Existencia_Usuario(UserManager<Usuario> userManager, string userName, string email, string UserId)
+        public Comando_Existencia_Usuario(UserManager<Usuario> UserManager, string UserName, string Email, string UserId)
         {
-            this._userManager = userManager;
-            this.UserName = userName;
-            this.Email = email;
-            this.UserId = UserId;
+            this._userManager = UserManager;
+            this._userName = UserName;
+            this._email = Email;
+            this._userId = UserId;
         }
 
         async public Task<Boolean> Ejecutar()
         {
             //Este comando debe retornar una excepción sino consigue el usuario o email
             // Chequeo que el username no este registrado
-            if (await _userManager.FindByNameAsync(UserName) != null)
+            if (await _userManager.FindByNameAsync(_userName) != null)
             {
                 return true;
             }
             // Chequeo que el email no este registrado
-            if (await _userManager.FindByEmailAsync(Email) != null)
+            if (await _userManager.FindByEmailAsync(_email) != null)
             {
                 return true;
             }
-            if (await _userManager.FindByIdAsync(UserId) != null)
+            if (await _userManager.FindByIdAsync(_userId) != null)
             {
                 return true;
             }

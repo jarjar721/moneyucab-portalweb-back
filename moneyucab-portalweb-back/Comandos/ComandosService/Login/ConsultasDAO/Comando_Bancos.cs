@@ -19,7 +19,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 
         async public Task<List<ComBanco>> Ejecutar()
 		{
-			DAOBase dao = FabricaDAO.crearDaoBase();
+			DAOBase dao = FabricaDAO.CrearDaoBase();
 			return dao.Bancos();
 		}
 		

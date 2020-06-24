@@ -10,9 +10,9 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 
         private string[] _parametros;
 
-        public Comando_Verificar_Parametros(params string[] parametros)
+        public Comando_Verificar_Parametros(params string[] Parametros)
         {
-            this._parametros = parametros;
+            this._parametros = Parametros;
         }
 
 

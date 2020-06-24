@@ -13,19 +13,19 @@ namespace Comandos.ComandosService.Utilidades
         /// <summary>
         /// Realiza la encriptación directa de la palabra
         /// </summary>
-        /// <param name="dato">Establece la palabra a realizar la encriptación.</param>
+        /// <param name="Dato">Establece la palabra a realizar la encriptación.</param>
         /// <returns>
         /// Entrega el hash generado por el método de encriptación MD5.
         /// </returns>
         /// <exception cref="MD5Exception">Tira esta excepción a raíz de cualquier problemática ocasionada por el procedimiento de encriptación.</exception>
-        public static string Encriptar(string dato)
+        public static string Encriptar(string Dato)
         {
             string hash = string.Empty;
             try
             {
                 MD5 md5Hash = MD5.Create();
 
-                hash = GetMd5Hash(md5Hash, dato);
+                hash = GetMd5Hash(md5Hash, Dato);
             }
             catch (Exception ex)
             {

@@ -8,23 +8,23 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
 	public class Comando_Reintegro_Monedero
 	{
-		public int idUsuarioReceptor { get; set; }
-		public int idMedioPaga { get; set; }
-		public double monto { get; set; }
-		public int idOperacion { get; set; }
+		private int _idUsuarioReceptor { get; set; }
+		private int _idMedioPaga { get; set; }
+		private double _monto { get; set; }
+		private int _idOperacion { get; set; }
 
-		public Comando_Reintegro_Monedero(int _idUsuarioReceptor, int _idMedioPaga,double _monto, int _idOperacion)
+		public Comando_Reintegro_Monedero(int IdUsuarioReceptor, int IdMedioPaga,double Monto, int IdOperacion)
 		{
-			idUsuarioReceptor = _idUsuarioReceptor;
-			idMedioPaga = _idMedioPaga;
-			monto = _monto;
-			idOperacion = _idOperacion;
+			this._idUsuarioReceptor = IdUsuarioReceptor;
+			this._idMedioPaga = IdMedioPaga;
+			this._monto = Monto;
+			this._idOperacion = IdOperacion;
 		}
 
 		async public Task<Boolean> Ejecutar()
 		{
 			DAOBase dao = new DAOBase();
-			dao.Pago_Monedero(idUsuarioReceptor, idMedioPaga, monto, idOperacion);
+			dao.Pago_Monedero(_idUsuarioReceptor, _idMedioPaga, _monto, _idOperacion);
 			return true;
 		}
 	}

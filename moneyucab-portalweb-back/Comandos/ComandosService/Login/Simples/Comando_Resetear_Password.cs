@@ -9,23 +9,23 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 {
     public class Comando_Resetear_Password : Comando<Boolean>
     {
-        private ResetPasswordModel model;
+        private ResetPasswordModel _model;
         private UserManager<Usuario> _userManager;
 
-        public Comando_Resetear_Password(UserManager<Usuario> userManager, ResetPasswordModel model)
+        public Comando_Resetear_Password(UserManager<Usuario> UserManager, ResetPasswordModel Model)
         {
-            this._userManager = userManager;
-            this.model = model;
+            this._userManager = UserManager;
+            this._model = Model;
         }
 
         async public Task<Boolean> Ejecutar()
         {
             // Decodificando el token
-            var decodedToken = model.ResetPasswordToken.Replace("_", "/").Replace("-", "+").Replace(".", "=");
+            var decodedToken = _model.resetPasswordToken.Replace("_", "/").Replace("-", "+").Replace(".", "=");
 
-            var usuario = await _userManager.FindByIdAsync(model.UserID);
+            var usuario = await _userManager.FindByIdAsync(_model.idUsuario);
             // Cambia la contraseña del usuario
-            var result = await _userManager.ResetPasswordAsync(usuario, decodedToken, model.NewPassword);
+            var result = await _userManager.ResetPasswordAsync(usuario, decodedToken, _model.newPassword);
 
             if (result.Succeeded)
             {

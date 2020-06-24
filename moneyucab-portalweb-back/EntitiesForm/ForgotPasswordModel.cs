@@ -6,6 +6,6 @@ namespace moneyucab_portalweb_back.EntitiesForm
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string email { get; set; }
     }
 }

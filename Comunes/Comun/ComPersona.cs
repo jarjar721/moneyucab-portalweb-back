@@ -6,22 +6,22 @@ namespace Comunes.Comun
 {
     public class ComPersona : EntidadComun, IEntidadComun, IFormularioRegistro
     {
-        public ComEstadoCivil _EstadoCivil = new ComEstadoCivil();
-        public string _nombre { get; set; }
-        public string _apellido { get; set; }
-        public NpgsqlDate _fecha_nacimiento { get; set; }
+        public ComEstadoCivil estadoCivil = new ComEstadoCivil();
+        public string nombre { get; set; }
+        public string apellido { get; set; }
+        public NpgsqlDate fechaNacimiento { get; set; }
 
         public ComPersona()
         {
 
         }
 
-        public ComPersona(ComEstadoCivil estadoCivil, string nombre, string apellido, NpgsqlDate fecha_Nacimiento)
+        public ComPersona(ComEstadoCivil EstadoCivil, string Nombre, string Apellido, NpgsqlDate FechaNacimiento)
         {
-            this._EstadoCivil = estadoCivil;
-            this._nombre = nombre;
-            this._apellido = apellido;
-            this._fecha_nacimiento = fecha_Nacimiento;
+            this.estadoCivil = EstadoCivil;
+            this.nombre = Nombre;
+            this.apellido = Apellido;
+            this.fechaNacimiento = FechaNacimiento;
         }
 
         public void LlenadoDataFormComercio(NpgsqlCommand ComandoSQL)
@@ -31,20 +31,20 @@ namespace Comunes.Comun
 
         public void LlenadoDataFormPersona(NpgsqlCommand ComandoSQL)
         {
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("Nombre", this._nombre));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("Apellido", this._apellido));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("FechaNacimiento", this._fecha_nacimiento));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("IdEstadoCivil", this._EstadoCivil._idEstadoCivil));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Nombre", this.nombre));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Apellido", this.apellido));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("FechaNacimiento", this.fechaNacimiento));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("IdEstadoCivil", this.estadoCivil.idEstadoCivil));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("RazonSocial", ""));
         }
 
-        public void LlenadoDataNpgsql(NpgsqlDataReader data)
+        public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this._nombre = data.GetString(0 + _offset);
-            this._apellido = data.GetString(1 + _offset);
-            this._fecha_nacimiento = data.GetDate(2 + _offset);
-            this._EstadoCivil._offset = 24;
-            this._EstadoCivil.LlenadoDataNpgsql(data);
+            this.nombre = Data.GetString(0 + offset);
+            this.apellido = Data.GetString(1 + offset);
+            this.fechaNacimiento = Data.GetDate(2 + offset);
+            this.estadoCivil.offset = 24;
+            this.estadoCivil.LlenadoDataNpgsql(Data);
         }
     }
 }

@@ -5,25 +5,25 @@ namespace Comunes.Comun
 {
     public class ComTipoTarjeta : EntidadComun, IEntidadComun
     {
-        public int _idTipoTarjeta { get; set; }
-        public string _descripcion { get; set; }
-        public int _estatus { get; set; }
+        public int idTipoTarjeta { get; set; }
+        public string descripcion { get; set; }
+        public int estatus { get; set; }
 
         public ComTipoTarjeta()
         {
 
         }
 
-        public ComTipoTarjeta(int idTipoTarjeta)
+        public ComTipoTarjeta(int IdTipoTarjeta)
         {
-            this._idTipoTarjeta = idTipoTarjeta;
+            this.idTipoTarjeta = IdTipoTarjeta;
         }
 
-        public void LlenadoDataNpgsql(NpgsqlDataReader data)
+        public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this._idTipoTarjeta = data.GetInt32(0 + _offset);
-            this._descripcion = data.GetString(1 + _offset);
-            this._estatus = data.GetInt32(2 + _offset);
+            this.idTipoTarjeta = Data.GetInt32(0 + offset);
+            this.descripcion = Data.GetString(1 + offset);
+            this.estatus = Data.GetInt32(2 + offset);
         }
     }
 }

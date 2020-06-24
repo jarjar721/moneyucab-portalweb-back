@@ -9,17 +9,17 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 {
 	public class Comando_Reintegros_Activos
 	{
-		private int UsuarioId;
-		private int solicitante;
-		public Comando_Reintegros_Activos(int UsuarioId, int solicitante)
+		private int _idUsuario;
+		private int _solicitante;
+		public Comando_Reintegros_Activos(int IdUsuario, int Solicitante)
 		{
-			this.UsuarioId = UsuarioId;
-			this.solicitante = solicitante;
+			this._idUsuario = IdUsuario;
+			this._solicitante = Solicitante;
 		}
 		async public Task<List<ComReintegro>> Ejecutar()
 		{
-			DAOBase dao = FabricaDAO.crearDaoBase();
-			return dao.ReintegrosActivos(this.UsuarioId, this.solicitante);
+			DAOBase dao = FabricaDAO.CrearDaoBase();
+			return dao.ReintegrosActivos(this._idUsuario, this._solicitante);
 		}
 		
 		

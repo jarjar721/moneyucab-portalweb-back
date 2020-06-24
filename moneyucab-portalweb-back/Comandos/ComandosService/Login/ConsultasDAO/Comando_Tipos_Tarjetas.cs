@@ -16,7 +16,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 		}
 		async public Task<List<ComTipoTarjeta>> Ejecutar()
 		{
-			DAOBase dao = FabricaDAO.crearDaoBase();
+			DAOBase dao = FabricaDAO.CrearDaoBase();
 			return dao.TiposTarjeta();
 		}
 		

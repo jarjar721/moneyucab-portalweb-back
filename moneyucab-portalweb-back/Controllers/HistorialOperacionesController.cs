@@ -23,22 +23,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("HistorialOperacionesTarjeta")]
         //GET: /api/Dashboard/HistorialOperacionesTarjeta
-        public async Task<Object> HistorialOperacionesTarjeta([FromQuery]int TarjetaId)
+        public async Task<Object> HistorialOperacionesTarjeta([FromQuery]int IdTarjeta)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Hist_OpTarjeta(TarjetaId).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Hist_OpTarjeta(IdTarjeta).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -46,22 +46,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("HistorialOperacionesCuenta")]
         //GET: /api/Dashboard/HistorialOperacionesCuenta
-        public async Task<Object> HistorialOperacionesCuenta([FromQuery] int CuentaId)
+        public async Task<Object> HistorialOperacionesCuenta([FromQuery] int IdCuenta)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Hist_OpCuenta(CuentaId).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Hist_OpCuenta(IdCuenta).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -69,22 +69,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("HistorialOperacionesMonedero")]
         //GET: /api/Dashboard/HistorialOperacionesMonedero
-        public async Task<Object> HistorialOperacionesMonedero([FromQuery] int UsuarioId)
+        public async Task<Object> HistorialOperacionesMonedero([FromQuery] int IdUsuario)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Hist_OpMonedero(UsuarioId).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Hist_OpMonedero(IdUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
 
@@ -92,22 +92,22 @@ namespace moneyucab_portalweb_back.Controllers
         [Authorize]
         [Route("EjecutarCierre")]
         //GET: /api/Dashboard/HistorialOperacionesMonedero
-        public async Task<Object> EjecutarCierre([FromQuery] int UsuarioId)
+        public async Task<Object> EjecutarCierre([FromQuery] int IdUsuario)
         {
 
             try
             {
 
-                return Ok(await FabricaComandos.Fabricar_Cmd_Ejecutar_Cierre(UsuarioId).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Ejecutar_Cierre(IdUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {
                 //Se retorna el badRequest con los datos de la excepción
-                return BadRequest(ex.response());
+                return BadRequest(ex.Response());
             }
             catch (Exception ex)
             {
-                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
     }

@@ -6,39 +6,39 @@ namespace Comunes.Comun
 {
     public class ComUsuarioParametro : EntidadComun, IEntidadComun, IFormularioInsert
     {
-        public int _idUsuario { get; set; }
-        public ComParametro _parametro = new ComParametro();
-        public string _validacion { get; set; }
-        public int _estatus { get; set; }
+        public int idUsuario { get; set; }
+        public ComParametro parametro = new ComParametro();
+        public string validacion { get; set; }
+        public int estatus { get; set; }
 
         public ComUsuarioParametro()
         {
             
         }
 
-        public ComUsuarioParametro(int idUsuario, int idParametro, string validacion, int estatus)
+        public ComUsuarioParametro(int IdUsuario, int IdParametro, string Validacion, int Estatus)
         {
-            this._idUsuario = idUsuario;
-            this._validacion = validacion;
-            this._estatus = estatus;
-            this._parametro = new ComParametro(1);
+            this.idUsuario = IdUsuario;
+            this.validacion = Validacion;
+            this.estatus = Estatus;
+            this.parametro = new ComParametro(IdParametro);
         }
 
         public void LlenadoDataForm(NpgsqlCommand ComandoSQL)
         {
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", this._idUsuario));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("ParametroId", this._parametro._idParametro));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("Validacion", this._validacion));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("Estatus", this._estatus));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", this.idUsuario));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("ParametroId", this.parametro.idParametro));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Validacion", this.validacion));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Estatus", this.estatus));
         }
 
-        public void LlenadoDataNpgsql(NpgsqlDataReader data)
+        public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this._idUsuario = data.GetInt32(0 + _offset);
-            this._validacion = data.GetString(2 + _offset);
-            this._estatus = data.GetInt32(3 + _offset);
-            this._parametro._offset = 4;
-            this._parametro.LlenadoDataNpgsql(data);
+            this.idUsuario = Data.GetInt32(0 + offset);
+            this.validacion = Data.GetString(2 + offset);
+            this.estatus = Data.GetInt32(3 + offset);
+            this.parametro.offset = 4;
+            this.parametro.LlenadoDataNpgsql(Data);
         }
     }
 }

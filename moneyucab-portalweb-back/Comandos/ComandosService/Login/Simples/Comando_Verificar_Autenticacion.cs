@@ -16,10 +16,9 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
         //private FormP formulario;
         private UserManager<Usuario> _userManager;
 
-        public Comando_Verificar_Autenticacion(ClaimsPrincipal User)
+        public Comando_Verificar_Autenticacion()
         {
-            //this.formulario = formulario;
-            this._userManager = _userManager;
+            throw new NotImplementedException();
         }
 
         async public Task<Boolean> Ejecutar()

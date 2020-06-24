@@ -7,54 +7,54 @@ namespace Comunes.Comun
     public class ComTarjeta : EntidadComun, IEntidadComun, IFormularioInsert
     {
 
-        public ComTipoTarjeta _tipoTarjeta = new ComTipoTarjeta();
-        public ComBanco _banco = new ComBanco();
-        public int _idTarjeta { get; set; }
-        public int _idUsuario { get; set; }
-        public int _numero { get; set; }
-        public NpgsqlDate _fecha_vencimiento { get; set; }
-        public int _cvc { get; set; }
-        public int _estatus { get; set; }
+        public ComTipoTarjeta tipoTarjeta = new ComTipoTarjeta();
+        public ComBanco banco = new ComBanco();
+        public int idTarjeta { get; set; }
+        public int idUsuario { get; set; }
+        public int numero { get; set; }
+        public NpgsqlDate fechaVencimiento { get; set; }
+        public int cvc { get; set; }
+        public int estatus { get; set; }
 
         public ComTarjeta()
         {
 
         }
 
-        public ComTarjeta(ComTipoTarjeta tipotarjeta, ComBanco banco, int idUsuario, int numero, NpgsqlDate fecha_vencimiento, int cvc, int estatus)
+        public ComTarjeta(ComTipoTarjeta Tipotarjeta, ComBanco Banco, int IdUsuario, int Numero, NpgsqlDate FechaVencimiento, int Cvc, int Estatus)
         {
-            this._tipoTarjeta = tipotarjeta;
-            this._banco = banco;
-            this._idUsuario = idUsuario;
-            this._numero = numero;
-            this._fecha_vencimiento = fecha_vencimiento;
-            this._cvc = cvc;
-            this._estatus = estatus;
+            this.tipoTarjeta = Tipotarjeta;
+            this.banco = Banco;
+            this.idUsuario = IdUsuario;
+            this.numero = Numero;
+            this.fechaVencimiento = FechaVencimiento;
+            this.cvc = Cvc;
+            this.estatus = Estatus;
         }
 
         public void LlenadoDataForm(NpgsqlCommand ComandoSQL)
         {
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", this._idUsuario));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoTarjetaId", this._tipoTarjeta._idTipoTarjeta));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("BancoId", this._banco._idBanco));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("Numero", this._numero));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("FechaVencimiento", this._fecha_vencimiento));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("cvc", this._cvc));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("Estatus", this._estatus));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", this.idUsuario));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoTarjetaId", this.tipoTarjeta.idTipoTarjeta));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("BancoId", this.banco.idBanco));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Numero", this.numero));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("FechaVencimiento", this.fechaVencimiento));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("cvc", this.cvc));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Estatus", this.estatus));
         }
 
-        public void LlenadoDataNpgsql(NpgsqlDataReader data)
+        public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this._tipoTarjeta._offset = 11;
-            this._tipoTarjeta.LlenadoDataNpgsql(data);
-            this._banco._offset = 8;
-            this._banco.LlenadoDataNpgsql(data);
-            this._idTarjeta = data.GetInt32(0 + _offset);
-            this._idUsuario = data.GetInt32(1 + _offset);
-            this._numero = data.GetInt32(4 + _offset);
-            this._fecha_vencimiento = data.GetDate(5);
-            this._cvc = data.GetInt32(6 + _offset);
-            this._estatus = data.GetInt32(7 + _offset);
+            this.tipoTarjeta.offset = 11;
+            this.tipoTarjeta.LlenadoDataNpgsql(Data);
+            this.banco.offset = 8;
+            this.banco.LlenadoDataNpgsql(Data);
+            this.idTarjeta = Data.GetInt32(0 + offset);
+            this.idUsuario = Data.GetInt32(1 + offset);
+            this.numero = Data.GetInt32(4 + offset);
+            this.fechaVencimiento = Data.GetDate(5);
+            this.cvc = Data.GetInt32(6 + offset);
+            this.estatus = Data.GetInt32(7 + offset);
         }
     }
 }
