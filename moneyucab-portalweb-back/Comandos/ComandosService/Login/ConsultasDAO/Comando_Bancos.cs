@@ -9,19 +9,13 @@ using moneyucab_portalweb_back.EntitiesForm;
 
 namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 {
-	public class Comando_Registro_Usuario_DAO
+	public class Comando_Bancos
 	{
-        private RegistrationModel form;
 
-        public Comando_Registro_Usuario_DAO()
+        public Comando_Bancos()
 		{
 
 		}
-
-        public Comando_Registro_Usuario_DAO(RegistrationModel form)
-        {
-            this.form = form;
-        }
 
         async public Task<List<ComBanco>> Ejecutar()
 		{

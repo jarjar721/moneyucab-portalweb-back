@@ -691,7 +691,7 @@ DECLARE
 						FROM Cuenta A WHERE A.idUsuario = $1;
 	tipoOperacion int;
 	Totalizacion_cuenta double precision;
-	totalizacion_tarjeta double precision
+	totalizacion_tarjeta double precision;
 	op_limit_cuenta int;
 	op_limit_tarjeta int;
 BEGIN

@@ -106,9 +106,10 @@ namespace moneyucab_portalweb_back
 
             // Permite el enlance entre requests del front al servidor
             app.UseCors(builder =>
-                builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
+                builder
                 .AllowAnyHeader()
                 .AllowAnyMethod()
+                .AllowAnyOrigin()
             );
 
             app.UseAuthentication();

@@ -9,6 +9,7 @@ using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using NpgsqlTypes;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.LogicaDAO;
 
 namespace moneyucab_portalweb_back.Comandos
 {
@@ -74,9 +75,9 @@ namespace moneyucab_portalweb_back.Comandos
             return new Comando_Tipos_Tarjetas();
         }
 
-        public static Comando_Registro_Usuario_DAO Fabricar_Cmd_Bancos()
+        public static Comando_Bancos Fabricar_Cmd_Bancos()
         {
-            return new Comando_Registro_Usuario_DAO();
+            return new Comando_Bancos();
         }
 
         public static Comando_Tipos_Cuentas Fabricar_Cmd_Tipos_Cuentas()

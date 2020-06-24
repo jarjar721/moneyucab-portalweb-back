@@ -269,7 +269,7 @@ CREATE INDEX "IX_AspNetRoleClaims_RoleId"
 
 CREATE TABLE public."PreviousPasswords"
 (
-	"PasswordID" INT NOT NULL,
+	"PasswordID" uuid not null,
     "PasswordHash" VARCHAR(1000) NOT NULL,
     "FechaCreacion" DATE NOT NULL,
     "UsuarioID" text,
