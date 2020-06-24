@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using moneyucab_portalweb_back.Comandos;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace moneyucab_portalweb_back.Controllers
 {

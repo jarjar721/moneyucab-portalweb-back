@@ -1,9 +1,10 @@
-﻿using System;
+﻿using NpgsqlTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace moneyucab_portalweb_back.Entities
+namespace moneyucab_portalweb_back.EntitiesForm
 {
 	public class BilleteraTarjeta
 	{
@@ -11,7 +12,7 @@ namespace moneyucab_portalweb_back.Entities
 		public int idTipoTarjeta { get; set; }
 		public int idBanco { get; set; }
 		public int numero { get; set; }
-		//public DateTime fecha_vencimiento { get; set; }
+		public NpgsqlDate fecha_vencimiento { get; set; }
 		public int cvc { get; set; }
 		public int estatus { get; set; }
 

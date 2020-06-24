@@ -1,7 +1,7 @@
 ﻿using Comandos;
 using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
 using System;
 using System.Threading.Tasks;
 
@@ -40,7 +40,6 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             {
                 return true;
             }
-            //Se realiza el throw acá
             UsuarioExistenteException.UsuarioNoExistente();
             return false;
         }

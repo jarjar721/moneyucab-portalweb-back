@@ -1,9 +1,8 @@
 ﻿using Comandos;
 using Microsoft.AspNetCore.Identity;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
 using moneyucab_portalweb_back.Models;
-using moneyucab_portalweb_back.Models.FormModels;
 using System;
 using System.Threading.Tasks;
 

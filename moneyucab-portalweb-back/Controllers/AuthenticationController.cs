@@ -6,12 +6,14 @@ using moneyucab_portalweb_back.Comandos;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
-using moneyucab_portalweb_back.Entities;
 using moneyucab_portalweb_back.Models;
-using moneyucab_portalweb_back.Models.FormModels;
+using moneyucab_portalweb_back.EntitiesForm;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace moneyucab_portalweb_back.Controllers
 {
@@ -44,7 +46,7 @@ namespace moneyucab_portalweb_back.Controllers
         [HttpPost]
 	[EnableCors("Policy")]
         [Route("Register")]
-        //Post: /api/Usuario/Register
+        //Post: /api/Authentication/Register
         public async Task<Object> Register(RegistrationModel userModel)
         {
             try
@@ -73,14 +75,18 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost]
         [Route("Login")]
-        //Post: /api/Usuario/Login
+        //Post: /api/Authentication/Login
         public async Task<IActionResult> Login(LoginModel model)
         {
             try
             {
                 // Busco el usuario en la base de datos - Get user in database
                 await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email, null).Ejecutar();
+<<<<<<< HEAD
                 //await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
+=======
+                // await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
+>>>>>>> development
                 // Obtengo el resultado de iniciar sesión 
                 var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings, _signInManager).Ejecutar();
                 return Ok(result);
@@ -100,7 +106,7 @@ namespace moneyucab_portalweb_back.Controllers
         [HttpPost]
         [Route("ConfirmedEmail")]
         //[AllowAnonymous]
-        //Post: /api/Usuario/ConfirmedEmail
+        //Post: /api/Authentication/ConfirmedEmail
         public async Task<IActionResult> ConfirmEmail(ConfirmEmailModel model)
         {
             try
@@ -130,7 +136,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost]
         [Route("ForgotPasswordEmail")]
-        //Post: /api/Usuario/ForgotPasswordEmail
+        //Post: /api/Authentication/ForgotPasswordEmail
         public async Task<IActionResult> SendForgotPasswordEmail(ForgotPasswordModel model)
         {
             try
@@ -155,7 +161,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost]
         [Route("ResetPassword")]
-        //Post: /api/Usuario/ResetPassword
+        //Post: /api/Authentication/ResetPassword
         public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
         {
             try
@@ -168,6 +174,26 @@ namespace moneyucab_portalweb_back.Controllers
                 await FabricaComandos.Fabricar_Cmd_Resetear_Password(_userManager, model).Ejecutar();
 
                 return Ok(new { key = "ResetPasswordSuccess", message = "¡Contraseña restablecida!" });
+            }
+            catch (MoneyUcabException ex)
+            {
+                return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+            }
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("Modification")]
+        public async Task<IActionResult> Modification([FromBody]ModificacionUsuario formulario)
+        {
+            try
+            {
+                return Ok(await FabricaComandos.Fabricar_Cmd_Modificar_Usuario(formulario.usuario, formulario.email, formulario.telefono, formulario.direccion, formulario.IdUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {

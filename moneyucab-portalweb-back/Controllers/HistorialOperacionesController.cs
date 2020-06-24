@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
 using moneyucab_portalweb_back.Comandos;
 
 namespace moneyucab_portalweb_back.Controllers
@@ -76,6 +76,29 @@ namespace moneyucab_portalweb_back.Controllers
             {
 
                 return Ok(await FabricaComandos.Fabricar_Cmd_Hist_OpMonedero(UsuarioId).Ejecutar());
+            }
+            catch (MoneyUcabException ex)
+            {
+                //Se retorna el badRequest con los datos de la excepción
+                return BadRequest(ex.response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.response_error_desconocido(ex));
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("EjecutarCierre")]
+        //GET: /api/Dashboard/HistorialOperacionesMonedero
+        public async Task<Object> EjecutarCierre([FromQuery] int UsuarioId)
+        {
+
+            try
+            {
+
+                return Ok(await FabricaComandos.Fabricar_Cmd_Ejecutar_Cierre(UsuarioId).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {

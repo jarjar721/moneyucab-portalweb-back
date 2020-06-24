@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
 using moneyucab_portalweb_back.Models;
-using moneyucab_portalweb_back.Models.FormModels;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using NpgsqlTypes;
+using moneyucab_portalweb_back.Comandos.ComandosService.Login.LogicaDAO;
 
 namespace moneyucab_portalweb_back.Comandos
 {
@@ -57,11 +58,6 @@ namespace moneyucab_portalweb_back.Comandos
         public static Comando_Resetear_Password Fabricar_Cmd_Resetear_Password(UserManager<Usuario> userManager, ResetPasswordModel model)
         {
             return new Comando_Resetear_Password(userManager, model);
-        }
-
-        public static Comando_Verificar_Autenticacion Fabricar_Cmd_Verificar_Autenticacion(UserManager<Usuario> userManager, ClaimsPrincipal User)
-        {
-            return new Comando_Verificar_Autenticacion(User, userManager);
         }
 
         public static Comando_Verificar_Email_Confirmado Fabricar_Cmd_Verificar_Email_Confirmado(string User, UserManager<Usuario> _userManager)
@@ -182,6 +178,96 @@ namespace moneyucab_portalweb_back.Comandos
         public static Comando_Historial_Operaciones_Tarjeta Fabricar_Cmd_Hist_OpTarjeta(int Tarjeta)
         {
             return new Comando_Historial_Operaciones_Tarjeta(Tarjeta);
+        }
+
+        public static Comando_Registro_Usuario_DAO Fabricar_Cmd_Registro_Usuario_DAO(RegistrationModel form)
+        {
+            return new Comando_Registro_Usuario_DAO(form);
+        }
+
+        public static Comando_Realizar_Cobro Fabricar_Cmd_Realizar_Cobro(int UsuarioId, string email, double monto)
+        {
+            return new Comando_Realizar_Cobro(UsuarioId, email, monto);
+        }
+
+        public static Comando_Solicitar_Reintegro Fabricar_Cmd_Solicitar_Reintegro(int UsuarioId, string email, string referencia)
+        {
+            return new Comando_Solicitar_Reintegro(UsuarioId, email, referencia);
+        }
+
+        public static Comando_Cancelar_Cobro Fabricar_Cmd_Cancelar_Cobro(int UsuarioId)
+        {
+            return new Comando_Cancelar_Cobro(UsuarioId);
+        }
+
+        public static Comando_Cancelar_Reintegro Fabricar_Cmd_Cancelar_Reintegro(int UsuarioId)
+        {
+            return new Comando_Cancelar_Reintegro(UsuarioId);
+        }
+
+        public static Comando_Pago_Cuenta Fabricar_Cmd_Pago_Cuenta(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        {
+            return new Comando_Pago_Cuenta(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+        }
+
+        public static Comando_Pago_Tarjeta Fabricar_Cmd_Pago_Tarjeta(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        {
+            return new Comando_Pago_Tarjeta(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+        }
+
+        public static Comando_Pago_Monedero Fabricar_Cmd_Pago_Monedero(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        {
+            return new Comando_Pago_Monedero(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+        }
+
+        public static Comando_Reintegro_Cuenta Fabricar_Cmd_Reintegro_Cuenta(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        {
+            return new Comando_Reintegro_Cuenta(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+        }
+
+        public static Comando_Reintegro_Tarjeta Fabricar_Cmd_Reintegro_Tarjeta(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        {
+            return new Comando_Reintegro_Tarjeta(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+        }
+
+        public static Comando_Reintegro_Monedero Fabricar_Cmd_Reintegro_Monedero(int UsuarioReceptor, int idMedioPaga, double monto, int idOperacion)
+        {
+            return new Comando_Reintegro_Monedero(UsuarioReceptor, idMedioPaga, monto, idOperacion);
+        }
+
+        public static Comando_Modificacion_Usuario Fabricar_Cmd_Modificar_Usuario(string usuario, string email, string telefono, string direccion, int IdUsuario)
+        {
+            return new Comando_Modificacion_Usuario(usuario, email, telefono, direccion, IdUsuario);
+        }
+
+        public static Comando_Ejecutar_Cierre Fabricar_Cmd_Ejecutar_Cierre(int usuarioId)
+        {
+            return new Comando_Ejecutar_Cierre(usuarioId);
+        }
+
+        public static Comando_Eliminar_Billetera_Cuenta Fabricar_Cmd_Eliminar_Cuenta(int usuarioId)
+        {
+            return new Comando_Eliminar_Billetera_Cuenta(usuarioId);
+        }
+
+        public static Comando_Eliminar_Billetera_Tarjeta Fabricar_Cmd_Eliminar_Tarjeta(int usuarioId)
+        {
+            return new Comando_Eliminar_Billetera_Tarjeta(usuarioId);
+        }
+
+        public static Comando_Registrar_Billetera_Tarjeta Fabricar_Cmd_Registrar_Tarjeta(int idUsuario, int idTipoTarjeta, int idBanco, int numero, NpgsqlDate fecha_vencimiento, int cvc, int estatus)
+        {
+            return new Comando_Registrar_Billetera_Tarjeta(idUsuario, idTipoTarjeta, idBanco, numero, fecha_vencimiento, cvc, estatus);
+        }
+
+        public static Comando_Registrar_Billetera_Cuenta Fabricar_Cmd_Registrar_Cuenta(int idUsuario, int idTipoCuenta, int idBanco, string numero)
+        {
+            return new Comando_Registrar_Billetera_Cuenta(idUsuario, idTipoCuenta, idBanco, numero);
+        }
+
+        public static Comando_Establecer_Parametro Fabricar_Cmd_Establecer_Parametro(int idUsuario, int idParametro, string validacion, int estatus)
+        {
+            return new Comando_Establecer_Parametro(idUsuario, idParametro, validacion, estatus);
         }
     }
 }

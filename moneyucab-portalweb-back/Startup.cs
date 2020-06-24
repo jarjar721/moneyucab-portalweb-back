@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
 using moneyucab_portalweb_back.Contextos;
-using moneyucab_portalweb_back.Entities;
+using moneyucab_portalweb_back.EntitiesForm;
 using moneyucab_portalweb_back.IdentityExtentions;
 using moneyucab_portalweb_back.Migrations;
 using moneyucab_portalweb_back.Models;
@@ -99,7 +99,7 @@ namespace moneyucab_portalweb_back
             }).AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
-                x.SaveToken = false;
+                x.SaveToken = true;
                 x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -121,19 +121,12 @@ namespace moneyucab_portalweb_back
             }
 
             // Permite el enlance entre requests del front al servidor
-            /*app.UseCors(builder =>
-                builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-            );*/
-
             app.UseAuthentication();
 
             app.UseRouting();
 
             app.UseCors("Policy");
 
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

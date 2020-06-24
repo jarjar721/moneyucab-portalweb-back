@@ -1,8 +1,7 @@
 ﻿using Comandos;
 using Excepciones.Excepciones_Especificas;
 using Microsoft.AspNetCore.Identity;
-using moneyucab_portalweb_back.Entities;
-using moneyucab_portalweb_back.Models.FormModels;
+using moneyucab_portalweb_back.EntitiesForm;
 using System;
 using System.Threading.Tasks;
 
