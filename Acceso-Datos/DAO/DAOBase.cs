@@ -36,8 +36,6 @@ namespace DAO
         public List<ComEstadoCivil> EstadosCiviles()
         {
 
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -58,15 +56,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -74,12 +68,12 @@ namespace DAO
             {
                 Desconectar();
             }
+            return null;
         }
 
         public List<ComTipoTarjeta> TiposTarjeta()
         {
 
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
 
             try
             {
@@ -101,15 +95,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw new NpgsqlException();
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -117,16 +107,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComBanco> Bancos()
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -147,15 +132,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -163,16 +144,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComTipoCuenta> TiposCuentas()
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -193,15 +169,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -209,16 +181,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComTipoParametro> TiposParametros()
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -239,11 +206,8 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
@@ -255,16 +219,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComFrecuencia> Frecuencias()
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -285,15 +244,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -301,16 +256,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComParametro> Parametros()
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -331,15 +281,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -347,16 +293,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComTipoOperacion> TiposOperaciones()
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -377,15 +318,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -393,16 +330,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComTipoIdentificacion> TiposIdentificaciones()
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -423,15 +355,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -439,16 +367,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComTarjeta> Tarjetas(int IdUsuario)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -470,15 +393,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -486,16 +405,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null; 
         }
 
         public List<ComCuenta> Cuentas(int IdUsuario)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -517,15 +431,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -533,16 +443,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComReintegro> ReintegrosActivos(int IdUsuario, int Solicitante)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -565,15 +470,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -581,16 +482,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComReintegro> ReintegrosCancelados(int IdUsuario, int Solicitante)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -613,11 +509,8 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
@@ -629,16 +522,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComReintegro> ReintegrosExitosos(int IdUsuario, int Solicitante)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -661,15 +549,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -677,16 +561,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComPago> CobrosActivos(int IdUsuario, int Solicitante)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -709,15 +588,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -725,16 +600,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComPago> CobrosCancelados(int IdUsuario, int Solicitante)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -757,15 +627,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -773,16 +639,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComPago> CobrosExitosos(int IdUsuario, int Solicitante)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -805,15 +666,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -821,16 +678,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComUsuarioParametro> ParametrosUsuario(int IdUsuario)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -852,15 +704,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -868,16 +716,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public ComUsuario InformacionPersona(string Usuario)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -901,15 +744,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -917,15 +756,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public double SaldoMonedero(int IdUsuario)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
             double saldo;
             try
             {
@@ -942,15 +777,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -958,17 +789,12 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return 0;
         }
 
         //Debe retornar el historial de operaciones
         public List<ComOperacionTarjeta> HistorialOperacionesTarjeta(int IdTarjeta)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -990,15 +816,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -1006,17 +828,12 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         //Debe retornar el historial de operaciones
         public List<ComOperacionCuenta> HistorialOperacionesCuenta(int IdCuenta)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -1038,15 +855,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -1054,16 +867,11 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
 
         public List<ComOperacionMonedero> HistorialOperacionesMonedero(int IdUsuario)
         {
-
-            //log.Debug("Entrando al metodo: " + MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 Conectar();
@@ -1085,15 +893,11 @@ namespace DAO
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
-                throw ex;
+                PGSQLException.ProcesamientoException(ex);
             }
             catch (Exception ex)
             {
-                //log.Error("Error en la conexion a base de datos", ex);
                 Desconectar();
                 throw new MoneyUcabException(ex, "Error Desconocido", 1);
             }
@@ -1101,9 +905,7 @@ namespace DAO
             {
                 Desconectar();
             }
-
-            /*if (afectados == 0) throw new UsuarioInexistenteException();
-            if (afectados > 1) throw new LotoUcabException("Usiarios duplicados en Base de datos", 1);*/
+            return null;
         }
         //--------------------------------------------------------------------------------------
 
@@ -1120,21 +922,6 @@ namespace DAO
                     "@Email, @Telefono, @Direccion, @Estatus, @TipoSol, @Nombre, @Apellido, @Contrasena, @RazonSocial, @IdEstadoCivil, @FechaNacimiento)");
                 Formulario.LlenadoDataFormPersona(comandoSQL);
                 lectorTablaSQL = comandoSQL.ExecuteReader();
-            }
-            catch (NpgsqlException ex)
-            {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                Desconectar();
-                throw ex;
-            }
-            catch (Exception ex)
-            {
-                Desconectar();
-                throw new MoneyUcabException(ex, "Error Desconocido", 1);
-            }
-            finally
-            {
                 if (lectorTablaSQL.Read())
                 {
                     if (!lectorTablaSQL.GetBoolean(0))
@@ -1144,6 +931,23 @@ namespace DAO
                 }
                 else
                     throw new MoneyUcabException("No se pudo registrar al usuario", 201);
+            }
+            catch (NpgsqlException ex)
+            {
+                Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
                 Desconectar();
             }
         }
@@ -1160,21 +964,6 @@ namespace DAO
                     "@Email, @Telefono, @Direccion, @Estatus, @TipoSol, @Nombre, @Apellido, @Contrasena, @RazonSocial, @IdEstadoCivil, @FechaNacimiento)");
                 Formulario.LlenadoDataFormComercio(comandoSQL);
                 lectorTablaSQL = comandoSQL.ExecuteReader();
-            }
-            catch (NpgsqlException ex)
-            {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
-                Desconectar();
-                throw ex;
-            }
-            catch (Exception ex)
-            {
-                Desconectar();
-                throw new MoneyUcabException(ex, "Error Desconocido", 1);
-            }
-            finally
-            {
                 if (lectorTablaSQL.Read())
                 {
                     if (!lectorTablaSQL.GetBoolean(0))
@@ -1184,6 +973,23 @@ namespace DAO
                 }
                 else
                     throw new MoneyUcabException("No se pudo registrar al usuario", 201);
+            }
+            catch (NpgsqlException ex)
+            {
+                Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
                 Desconectar();
             }
         }
@@ -1199,12 +1005,23 @@ namespace DAO
                 comandoSQL.CommandText = string.Format("SELECT Registro_Cuenta(@UsuarioId, @TipoCuentaId, @BancoId, @Numero)");
                 Formulario.LlenadoDataForm(comandoSQL);
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo registrar la cuenta", 212);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la cuenta", 212);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1214,15 +1031,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo registrar al cuenta", 202);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar al cuenta", 202);
                 Desconectar();
             }
         }
@@ -1238,12 +1046,23 @@ namespace DAO
                 comandoSQL.CommandText = string.Format("SELECT Registro_Tarjeta(@UsuarioId, @TipoTarjetaId, @BancoId, @Numero, @FechaVencimiento, @cvc, @Estatus)");
                 Formulario.LlenadoDataForm(comandoSQL);
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo registrar la tarjeta", 211);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 211);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1253,15 +1072,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo registrar la tarjeta", 202);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 202);
                 Desconectar();
             }
         }
@@ -1277,12 +1087,23 @@ namespace DAO
                 comandoSQL.CommandText = string.Format("SELECT Establecer_Parametro(@UsuarioId, @ParametroId, @Validacion, @Estatus)");
                 Formulario.LlenadoDataForm(comandoSQL);
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo establecer el parámetro", 210);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo establecer el parámetro", 210);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1292,15 +1113,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo registrar el parámetro", 203);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar el parámetro", 203);
                 Desconectar();
             }
         }
@@ -1318,12 +1130,23 @@ namespace DAO
                 comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioACobrar", IdUsuarioPaga));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar la solicitud de cobro", 209);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo realizar la solicitud de cobro", 209);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1333,15 +1156,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
         }
@@ -1359,12 +1173,23 @@ namespace DAO
                 comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioACobrar", IdUsuarioPaga));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Referencia", Referencia));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar la solicitud de reintegro", 208);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo realizar la solicitud de reintegro", 208);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1374,15 +1199,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
         }
@@ -1398,12 +1214,23 @@ namespace DAO
                 comandoSQL.CommandText = string.Format("SELECT Cancelar_Cobro(@IdCobro)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo cancelar el cobro", 207);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo cancelar el cobro", 207);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1413,15 +1240,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
         }
@@ -1437,12 +1255,23 @@ namespace DAO
                 comandoSQL.CommandText = string.Format("SELECT Cancelar_Reintegro(@IdReintegro)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdReintegro", IdReintegro));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo cancelar el reintegro", 206);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo cancelar el reintegro", 206);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1452,15 +1281,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
         }
@@ -1479,12 +1299,23 @@ namespace DAO
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el pago", 205);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo realizar el pago", 205);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1494,15 +1325,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
         }
@@ -1521,12 +1343,23 @@ namespace DAO
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el pago", 205);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo realizar el pago", 205);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1536,15 +1369,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
         }
@@ -1563,12 +1387,23 @@ namespace DAO
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el pago", 205);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo realizar el pago", 205);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1578,15 +1413,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo realizar el cobro", 204);
                 Desconectar();
             }
         }
@@ -1605,12 +1431,23 @@ namespace DAO
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el reintegro", 201);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo realizar el reintegro", 201);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1620,15 +1457,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
         }
@@ -1647,12 +1475,23 @@ namespace DAO
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el reintegro", 201);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo realizar el reintegro", 201);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1662,15 +1501,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
         }
@@ -1689,12 +1519,23 @@ namespace DAO
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdCobro", IdCobro));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo realizar el reintegro", 201);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo realizar el reintegro", 201);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1704,15 +1545,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
         }
@@ -1732,12 +1564,23 @@ namespace DAO
                 comandoSQL.Parameters.Add(new NpgsqlParameter("telefono", Telefono));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("direccion", Direccion));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo modificar al usuario", 202);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo modificar al usuario", 202);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1747,15 +1590,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
         }
@@ -1777,12 +1611,16 @@ namespace DAO
                     operacion_monedero.LlenadoDataNpgsql(lectorTablaSQL);
                     return operacion_monedero;
                 }
+                else
+                    throw new MoneyUcabException("No se pudo registrar el cierre", 204);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                throw ex;
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1792,15 +1630,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo realizar el cobro", 204);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar la tarjeta", 204);
                 Desconectar();
             }
             return null;
@@ -1817,12 +1646,23 @@ namespace DAO
                 comandoSQL.CommandText = string.Format("SELECT Eliminar_Cuenta(@CuentaId)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", IdCuenta));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo eliminar la cuenta", 203);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo eliminar la cuenta", 203);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1832,15 +1672,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo registrar al cuenta", 202);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo registrar al cuenta", 202);
                 Desconectar();
             }
         }
@@ -1856,12 +1687,23 @@ namespace DAO
                 comandoSQL.CommandText = string.Format("SELECT Eliminar_Tarjeta(@TarjetaId)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", IdTarjeta));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo eliminar la tarjeta", 204);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo eliminar la tarjeta", 204);
             }
             catch (NpgsqlException ex)
             {
-                //Manejo de errores para el cierre de la conexión.
-                //Logger para el manejo de errores
                 Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -1871,15 +1713,6 @@ namespace DAO
             }
             finally
             {
-                if (lectorTablaSQL.Read())
-                {
-                    if (!lectorTablaSQL.GetBoolean(0))
-                    {
-                        throw new MoneyUcabException("No se pudo eliminar la tarjeta", 202);
-                    }
-                }
-                else
-                    throw new MoneyUcabException("No se pudo eliminar la tarjeta", 202);
                 Desconectar();
             }
         }
