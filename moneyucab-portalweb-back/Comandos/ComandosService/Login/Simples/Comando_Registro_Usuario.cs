@@ -43,7 +43,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             //Se debe ingresar en este punto la validación DAO con el sistema propio y no con Identity
             try
             {
-                await FabricaComandos.Fabricar_Cmd_Registro_Usuario_DAO(_userModel).Ejecutar();
+                // await FabricaComandos.Fabricar_Cmd_Registro_Usuario_DAO(_userModel).Ejecutar();
             }
             catch(Exception ex)
             {
@@ -84,7 +84,9 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             // Se envía el mensaje al correo del usuario registrado
             _emailSender.SendEmailAsync(emailDetails);
 
-            return result;
+            var user = await _userManager.FindByEmailAsync(_userModel.Email);
+
+            return (new { userID = user.Id, username = user.UserName, email = user.Email });
         }
 
     }

@@ -23,7 +23,7 @@ namespace moneyucab_portalweb_back.Controllers
             _comandoDatosUsuario = ComandoDatosUsuario;
         }
 
-        [HttpGet] // api/DatosUsuario/consultar
+        [HttpGet] // api/EntityUsuario/consultar
         [Route("Consultar")]
         public IActionResult Consultar()
         {
@@ -42,7 +42,7 @@ namespace moneyucab_portalweb_back.Controllers
             }
         }
 
-        [HttpPost] //api/DatosUsuario/insertar
+        [HttpPost] //api/EntityUsuario/insertar
         [Route("Insertar")]
         public IActionResult Agregar([FromBody] DatosUsuario DatosUsuario)
         {
@@ -61,7 +61,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         }
 
-        [HttpPut] //api/DatosUsuario/editar
+        [HttpPut] //api/EntityUsuario/editar
         [Route("Editar")]
         public IActionResult Editar([FromBody] DatosUsuario DatosUsuario)
         {

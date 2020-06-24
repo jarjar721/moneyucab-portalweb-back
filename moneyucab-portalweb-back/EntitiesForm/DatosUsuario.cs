@@ -12,7 +12,7 @@ namespace moneyucab_portalweb_back.EntitiesForm
 		public int idUsuario { get; set; }
 		public int idTipoUsuario { get; set; }
 		public int idTipoIdentificacion { get; set; }
-		public int idEntity { get; set; }
+		public string idEntity { get; set; }
 		public string usuario { get; set; }
 		public DateTime fechaRegistro { get; set; }
 		public int nroIdentificacion { get; set; }
