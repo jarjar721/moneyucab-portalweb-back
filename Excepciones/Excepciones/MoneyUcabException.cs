@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Excepciones
 {
@@ -48,12 +49,13 @@ namespace Excepciones
 
         public Object Response()
         {
-            return new { error = this.error, codigo = this.codigo };
+            return new { error = this.error, codigo = this.codigo , excepcionOrigen = this.excepcionOrigen };
         }
 
         public static Object ResponseErrorDesconocido(Exception Ex)
         {
-            return new { Error = "Error desconocido. Comunicarse con el administrador e informar: " + Ex.StackTrace };
+            var stackTrace = new { stackTrace = Ex.StackTrace };
+            return new { error = "Error desconocido. Comunicarse con el administrador e informar.", codigo = 0 , stackTrace};
         }
     }
 }
