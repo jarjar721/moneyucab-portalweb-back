@@ -12,6 +12,8 @@ namespace Excepciones
         public MoneyUcabException(Exception Ex)
         {
             this.excepcionOrigen = Ex;
+            this.error = Ex.Message;
+            this.codigo = 404;
         }
 
         public MoneyUcabException(string Error, int Codigo)

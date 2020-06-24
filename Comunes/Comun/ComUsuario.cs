@@ -66,7 +66,7 @@ namespace Comunes.Comun
         public void LlenadoDataFormComercio(NpgsqlCommand ComandoSQL)
         {
             //ComandoSQL.Parameters.Add(new NpgsqlParameter("EntityId", this._idEntity));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoUsuarioId", this.idUsuario));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoUsuarioId", this.idTipoUsuario));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoIdentificacionId", this.tipoIdentificacion.idTipoIdentificacion));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("Usuario", this.usuario));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("FechaRegistro", this.fechaRegistro));

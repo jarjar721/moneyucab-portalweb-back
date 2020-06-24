@@ -148,7 +148,6 @@ VALUES ('TRAT', 'Transferencia con tarjeta', 1),
 ('REGC', 'Registro de Cuenta', 1),
 ('REGE', 'Registro de Empresa/Comercio', 1),
 ('REGP', 'Registro de Persona', 1);
-SELECT * FROM Aplicacion;
 
 DELETE FROM Aplicacion CASCADE;
 ALTER SEQUENCE Aplicacion_idAplicacion_seq RESTART WITH 1;

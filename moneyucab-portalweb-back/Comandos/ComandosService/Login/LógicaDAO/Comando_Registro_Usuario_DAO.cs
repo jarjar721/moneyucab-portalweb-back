@@ -19,7 +19,6 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.LogicaDAO
 		async public Task<Boolean> Ejecutar()
 		{
 			DAOBase dao = FabricaDAO.CrearDaoBase();
-			Console.WriteLine(this._formulario.comercio);
 			if (this._formulario.comercio)
             {
 				dao.RegistroUsuarioComercio(this._formulario.Formatear_Formulario());

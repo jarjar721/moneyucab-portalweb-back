@@ -1,4 +1,5 @@
 ﻿
+using Comandos;
 using Microsoft.AspNetCore.Identity;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.LogicaDAO;
@@ -265,6 +266,11 @@ namespace moneyucab_portalweb_back.Comandos
         public static Comando_Establecer_Parametro Fabricar_Cmd_Establecer_Parametro(int IdUsuario, int IdParametro, string Validacion, int Estatus)
         {
             return new Comando_Establecer_Parametro(IdUsuario, IdParametro, Validacion, Estatus);
+        }
+
+        public static Comando_Verificar_Autenticacion Fabricar_Cmd_Verificar_Autenticacion(UserManager<Usuario> UserManager, LoginModel Model)
+        {
+            return new Comando_Verificar_Autenticacion(UserManager, Model);
         }
     }
 }
