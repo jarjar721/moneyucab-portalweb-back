@@ -11,10 +11,12 @@ using moneyucab_portalweb_back.Models;
 using moneyucab_portalweb_back.Models.FormModels;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace moneyucab_portalweb_back.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("Policy")]	
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -40,6 +42,7 @@ namespace moneyucab_portalweb_back.Controllers
 
 
         [HttpPost]
+	[EnableCors("Policy")]
         [Route("Register")]
         //Post: /api/Usuario/Register
         public async Task<Object> Register(RegistrationModel userModel)
@@ -77,7 +80,7 @@ namespace moneyucab_portalweb_back.Controllers
             {
                 // Busco el usuario en la base de datos - Get user in database
                 await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, model.Email, model.Email, null).Ejecutar();
-                await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
+                //await FabricaComandos.Fabricar_Cmd_Verificar_Email_Confirmado(model.Email, _userManager).Ejecutar();
                 // Obtengo el resultado de iniciar sesión 
                 var result = await FabricaComandos.Fabricar_Cmd_Inicio_Sesion(_userManager, model, _appSettings, _signInManager).Ejecutar();
                 return Ok(result);

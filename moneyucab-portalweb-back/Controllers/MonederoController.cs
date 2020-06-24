@@ -9,15 +9,16 @@ using moneyucab_portalweb_back.Comandos;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples;
 using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
 using moneyucab_portalweb_back.Entities;
+using Microsoft.AspNetCore.Cors;
 
 namespace moneyucab_portalweb_back.Controllers
 {
     [Route("api/[controller]")] // api/saldo
+    [EnableCors("Policy")]
     [ApiController]
     public class MonederoController : ControllerBase
     {
         [HttpGet] // api/Saldo/consultar
-        [Authorize]
         [Route("Consultar")]
         public async Task<Object> Consultar([FromQuery]int UsuarioId) //No estoy claro de si aca se usa [frombody] o [fromform]
         {

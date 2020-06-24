@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -71,7 +72,22 @@ namespace moneyucab_portalweb_back
             }
             );
 
-            services.AddCors();
+            /*services.AddCors(o => 
+            o.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                }      
+            ));*/
+
+            services.AddCors(o => o.AddPolicy("Policy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                }
+            ));
 
             // JWT Authentication
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
@@ -105,15 +121,17 @@ namespace moneyucab_portalweb_back
             }
 
             // Permite el enlance entre requests del front al servidor
-            app.UseCors(builder =>
+            /*app.UseCors(builder =>
                 builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
                 .AllowAnyHeader()
                 .AllowAnyMethod()
-            );
+            );*/
 
             app.UseAuthentication();
 
             app.UseRouting();
+
+            app.UseCors("Policy");
 
             app.UseAuthorization();
 
