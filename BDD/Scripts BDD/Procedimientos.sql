@@ -418,7 +418,7 @@ BEGIN
 										LEFT JOIN Comercio ON Comercio.idUsuario = Usuario.idUsuario 
 										JOIN TipoIdentificacion ON TipoIdentificacion.idTipoIdentificacion = Usuario.idTipoIdentificacion
 										JOIN EstadoCivil ON EstadoCivil.idEstadoCivil = Persona.idEstadoCivil
-										WHERE Usuario.email = $1;
+										WHERE Usuario.email = $1 OR Usuario.usuario = $1;
 END
 $BODY$
 LANGUAGE plpgsql;
