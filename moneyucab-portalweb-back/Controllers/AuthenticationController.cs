@@ -190,7 +190,6 @@ namespace moneyucab_portalweb_back.Controllers
                 await FabricaComandos.Fabricar_Cmd_Verificar_Parametros(Model.newPassword, Model.resetPasswordToken).Ejecutar();
 
                 // Busco al usuario por su ID
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, null, null, Model.idUsuario).Ejecutar();
                 var result = await FabricaComandos.Fabricar_Cmd_Resetear_Password(_userManager, Model).Ejecutar();
 
                 return Ok(new { key = "ResetPasswordSuccess", message = "¡Contraseña restablecida!", result});
