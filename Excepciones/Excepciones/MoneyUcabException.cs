@@ -51,7 +51,7 @@ namespace Excepciones
 
         public Object Response()
         {
-            return new { error = this.error, codigo = this.codigo , excepcionOrigen = this.excepcionOrigen };
+            return new { error = this.error, codigo = this.codigo };
         }
 
         public static Object ResponseErrorDesconocido(Exception Ex)
