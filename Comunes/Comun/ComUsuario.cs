@@ -66,7 +66,7 @@ namespace Comunes.Comun
         public void LlenadoDataFormComercio(NpgsqlCommand ComandoSQL)
         {
             //ComandoSQL.Parameters.Add(new NpgsqlParameter("EntityId", this._idEntity));
-            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoUsuarioId", this.idUsuario));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoUsuarioId", this.idTipoUsuario));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("TipoIdentificacionId", this.tipoIdentificacion.idTipoIdentificacion));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("Usuario", this.usuario));
             ComandoSQL.Parameters.Add(new NpgsqlParameter("FechaRegistro", this.fechaRegistro));
@@ -82,7 +82,7 @@ namespace Comunes.Comun
 
         public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this.comercio.offset = 18;
+            this.comercio.offset = 17;
             this.comercio.LlenadoDataNpgsql(Data);
             this.persona.offset = 13;
             this.persona.LlenadoDataNpgsql(Data);

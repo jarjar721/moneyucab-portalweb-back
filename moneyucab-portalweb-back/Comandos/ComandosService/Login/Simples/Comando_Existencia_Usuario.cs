@@ -29,19 +29,19 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             // Chequeo que el username no este registrado
             if (await _userManager.FindByNameAsync(_userName) != null)
             {
-                return true;
+                UsuarioExistenteException.UsuarioExistente();
             }
             // Chequeo que el email no este registrado
             if (await _userManager.FindByEmailAsync(_email) != null)
             {
-                return true;
+                UsuarioExistenteException.UsuarioExistente();
             }
             if (await _userManager.FindByIdAsync(_userId) != null)
             {
-                return true;
+                UsuarioExistenteException.UsuarioExistente();
             }
-            // UsuarioExistenteException.UsuarioNoExistente();
-            return false;
+            UsuarioExistenteException.UsuarioNoExistente();
+            return true;
         }
 
     }

@@ -137,7 +137,7 @@ AS $$
 DECLARE
 	numero_tarjeta int;
 BEGIN
-		SELECT Tarjeta.idTarjeta FROM Tarjeta into numero_tarjeta WHERE Tarjeta.numero = $4 AND Tarjeta.fecha_vencimiento = $5 AND Tarjeta.cvc = 6 AND Tarjeta.Banco = $3;
+		SELECT Tarjeta.idTarjeta FROM Tarjeta into numero_tarjeta WHERE Tarjeta.numero = $4 AND Tarjeta.fecha_vencimiento = $5 AND Tarjeta.cvc = 6 AND Tarjeta.idBanco = $3;
 		IF numero_tarjeta IS NOT NULL THEN
 			UPDATE Tarjeta SET estatus = 1 WHERE Tarjeta.idTarjeta = numero_tarjeta;
 		ELSE
@@ -418,7 +418,7 @@ BEGIN
 										LEFT JOIN Comercio ON Comercio.idUsuario = Usuario.idUsuario 
 										JOIN TipoIdentificacion ON TipoIdentificacion.idTipoIdentificacion = Usuario.idTipoIdentificacion
 										JOIN EstadoCivil ON EstadoCivil.idEstadoCivil = Persona.idEstadoCivil
-										WHERE Usuario.email = $1;
+										WHERE Usuario.email = $1 OR Usuario.usuario = $1;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -678,9 +678,7 @@ $$;
 
 CREATE OR REPLACE FUNCTION Ejecutar_Cierre(INT)
 												RETURNS TABLE(idoperacionesMonedero int, idusuario int, idtipoOperacion int, monto decimal, fecha date, hora time, referencia varchar,
-						 idtipooperacion_tipo_operacion int, descripcion_tipo_operacion varchar, estatus_tipo_operacion int,
-						 idoperaciontarjeta int, idtarjeta int, idusuarioreceptor_op_tarjeta int, fecha_op_tarjeta date, hora_op_tarjeta time, monto_op_tarjeta decimal, referencia_op_tarjeta varchar,
-						 idoperacionCuenta int, idCuenta int, idusuarioreceptor_op_cuenta int, fecha_op_cuenta date, hora_op_cuenta time, monto_op_cuenta decimal, referencia_op_cuenta varchar)
+						 idtipooperacion_tipo_operacion int, descripcion_tipo_operacion varchar, estatus_tipo_operacion int)
 LANGUAGE plpgsql    
 AS $$
 DECLARE
@@ -698,26 +696,24 @@ BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '');
 		FOR Tarjeta IN Tarjetas LOOP
 			INSERT INTO OperacionTarjeta (idUsuarioReceptor, idTarjeta, fecha, hora, monto, referencia)
-				VALUES ($1, Tarjeta.idTarjeta, current_date, current_time, 0, referenciaValid);
+				VALUES ($1, Tarjeta.idTarjeta, current_date, current_time, 0, referenciaValid || 'TARJ' || Tarjeta.idTarjeta);
 		END LOOP;
 		FOR Cuenta IN Cuentas LOOP
 			INSERT INTO OperacionCuenta(idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
-				VALUES ($1, Cuenta.idCuenta, current_date, current_time, 0, referenciaValid);
+				VALUES ($1, Cuenta.idCuenta, current_date, current_time, 0, referenciaValid || 'CUEN' || Cuenta.idCuenta);
 		END LOOP;
 		SELECT TipoOperacion.idTipoOperacion FROM TipoOperacion into tipoOperacion WHERE descripcion = 'Cierre';
+		SELECT COALESCE(OperacionCuenta.idOperacionCuenta,0) FROM OperacionCuenta into op_limit_cuenta
+													JOIN OperacionesMonedero ON OperacionesMonedero.referencia = referenciaValid and OperacionCuenta.referencia = OperacionesMonedero.referencia || 'CUEN' ||OperacionCuenta.idCuenta
+													WHERE OperacionesMonedero.idTipoOperacion = tipoOperacion ORDER BY OperacionCuenta.Fecha DESC LIMIT 1;
+		SELECT COALESCE(OperacionTarjeta.idOperacionTarjeta, 0) FROM OperacionTarjeta into op_limit_tarjeta
+													JOIN OperacionesMonedero ON OperacionesMonedero.referencia = referenciaValid and OperacionTarjeta.referencia = OperacionesMonedero.referencia || 'TARJ'||OperacionTarjeta.idTarjeta
+													WHERE OperacionesMonedero.idTipoOperacion = tipoOperacion ORDER BY OperacionTarjeta.Fecha DESC LIMIT 1;
+		SELECT SUM(COALESCE(OperacionCuenta.monto,0)) FROM OperacionCuenta INTO Totalizacion_Cuenta WHERE OperacionCuenta.idOperacionCuenta > op_limit_cuenta AND OperacionCuenta.idUsuarioReceptor = $1;
+		SELECT SUM(COALESCE(OperacionTarjeta.monto,0)) FROM OperacionTarjeta INTO Totalizacion_Tarjeta WHERE OperacionTarjeta.idOperacionTarjeta > op_limit_tarjeta AND OperacionTarjeta.idUsuarioReceptor = $1;
 		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
-			VALUES ($1, tipoOperacion, 0, current_date, current_time, referenciaValid);
-		SELECT OperacionCuenta.idOperacionCuenta FROM OperacionCuenta into op_limit_cuenta
-													JOIN OperacionesMonedero ON OperacionesMonedero.referencia = referenciaValid and OperacionCuenta.referencia = OperacionesMonedero.referencia
-													WHERE OperacionesMonedero.idTipoOperacion = tipoOperacion ORDER BY Fecha DESC LIMIT 1;
-		SELECT OperacionTarjeta.idOperacionTarjeta FROM OperacionTarjeta into op_limit_tarjeta
-													JOIN OperacionesMonedero ON OperacionesMonedero.referencia = referenciaValid and OperacionTarjeta.referencia = OperacionesMonedero.referencia
-													WHERE OperacionesMonedero.idTipoOperacion = tipoOperacion ORDER BY Fecha DESC LIMIT 1;
-		SELECT SUM(COALESCE(OperacionCuenta.monto,0)) FROM OperacionCuenta INTO Totalizacion_Cuenta WHERE OperacionCuenta.idOperacionCuenta > op_limit_cuenta;
-		SELECT SUM(COALESCE(OperacionTarjeta.monto,0)) FROM OperacionTarjeta INTO Totalizacion_Tarjeta WHERE OperacionTarjeta.idOperacionCuenta > op_limit_tarjeta;
+			VALUES ($1, tipoOperacion, COALESCE(Totalizacion_Cuenta + Totalizacion_Tarjeta, 0), current_date, current_time, referenciaValid);
 		RETURN QUERY SELECT * FROM OperacionesMonedero JOIN TipoOperacion ON TipoOperacion.idTipoOperacion = OperacionesMonedero.idTipoOperacion
-													LEFT JOIN OperacionTarjeta ON OperacionesMonedero.referencia = OperacionTarjeta.referencia
-													LEFT JOIN OperacionCuenta ON OperacionesMonedero.referencia = OperacionCuenta.referencia
 													WHERE OperacionesMonedero.referencia = referenciaValid ORDER BY OperacionesMonedero.fecha DESC;
 END;
 $$;
@@ -779,5 +775,31 @@ BEGIN
 			JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro AND TipoParametro.descripcion = $3
 			WHERE Usuario_Parametro.idParametro = $2 AND USUARIO_PARAMETRO.idUsuario = $1;
 	return retorno;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION Comercio_Usuario(VARCHAR)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+BEGIN
+	IF EXISTS (SELECT * FROM Comercio JOIN Usuario ON Usuario.idUsuario = Comercio.idUsuario WHERE Usuario.Email = $1 OR Usuario.usuario = $1) THEN
+		RETURN TRUE;
+	END IF;
+	RETURN FALSE;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION Persona_Usuario(VARCHAR)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+BEGIN
+	IF EXISTS (SELECT * FROM Persona JOIN Usuario ON Usuario.idUsuario = Persona.idUsuario WHERE Usuario.Email = $1 OR Usuario.usuario = $1) THEN
+		RETURN TRUE;
+	END IF;
+	RETURN FALSE;
 END;
 $$;

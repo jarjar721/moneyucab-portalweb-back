@@ -97,7 +97,6 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-
                 return Ok(await FabricaComandos.Fabricar_Cmd_Ejecutar_Cierre(IdUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)

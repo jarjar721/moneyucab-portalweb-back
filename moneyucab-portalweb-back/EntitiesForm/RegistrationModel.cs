@@ -8,6 +8,7 @@ namespace moneyucab_portalweb_back.EntitiesForm
     {
         public int idTipoUsuario { get; set; }
         public int idTipoIdentificacion { get; set; }
+        public int idEstadoCivil { get; set; }
         public int anoRegistro { get; set; }
         public int mesRegistro { get; set; }
         public int diaRegistro { get; set; }
@@ -36,7 +37,7 @@ namespace moneyucab_portalweb_back.EntitiesForm
             else
             {
                 ComTipoIdentificacion tipoIdentificacion = new ComTipoIdentificacion(idTipoIdentificacion, 'v', "", 1);
-                ComEstadoCivil estadoCivil = new ComEstadoCivil(1, "", 's', 1);
+                ComEstadoCivil estadoCivil = new ComEstadoCivil(idEstadoCivil, "", 's', 1);
                 ComPersona persona = new ComPersona(estadoCivil, nombre, apellido, new NpgsqlDate(anoNacimiento, mesNacimiento, diaNacimiento));
                 ComUsuario UsuarioRetorn = new ComUsuario(null, persona, tipoIdentificacion, 0, "", usuario, new NpgsqlDate(anoRegistro, mesRegistro, diaRegistro), nroIdentificacion, email, telefono, direccion, 1, password);
                 return UsuarioRetorn;

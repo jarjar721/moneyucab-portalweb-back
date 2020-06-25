@@ -26,7 +26,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 		async public Task<Boolean> Ejecutar()
 		{
 			DAOBase dao = new DAOBase();
-			dao.Modificación_Usuario(_usuario, _email, _telefono, _direccion, _idUsuario);
+			dao.ModificaciónUsuario(_usuario, _email, _telefono, _direccion, _idUsuario);
 			return true;
 		}
 	}

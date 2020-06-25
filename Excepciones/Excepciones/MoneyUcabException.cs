@@ -12,6 +12,8 @@ namespace Excepciones
         public MoneyUcabException(Exception Ex)
         {
             this.excepcionOrigen = Ex;
+            this.error = Ex.Message;
+            this.codigo = 404;
         }
 
         public MoneyUcabException(string Error, int Codigo)
@@ -49,7 +51,7 @@ namespace Excepciones
 
         public Object Response()
         {
-            return new { error = this.error, codigo = this.codigo , excepcionOrigen = this.excepcionOrigen };
+            return new { error = this.error, codigo = this.codigo };
         }
 
         public static Object ResponseErrorDesconocido(Exception Ex)
