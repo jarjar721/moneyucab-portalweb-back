@@ -272,5 +272,25 @@ namespace moneyucab_portalweb_back.Comandos
         {
             return new Comando_Verificar_Autenticacion(UserManager, Model);
         }
+
+        public static Comando_Comercio_Usuario Fabricar_Cmd_Comercio_Usuario(string Usuario)
+        {
+            return new Comando_Comercio_Usuario(Usuario);
+        }
+
+        public static Comando_Persona_Usuario Fabricar_Cmd_Persona_Usuario(string Usuario)
+        {
+            return new Comando_Persona_Usuario(Usuario);
+        }
+
+        public static Comando_Verificar_Registro_Comercio Fabricar_Cmd_Verificar_Registro_Comercio(UserManager<Usuario> UserManager, ComercioForm Comercio)
+        {
+            return new Comando_Verificar_Registro_Comercio(UserManager, Comercio);
+        }
+
+        public static Comando_Registro_Comercio Fabricar_Cmd_Registro_Comercio(ComercioForm Comercio)
+        {
+            return new Comando_Registro_Comercio(Comercio);
+        }
     }
 }

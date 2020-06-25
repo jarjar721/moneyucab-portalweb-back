@@ -19,7 +19,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 		async public Task<Boolean> Ejecutar()
 		{
 			DAOBase dao = new DAOBase();
-			dao.Ejecutar_Cierre(_idUsuario);
+			dao.EjecutarCierre(_idUsuario);
 
 			return true;
 		}

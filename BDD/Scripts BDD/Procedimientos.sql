@@ -781,3 +781,16 @@ BEGIN
 	return retorno;
 END;
 $$;
+
+CREATE OR REPLACE FUNCTION Comercio_Usuario(VARCHAR)
+			RETURNS BOOLEAN
+LANGUAGE plpgsql    
+AS $$
+DECLARE
+BEGIN
+	IF EXISTS (SELECT * FROM Comercio JOIN Usuario ON Usuario.idUsuario = Comercio.idUsuario WHERE Usuario.Email = $1 OR Usuario.usuario = $1) THEN
+		RETURN TRUE;
+	END IF;
+	RETURN FALSE;
+END;
+$$;

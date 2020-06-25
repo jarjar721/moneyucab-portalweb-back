@@ -30,6 +30,13 @@ namespace Comunes.Comun
             ComandoSQL.Parameters.Add(new NpgsqlParameter("IdEstadoCivil", 1));
         }
 
+        public void LlenadoDataFormComercioReg(NpgsqlCommand ComandoSQL)
+        {
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("RazonSocial", this.razonSocial));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Nombre", this.nombreRepresentante));
+            ComandoSQL.Parameters.Add(new NpgsqlParameter("Apellido", this.apellidoRepresentante));
+        }
+
         public void LlenadoDataFormPersona(NpgsqlCommand ComandoSQL)
         {
             throw new MoneyUcabException(null, "Llenado de información inválido", 100);

@@ -1,4 +1,5 @@
 ﻿using Comunes.Comun;
+using System;
 using System.Collections.Generic;
 
 namespace DAO.Interfaces
@@ -302,6 +303,16 @@ namespace DAO.Interfaces
         void RegistroUsuarioComercio(ComUsuario Formulario);
 
         /// <summary>
+        /// Realiza el registro de un comercio a un usuario existente.
+        /// </summary>
+        /// <param name="Formulario">Formulario de llenado para realizar el registro.</param>
+        /// <param name="IdUsuario">Id del usuario al cual se le realizará el registro de comercio.</param>
+        /// <exception cref="PGSQLException">Tira excepción relacionado a la base de datos.</exception>
+        /// <exception cref="MoneyUcabException">Tira excepción relacionado a lógica de negocio que se esté manejando en este punto.</exception>
+        /// <exception cref="Exception">Exception para controlar cualquier error inesperado y no controlado por el backend.</exception>
+        void RegistroComercio(ComComercio Formulario, int IdUsuario);
+
+        /// <summary>
         /// Realiza el registro de una cuenta como billetera dentro del modelo de negocio.
         /// </summary>
         /// <param name="Formulario">Formulario de llenado para realizar el registro.</param>
@@ -350,28 +361,66 @@ namespace DAO.Interfaces
         /// <exception cref="Exception">Exception para controlar cualquier error inesperado y no controlado por el backend.</exception>
         void Reintegro(int IdUsuarioCobrador, string UsuarioPaga, string Referencia);
 
+        /// <summary>
+        /// Cancela el cobro solicitado al usuario.
+        /// </summary>
+        /// <param name="IdCobro">Especifica el id del cobro solicitado</param>
+        /// <exception cref="PGSQLException">Tira excepción relacionado a la base de datos.</exception>
+        /// <exception cref="MoneyUcabException">Tira excepción relacionado a lógica de negocio que se esté manejando en este punto.</exception>
+        /// <exception cref="Exception">Exception para controlar cualquier error inesperado y no controlado por el backend.</exception>
         void CancelarCobro(int IdCobro);
 
+        /// <summary>
+        /// Cancela el reintegro solicitado al usuario.
+        /// </summary>
+        /// <param name="IdCobro">Especifica el id del reintegro solicitado</param>
+        /// <exception cref="PGSQLException">Tira excepción relacionado a la base de datos.</exception>
+        /// <exception cref="MoneyUcabException">Tira excepción relacionado a lógica de negocio que se esté manejando en este punto.</exception>
+        /// <exception cref="Exception">Exception para controlar cualquier error inesperado y no controlado por el backend.</exception>
         void CancelarReintegro(int IdReintegro);
 
+        /// <summary>
+        /// Se realiza un pago con la tarjeta.
+        /// </summary>
+        /// <param name="IdUsuarioReceptor">Especifica el id del usuario receptor del pago</param>
+        /// <param name="IdTarjetaPago">Especifica el id de la tarjeta que realiza el pago</param>
+        /// <param name="Monto">Especifica el monto del pago</param>
+        /// <param name="IdCobro">Especifica el id del cobro solicitado</param>
+        /// <exception cref="PGSQLException">Tira excepción relacionado a la base de datos.</exception>
+        /// <exception cref="MoneyUcabException">Tira excepción relacionado a lógica de negocio que se esté manejando en este punto.</exception>
+        /// <exception cref="Exception">Exception para controlar cualquier error inesperado y no controlado por el backend.</exception>
         void Pago_Tarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro);
 
-        void Pago_Cuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto, int IdCobro);
+        /// <summary>
+        /// Se realiza un pago con la cuenta.
+        /// </summary>
+        /// <param name="IdUsuarioReceptor">Especifica el id del usuario receptor del pago</param>
+        /// <param name="IdCuentaPago">Especifica el id de la cuenta que realiza el pago</param>
+        /// <param name="Monto">Especifica el monto del pago</param>
+        /// <param name="IdCobro">Especifica el id del cobro solicitado</param>
+        /// <exception cref="PGSQLException">Tira excepción relacionado a la base de datos.</exception>
+        /// <exception cref="MoneyUcabException">Tira excepción relacionado a lógica de negocio que se esté manejando en este punto.</exception>
+        /// <exception cref="Exception">Exception para controlar cualquier error inesperado y no controlado por el backend.</exception>
+        void PagoCuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto, int IdCobro);
 
-        void Pago_Monedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro);
+        void PagoMonedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro);
 
-        void Reintegro_Tarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro);
+        void ReintegroTarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro);
 
-        void Reintegro_Cuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto, int IdCobro);
+        void ReintegroCuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto, int IdCobro);
 
-        void Reintegro_Monedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro);
+        void ReintegroMonedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro);
 
-        void Modificación_Usuario(string Usuario, string Email, string Telefono, string Direccion, int IdUsuario);
+        void ModificaciónUsuario(string Usuario, string Email, string Telefono, string Direccion, int IdUsuario);
 
-        ComOperacionMonedero Ejecutar_Cierre(int IdUsuario);
+        ComOperacionMonedero EjecutarCierre(int IdUsuario);
 
         void EliminarCuenta(int IdCuenta);
 
         void EliminarTarjeta(int IdTarjeta);
+
+        Boolean ComercioUsuario(string Usuario);
+
+        Boolean PersonaUsuario(string Usuario);
     }
 }

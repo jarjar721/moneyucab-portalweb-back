@@ -56,7 +56,37 @@ namespace moneyucab_portalweb_back.Controllers
                 //Se realiza el registro del usuario
                 var result = await FabricaComandos.Fabricar_Cmd_Registro_Usuario(_userManager, UserModel, _appSettings, _emailSender).Ejecutar();
 
-                return Ok(new { key = "RegisterMessage", message = "Registro exitoso" , result});
+                return Ok(new { key = "RegisterMessage", message = "Registro exitoso", result });
+            }
+            catch (MoneyUcabException ex)
+            {
+                //Debe controlarse un error dentro de la plataforma
+                //Se realiza bad request respondiendo con el objeto obtenido
+                return BadRequest(ex.Response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
+            }
+
+
+        }
+
+        [HttpPost]
+        [Route("RegisterComercio")]
+        //Post: /api/Authentication/Register
+        public async Task<Object> RegisterComercio(ComercioForm comercio)
+        {
+            try
+            {
+                //Ejecución de comandos para funcionalidad de registro
+
+                // Chequeo que el usuario exista para registrarle la info de comercio
+                await FabricaComandos.Fabricar_Cmd_Verificar_Registro_Comercio(_userManager, comercio).Ejecutar();
+                //Se realiza el registro del usuario
+                await FabricaComandos.Fabricar_Cmd_Registro_Comercio(comercio).Ejecutar();
+
+                return Ok(new { key = "RegisterMessage", message = "Registro del comercio exitoso"});
             }
             catch (MoneyUcabException ex)
             {

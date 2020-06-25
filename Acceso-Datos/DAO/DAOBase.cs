@@ -993,7 +993,49 @@ namespace DAO
                 Desconectar();
             }
         }
-        
+
+        public void RegistroComercio(ComComercio Formulario, int IdUsuario)
+        {
+            try
+            {
+                Conectar();
+
+                comandoSQL = conector.CreateCommand();
+
+                comandoSQL.CommandText = string.Format("SELECT Registro_Comercio(@Nombre, @Apellido, @RazonSocial, @IdUsuario)");
+                Formulario.LlenadoDataFormComercioReg(comandoSQL);
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuario", IdUsuario));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    if (!lectorTablaSQL.GetBoolean(0))
+                    {
+                        throw new MoneyUcabException("No se pudo registrar el comercio", 201);
+                    }
+                }
+                else
+                    throw new MoneyUcabException("No se pudo registrar el comercio", 201);
+            }
+            catch (NpgsqlException ex)
+            {
+                Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 1);
+            }
+            finally
+            {
+                Desconectar();
+            }
+        }
+
         public void RegistroCuenta(ComCuenta Formulario)
         {
             try
@@ -1329,7 +1371,7 @@ namespace DAO
             }
         }
 
-        public void Pago_Cuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto, int IdCobro)
+        public void PagoCuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto, int IdCobro)
         {
             try
             {
@@ -1373,7 +1415,7 @@ namespace DAO
             }
         }
 
-        public void Pago_Monedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro)
+        public void PagoMonedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro)
         {
             try
             {
@@ -1417,7 +1459,7 @@ namespace DAO
             }
         }
 
-        public void Reintegro_Tarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro)
+        public void ReintegroTarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro)
         {
             try
             {
@@ -1461,7 +1503,7 @@ namespace DAO
             }
         }
 
-        public void Reintegro_Cuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto, int IdCobro)
+        public void ReintegroCuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto, int IdCobro)
         {
             try
             {
@@ -1505,7 +1547,7 @@ namespace DAO
             }
         }
 
-        public void Reintegro_Monedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro)
+        public void ReintegroMonedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro)
         {
             try
             {
@@ -1549,7 +1591,7 @@ namespace DAO
             }
         }
 
-        public void Modificación_Usuario(string Usuario, string Email, string Telefono, string Direccion, int IdUsuario)
+        public void ModificaciónUsuario(string Usuario, string Email, string Telefono, string Direccion, int IdUsuario)
         {
             try
             {
@@ -1594,7 +1636,7 @@ namespace DAO
             }
         }
 
-        public ComOperacionMonedero Ejecutar_Cierre(int IdUsuario)
+        public ComOperacionMonedero EjecutarCierre(int IdUsuario)
         {
             try
             {
@@ -1715,6 +1757,84 @@ namespace DAO
             {
                 Desconectar();
             }
+        }
+
+        public bool ComercioUsuario(string Usuario)
+        {
+            try
+            {
+                Conectar();
+
+                comandoSQL = conector.CreateCommand();
+
+                comandoSQL.CommandText = string.Format("SELECT Comercio_Usuario(@Usuario)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Usuario", Usuario));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    return lectorTablaSQL.GetBoolean(0);
+                }
+                else
+                    throw new MoneyUcabException("No se pudo determinar qué tipo de usuario era", 220);
+            }
+            catch (NpgsqlException ex)
+            {
+                Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 0);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            throw new MoneyUcabException("No se pudo determinar qué tipo de usuario era", 220);
+        }
+
+        public bool PersonaUsuario(string Usuario)
+        {
+            try
+            {
+                Conectar();
+
+                comandoSQL = conector.CreateCommand();
+
+                comandoSQL.CommandText = string.Format("SELECT Persona_Usuario(@Usuario)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Usuario", Usuario));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    return lectorTablaSQL.GetBoolean(0);
+                }
+                else
+                    throw new MoneyUcabException("No se pudo determinar qué tipo de usuario era", 220);
+            }
+            catch (NpgsqlException ex)
+            {
+                Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 0);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            throw new MoneyUcabException("No se pudo determinar qué tipo de usuario era", 220);
         }
     }
 }
