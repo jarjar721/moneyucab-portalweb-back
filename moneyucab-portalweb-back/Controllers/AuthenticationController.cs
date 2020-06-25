@@ -163,8 +163,6 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                // Busco el usuario en la base de datos - Get user in database
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, Model.email, Model.email, null).Ejecutar();
                 //Proceso de envío y recuperación de contraseña.    
                 var result = await FabricaComandos.Fabricar_Cmd_Olvido_Contraseña(_userManager, Model, _appSettings, _emailSender).Ejecutar();
                 return Ok(new { key = "ForgotPasswordEmailSent", message = "Un mensaje ha sido enviado a su email con instrucciones para restablecer su contraseña", result});

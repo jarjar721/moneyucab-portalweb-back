@@ -1,6 +1,7 @@
 ﻿using Comandos;
 using Microsoft.AspNetCore.Identity;
 using moneyucab_portalweb_back.Comandos.ComandosService.Utilidades.Email;
+using Excepciones.Excepciones_Especificas;
 using moneyucab_portalweb_back.EntitiesForm;
 using moneyucab_portalweb_back.Models;
 using System;
@@ -26,6 +27,18 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 
         async public Task<Boolean> Ejecutar()
         {
+
+            try
+            {
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, _model.email, _model.email, null).Ejecutar();
+            }
+            catch (UsuarioExistenteException ex)
+            {
+                if (ex.codigo != 17)
+                {
+                    throw ex;
+                }
+            }
             var usuario = await _userManager.FindByEmailAsync(_model.email);
             // Se genera el codigo para confirmar el email del usuario recien creado
             var code = await _userManager.GeneratePasswordResetTokenAsync(usuario);
