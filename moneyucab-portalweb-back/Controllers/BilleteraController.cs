@@ -10,6 +10,7 @@ using moneyucab_portalweb_back.EntitiesForm;
 using moneyucab_portalweb_back.Comandos;
 using Excepciones;
 using NpgsqlTypes;
+using Microsoft.AspNetCore.Authorization;
 
 namespace moneyucab_portalweb_back.Controllers
 {
@@ -18,6 +19,7 @@ namespace moneyucab_portalweb_back.Controllers
     public class BilleteraController : ControllerBase
     {
         [HttpPost] // api/Billetera/cuenta
+        [Authorize]
         [Route("Cuenta")]
         public async Task<IActionResult> CuentaAsync([FromBody]BilleteraCuenta BilleteraCuenta) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
@@ -42,6 +44,7 @@ namespace moneyucab_portalweb_back.Controllers
         }
 
         [HttpPost] // api/Billetera/tarjeta
+        [Authorize]
         [Route("tarjeta")]
         public async Task<IActionResult> TarjetaAsync([FromBody]BilleteraTarjeta billeteraTarjeta) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
@@ -67,6 +70,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         //Comando inválido por los momentos
         [HttpDelete] // api/Billetera/eliminarcuenta
+        [Authorize]
         [Route("EliminarCuenta")]
         public async Task<IActionResult> EliminarCuentaAsync([FromQuery]int CuentaId)
         {
@@ -91,6 +95,7 @@ namespace moneyucab_portalweb_back.Controllers
         }
 
         [HttpDelete] // api/Billetera/eliminartarjeta
+        [Authorize]
         [Route("EliminarTarjeta")]
         public async Task<IActionResult> EliminarTarjetaAsync([FromQuery]int TarjetaId)
         {

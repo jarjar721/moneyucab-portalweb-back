@@ -68,8 +68,6 @@ namespace moneyucab_portalweb_back.Controllers
             {
                 return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
-
-
         }
 
         [HttpPost]

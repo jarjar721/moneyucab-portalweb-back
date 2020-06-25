@@ -1647,10 +1647,11 @@ namespace DAO
                 comandoSQL.CommandText = string.Format("SELECT Ejecutar_Cierre(@IdUsuario)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuario", IdUsuario));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
-                if (lectorTablaSQL.Read())
+                if (lectorTablaSQL.HasRows)
                 {
                     ComOperacionMonedero operacion_monedero = new ComOperacionMonedero();
-                    operacion_monedero.LlenadoDataNpgsql(lectorTablaSQL);
+                    lectorTablaSQL.Read();
+                    operacion_monedero.LlenadoDataCierreNpgsql(lectorTablaSQL);
                     return operacion_monedero;
                 }
                 else
@@ -1726,8 +1727,8 @@ namespace DAO
 
                 comandoSQL = conector.CreateCommand();
 
-                comandoSQL.CommandText = string.Format("SELECT Eliminar_Tarjeta(@TarjetaId)");
-                comandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", IdTarjeta));
+                comandoSQL.CommandText = string.Format("SELECT Eliminar_Tarjeta(@IdTarjeta)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdTarjeta", IdTarjeta));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
                 if (lectorTablaSQL.Read())
                 {
