@@ -82,7 +82,7 @@ namespace Comunes.Comun
 
         public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this.comercio.offset = 18;
+            this.comercio.offset = 17;
             this.comercio.LlenadoDataNpgsql(Data);
             this.persona.offset = 13;
             this.persona.LlenadoDataNpgsql(Data);

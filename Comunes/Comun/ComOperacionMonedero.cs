@@ -23,8 +23,6 @@ namespace Comunes.Comun
 
         public void LlenadoDataNpgsql(NpgsqlDataReader Data)
         {
-            this.tipoOperacion.offset = 7;
-            this.tipoOperacion.LlenadoDataNpgsql(Data);
             try
             {
                 this.operacionTarjeta.offset = 10;
@@ -49,6 +47,20 @@ namespace Comunes.Comun
             //this._hora = data.GetDateTime(5 + _offset);
             this.monto = Data.GetDouble(3 + offset);
             this.referencia = Data.GetString(6 + offset);
+            this.tipoOperacion.offset = 7;
+            this.tipoOperacion.LlenadoDataNpgsql(Data);
+        }
+
+        public void LlenadoDataCierreNpgsql(NpgsqlDataReader Data)
+        {
+            this.idOperacionMonedero = Data.GetInt32(0 + offset);
+            this.idUsuario = Data.GetInt32(1 + offset);
+            this.fecha = Data.GetDate(4 + offset);
+            //this._hora = data.GetDateTime(5 + _offset);
+            this.monto = Data.GetDouble(3 + offset);
+            this.referencia = Data.GetString(6 + offset);
+            this.tipoOperacion.offset = 7;
+            this.tipoOperacion.LlenadoDataNpgsql(Data);
         }
     }
 }

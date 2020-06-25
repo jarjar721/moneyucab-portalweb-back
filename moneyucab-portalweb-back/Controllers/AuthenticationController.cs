@@ -56,7 +56,35 @@ namespace moneyucab_portalweb_back.Controllers
                 //Se realiza el registro del usuario
                 var result = await FabricaComandos.Fabricar_Cmd_Registro_Usuario(_userManager, UserModel, _appSettings, _emailSender).Ejecutar();
 
-                return Ok(new { key = "RegisterMessage", message = "Registro exitoso" , result});
+                return Ok(new { key = "RegisterMessage", message = "Registro exitoso", result });
+            }
+            catch (MoneyUcabException ex)
+            {
+                //Debe controlarse un error dentro de la plataforma
+                //Se realiza bad request respondiendo con el objeto obtenido
+                return BadRequest(ex.Response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
+            }
+        }
+
+        [HttpPost]
+        [Route("RegisterComercio")]
+        //Post: /api/Authentication/Register
+        public async Task<Object> RegisterComercio(ComercioForm comercio)
+        {
+            try
+            {
+                //Ejecución de comandos para funcionalidad de registro
+
+                // Chequeo que el usuario exista para registrarle la info de comercio
+                await FabricaComandos.Fabricar_Cmd_Verificar_Registro_Comercio(_userManager, comercio).Ejecutar();
+                //Se realiza el registro del usuario
+                await FabricaComandos.Fabricar_Cmd_Registro_Comercio(comercio).Ejecutar();
+
+                return Ok(new { key = "RegisterMessage", message = "Registro del comercio exitoso"});
             }
             catch (MoneyUcabException ex)
             {
@@ -135,8 +163,6 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                // Busco el usuario en la base de datos - Get user in database
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, Model.email, Model.email, null).Ejecutar();
                 //Proceso de envío y recuperación de contraseña.    
                 var result = await FabricaComandos.Fabricar_Cmd_Olvido_Contraseña(_userManager, Model, _appSettings, _emailSender).Ejecutar();
                 return Ok(new { key = "ForgotPasswordEmailSent", message = "Un mensaje ha sido enviado a su email con instrucciones para restablecer su contraseña", result});
@@ -164,7 +190,6 @@ namespace moneyucab_portalweb_back.Controllers
                 await FabricaComandos.Fabricar_Cmd_Verificar_Parametros(Model.newPassword, Model.resetPasswordToken).Ejecutar();
 
                 // Busco al usuario por su ID
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, null, null, Model.idUsuario).Ejecutar();
                 var result = await FabricaComandos.Fabricar_Cmd_Resetear_Password(_userManager, Model).Ejecutar();
 
                 return Ok(new { key = "ResetPasswordSuccess", message = "¡Contraseña restablecida!", result});

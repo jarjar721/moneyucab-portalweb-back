@@ -19,7 +19,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 		async public Task<ComOperacionMonedero> Ejecutar()
 		{
 			DAOBase dao = new DAOBase();
-			return dao.Ejecutar_Cierre(_idUsuario);
+			return dao.EjecutarCierre(_idUsuario);
 		}
 	}
 }

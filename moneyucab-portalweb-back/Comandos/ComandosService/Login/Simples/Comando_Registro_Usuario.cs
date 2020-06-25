@@ -48,7 +48,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             catch(Exception ex)
             {
                 await _userManager.DeleteAsync(usuario);
-                throw new MoneyUcabException(ex);
+                throw ex;
             }
             //-------------------------------------------------------
 

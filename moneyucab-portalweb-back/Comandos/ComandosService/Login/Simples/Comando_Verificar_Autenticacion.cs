@@ -34,6 +34,17 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
                 if (ex.codigo != 17)
                     UsuarioExistenteException.UsuarioNoExistente();
             }
+            if (_model.comercio)
+            {
+                if (!await FabricaComandos.Fabricar_Cmd_Comercio_Usuario(_model.email).Ejecutar())
+                {
+                    AutenticacionAppException.UsuarioInvalidoApp();
+                }
+            }
+            if (!await FabricaComandos.Fabricar_Cmd_Persona_Usuario(_model.email).Ejecutar())
+            {
+                AutenticacionAppException.UsuarioInvalidoApp();
+            }
             return true;
         }
 
