@@ -9,6 +9,7 @@ using moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO;
 using moneyucab_portalweb_back.EntitiesForm;
 using moneyucab_portalweb_back.Comandos;
 using Excepciones;
+using NpgsqlTypes;
 
 namespace moneyucab_portalweb_back.Controllers
 {
@@ -49,7 +50,7 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
                 var result = await FabricaComandos.Fabricar_Cmd_Registrar_Tarjeta(billeteraTarjeta.idUsuario, billeteraTarjeta.idTipoTarjeta, billeteraTarjeta.idBanco,
-                    billeteraTarjeta.numero, billeteraTarjeta.fechaVencimiento, billeteraTarjeta.cvc, billeteraTarjeta.estatus).Ejecutar();
+                    billeteraTarjeta.numero, new NpgsqlDate(billeteraTarjeta.ano, billeteraTarjeta.mes, billeteraTarjeta.dia), billeteraTarjeta.cvc, billeteraTarjeta.estatus).Ejecutar();
                 return Ok(new { key = "RegistoTarjeta", message = "Registro exitoso", result  });
             }
             catch (MoneyUcabException ex)
