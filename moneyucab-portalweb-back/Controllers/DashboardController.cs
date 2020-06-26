@@ -448,8 +448,8 @@ namespace moneyucab_portalweb_back.Controllers
 
             try
             {
-
-                return Ok(await FabricaComandos.Fabricar_Cmd_Informacion_Persona(Usuario).Ejecutar());
+                var result = await FabricaComandos.Fabricar_Cmd_Informacion_Persona(Usuario).Ejecutar();
+                return Ok(new { result, result.persona, result.comercio });
             }
             catch (MoneyUcabException ex)
             {
