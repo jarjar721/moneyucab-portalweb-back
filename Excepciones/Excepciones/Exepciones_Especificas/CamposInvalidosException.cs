@@ -1,7 +1,6 @@
 ﻿namespace Excepciones.Excepciones_Especificas
 {
     /// <summary>
-    /// Class <c>CamposInvalidosException</c>
     /// Especificación de los errores que puedan surgir por un formato inválido en uno de los campos en el formulario.
     /// </summary>
     public class CamposInvalidosException : MoneyUcabException
