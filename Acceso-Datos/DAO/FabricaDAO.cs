@@ -8,14 +8,18 @@
     {
 
         /// <summary>
-        /// Establece la creación y la fabricación de la instanciación de un acceso a datos por la base de datos, siendo el DAOLogin.
+        /// Establece la creación y la fabricación de la instanciación de un acceso a datos por la base de datos, siendo el DAOPsql de acceso a PostgreSQL.
         /// </summary>
-        /// <returns>Retorna una instanciación de la clase DAOLogin</returns>
+        /// <returns>Retorna una instanciación de la clase DAOPsql</returns>
         public static DAOPsql CrearDaoPsql()
         {
             return new DAOPsql();
         }
 
+        /// <summary>
+        /// Establece la creación y la fabricación de la instanciación de un acceso a datos por la base de datos, siendo el DAOBase de acceso a PostgreSQL que herda directamente de DAOPsql.
+        /// </summary>
+        /// <returns>Retorna una instanciación de la clase DAOBase</returns>
         public static DAOBase CrearDaoBase()
         {
             return new DAOBase();

@@ -49,8 +49,6 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                //Ejecución de comandos para funcionalidad de registro
-
                 // Chequeo que el username no este registrado
                 await FabricaComandos.Fabricar_Cmd_Verificar_Registro_Usuario(this._userManager, UserModel).Ejecutar();
                 //Se realiza el registro del usuario
