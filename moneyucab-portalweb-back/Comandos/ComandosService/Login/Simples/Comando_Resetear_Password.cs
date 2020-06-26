@@ -20,6 +20,17 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 
         async public Task<Boolean> Ejecutar()
         {
+            try
+            {
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, " ", " ", _model.idUsuario).Ejecutar();
+            }
+            catch (UsuarioExistenteException ex)
+            {
+                if (ex.codigo != 17)
+                {
+                    throw ex;
+                }
+            }
             // Decodificando el token
             var decodedToken = _model.resetPasswordToken.Replace("_", "/").Replace("-", "+").Replace(".", "=");
 

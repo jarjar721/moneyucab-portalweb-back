@@ -731,7 +731,7 @@ entity_user_id text;
 tipo_cuenta int;
 banco int;
 BEGIN
-		UPDATE Usuario SET usuario = $1, email= $2, telefono=$3, direccion=$4 WHERE Usuario.idUsuario = $5;
+		UPDATE Usuario SET telefono=$3, direccion=$4 WHERE Usuario.idUsuario = $5;
 		RETURN TRUE;
 END;
 $$;

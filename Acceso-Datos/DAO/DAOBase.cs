@@ -1599,8 +1599,8 @@ namespace DAO
 
                 comandoSQL = conector.CreateCommand();
 
-                comandoSQL.CommandText = string.Format("SELECT Modificación_Usuario(@usuario, @email, @telefono, @direccion)");
-                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuario));
+                comandoSQL.CommandText = string.Format("SELECT Modificación_Usuario(@usuario, @email, @telefono, @direccion, @IdUsuario)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuario", IdUsuario));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("usuario", Usuario));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("email", Email));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("telefono", Telefono));
