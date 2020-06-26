@@ -350,10 +350,10 @@ DECLARE
 BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
-							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('En Proceso', 'Solicitado');
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('En Proceso', 'Solicitado');
 	ELSE
 		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
-							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('En Proceso', 'Solicitado');
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('En Proceso', 'Solicitado');
 	END IF;
 END
 $BODY$
@@ -365,10 +365,10 @@ DECLARE
 BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
-							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('Cancelado', 'Caducado');
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Cancelado', 'Caducado');
 	ELSE
 		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
-							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Cancelado', 'Caducado');
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('Cancelado', 'Caducado');
 	END IF;
 END
 $BODY$
@@ -380,10 +380,10 @@ DECLARE
 BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
-							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('Consolidado');
+							 Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Consolidado');
 	ELSE
 		RETURN QUERY SELECT Pago.idPago, Pago.idusuario_solicitante, Pago.idusuario_receptor, Pago.fecha_solicitud, pago.monto,
-							 	Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Receptor = $1 AND Pago.estatus IN ('Consolidado');
+							 	Pago.estatus, COALESCE(Pago.referencia, '')FROM Pago WHERE Pago.idUsuario_Solicitante = $1 AND Pago.estatus IN ('Consolidado');
 	END IF;
 END
 $BODY$
@@ -451,7 +451,7 @@ AS $$
 DECLARE
 	idUsuario_Solicitante int;
 BEGIN
-		SELECT idUsuario FROM Usuario into idUsuario_Solicitante WHERE Usuario.email = $2;
+		SELECT idUsuario FROM Usuario into idUsuario_Solicitante WHERE Usuario.email = $2 OR Usuario.usuario = $2;
 		IF idUsuario_Solicitante IS NULL then
 			RAISE EXCEPTION 'No existe ese usuario.';
 		END IF;
@@ -482,7 +482,7 @@ AS $$
 DECLARE
 	idUsuario_Receptor int;
 BEGIN
-		SELECT idUsuario FROM Usuario into idUsuario_Receptor WHERE Usuario.email = $2;
+		SELECT idUsuario FROM Usuario into idUsuario_Receptor WHERE Usuario.email = $2 or Usuario.usuario= $2;
 		IF idUsuario_Receptor IS NULL then
 			RAISE EXCEPTION 'No existe ese usuario.';
 		END IF;
