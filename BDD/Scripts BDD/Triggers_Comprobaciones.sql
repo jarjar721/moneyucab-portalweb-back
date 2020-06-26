@@ -97,7 +97,7 @@ BEGIN
 		RAISE EXCEPTION 'No puede registrar una tarjeta duplicada';
 		RETURN NULL;
 	END IF;
-	IF current_date <= new.fecha_vencimiento THEN
+	IF current_date >= new.fecha_vencimiento THEN
 		
 		RAISE EXCEPTION 'No puede registrar una tarjeta vencida';
 		RETURN NULL;

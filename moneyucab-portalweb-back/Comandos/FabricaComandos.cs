@@ -253,7 +253,7 @@ namespace moneyucab_portalweb_back.Comandos
             return new Comando_Eliminar_Billetera_Tarjeta(IdUsuario);
         }
 
-        public static Comando_Registrar_Billetera_Tarjeta Fabricar_Cmd_Registrar_Tarjeta(int IdUsuario, int IdTipoTarjeta, int IdBanco, int Numero, NpgsqlDate FechaVencimiento, int CVC, int Estatus)
+        public static Comando_Registrar_Billetera_Tarjeta Fabricar_Cmd_Registrar_Tarjeta(int IdUsuario, int IdTipoTarjeta, int IdBanco, long Numero, NpgsqlDate FechaVencimiento, int CVC, int Estatus)
         {
             return new Comando_Registrar_Billetera_Tarjeta(IdUsuario, IdTipoTarjeta, IdBanco, Numero, FechaVencimiento, CVC, Estatus);
         }

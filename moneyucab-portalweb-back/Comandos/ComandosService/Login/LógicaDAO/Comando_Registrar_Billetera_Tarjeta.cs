@@ -13,12 +13,12 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 		private int _idUsuario { get; set; }
 		private int _idTipoTarjeta { get; set; }
 		private int _idBanco { get; set; }
-		private int _numero { get; set; }
+		private long _numero { get; set; }
 		private NpgsqlDate _fechaVencimiento { get; set; }
 		private int _cvc { get; set; }
 		private int _estatus { get; set; }
 
-		public Comando_Registrar_Billetera_Tarjeta(int IdUsuario, int IdTipoTarjeta, int IdBanco, int Numero , NpgsqlDate FechaVencimiento, int CVC, int Estatus)
+		public Comando_Registrar_Billetera_Tarjeta(int IdUsuario, int IdTipoTarjeta, int IdBanco, long Numero , NpgsqlDate FechaVencimiento, int CVC, int Estatus)
 		{
 			this._idUsuario = IdUsuario;
 			this._idTipoTarjeta = IdTipoTarjeta;

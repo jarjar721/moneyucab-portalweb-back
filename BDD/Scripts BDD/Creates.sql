@@ -468,7 +468,7 @@ CREATE TABLE IF NOT EXISTS Public.Tarjeta (
   idUsuario INT NOT NULL,
   idTipoTarjeta INT NOT NULL,
   idBanco INT NOT NULL,
-  numero INT NOT NULL,
+  numero BIGINT NOT NULL,
   fecha_vencimiento DATE NOT NULL,
   cvc INT NOT NULL,
   estatus INT NOT NULL,

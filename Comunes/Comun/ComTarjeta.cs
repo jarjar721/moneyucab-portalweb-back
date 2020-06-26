@@ -28,7 +28,7 @@ namespace Comunes.Comun
         /// <summary>
         /// Numero que identifica funciones de la tarjeta dentro de la entidad bancaria.
         /// </summary>
-        public int numero { get; set; }
+        public long numero { get; set; }
         /// <summary>
         /// Establece la fecha de vencimiento de la tarjeta dentro de la entidad bancaria.
         /// </summary>
@@ -57,7 +57,7 @@ namespace Comunes.Comun
         /// <param name="FechaVencimiento">Establece la fecha de vencimiento de dicha tarjeta dentro de la entidad bancaria.</param>
         /// <param name="Cvc">Establece el código de seguridad para la tarjeta.</param>
         /// <param name="Estatus">Estatus de uso para dicha tarjeta dentro de la aplicación</param>
-        public ComTarjeta(ComTipoTarjeta Tipotarjeta, ComBanco Banco, int IdUsuario, int Numero, NpgsqlDate FechaVencimiento, int Cvc, int Estatus)
+        public ComTarjeta(ComTipoTarjeta Tipotarjeta, ComBanco Banco, int IdUsuario, long Numero, NpgsqlDate FechaVencimiento, int Cvc, int Estatus)
         {
             this.tipoTarjeta = Tipotarjeta;
             this.banco = Banco;
@@ -87,7 +87,7 @@ namespace Comunes.Comun
             this.banco.LlenadoDataNpgsql(Data);
             this.idTarjeta = Data.GetInt32(0 + offset);
             this.idUsuario = Data.GetInt32(1 + offset);
-            this.numero = Data.GetInt32(4 + offset);
+            this.numero = Data.GetInt64(4 + offset);
             this.fechaVencimiento = Data.GetDate(5);
             this.cvc = Data.GetInt32(6 + offset);
             this.estatus = Data.GetInt32(7 + offset);
