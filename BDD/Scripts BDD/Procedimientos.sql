@@ -720,7 +720,7 @@ $$;
 
 --/////////////////////////////////////////////Modificaciones y ediciones//////////////////////////////////////////////
 --Modificación de datos perfil de usuario.
-CREATE OR REPLACE FUNCTION Modificación_Usuario(VARCHAR , VARCHAR, VARCHAR, VARCHAR, INT)
+CREATE OR REPLACE FUNCTION Modificación_Usuario(VARCHAR , VARCHAR, VARCHAR, VARCHAR, VARCHAR, INT, INT)
 												RETURNS BOOLEAN
 LANGUAGE plpgsql    
 AS $$
@@ -731,7 +731,9 @@ entity_user_id text;
 tipo_cuenta int;
 banco int;
 BEGIN
-		UPDATE Usuario SET telefono=$3, direccion=$4 WHERE Usuario.idUsuario = $5;
+		UPDATE Usuario SET telefono=$3, direccion=$4 WHERE Usuario.idUsuario = $7;
+		UPDATE Comercio SET nombre_representante = $1, apellido_representante = $2, Razon_Social = $5 WHERE Usuario.idUsuario = $7;
+		UPDATE Persona SET nombre = $1, apellido = $2, idEstadoCivil=$6 WHERE Usuario.idUsuario = $7;
 		RETURN TRUE;
 END;
 $$;

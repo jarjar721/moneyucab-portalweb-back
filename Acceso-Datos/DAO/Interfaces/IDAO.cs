@@ -454,15 +454,17 @@ namespace DAO.Interfaces
         /// <summary>
         /// Se realiza la edición de datos con los parámetros colocados para dicho usuario, sin embargo, usuario e email no funcionan como edición.
         /// </summary>
-        /// <param name="Usuario">Especifica el nombre de usuario para la aplicación</param>
-        /// <param name="Email">Especifica el email que usa el usuario para la aplicación</param>
+        /// <param name="Nombre">Especifica el nombre de usuario para la aplicación</param>
+        /// <param name="Apellido">Especifica el apellido que usa el usuario para la aplicación</param>
         /// <param name="Telefono">Especifica el teléfono que usa el usuario</param>
         /// <param name="Direccion">Especifica la dirección del usuario</param>
+        /// <param name="RazonSocial">Especifica la razonSocial del usuario</param>
+        /// <param name="EdoCivil">Especifica el id del estado civil del usuario</param>
         /// <param name="IdUsuario">Especifica el id del usuario a realizar edición de datos</param>
         /// <exception cref="PGSQLException">Tira excepción relacionado a la base de datos.</exception>
         /// <exception cref="MoneyUcabException">Tira excepción relacionado a lógica de negocio que se esté manejando en este punto.</exception>
         /// <exception cref="Exception">Exception para controlar cualquier error inesperado y no controlado por el backend.</exception>
-        void ModificaciónUsuario(string Usuario, string Email, string Telefono, string Direccion, int IdUsuario);
+        void ModificaciónUsuario(string Nombre, string Apellido, string Telefono, string Direccion, string RazonSocial, int EdoCivil, int IdUsuario);
 
         /// <deprecated>
         /// <summary>
