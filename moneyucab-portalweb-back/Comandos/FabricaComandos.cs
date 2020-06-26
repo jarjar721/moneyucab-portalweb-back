@@ -233,9 +233,9 @@ namespace moneyucab_portalweb_back.Comandos
             return new Comando_Reintegro_Monedero(IdUsuarioReceptor, IdMedioPaga, Monto, IdOperacion);
         }
 
-        public static Comando_Modificacion_Usuario Fabricar_Cmd_Modificar_Usuario(string Usuario, string Email, string Telefono, string Direccion, int IdUsuario)
+        public static Comando_Modificacion_Usuario Fabricar_Cmd_Modificar_Usuario(string Nombre, string Apellido, string Telefono, string Direccion, string RazonSocial, int idEstadoCivil,  int IdUsuario)
         {
-            return new Comando_Modificacion_Usuario(Usuario, Email, Telefono, Direccion, IdUsuario);
+            return new Comando_Modificacion_Usuario(Nombre, Apellido, Telefono, Direccion, RazonSocial, idEstadoCivil, IdUsuario);
         }
 
         public static Comando_Ejecutar_Cierre Fabricar_Cmd_Ejecutar_Cierre(int IdUsuario)

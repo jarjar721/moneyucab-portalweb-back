@@ -1591,7 +1591,7 @@ namespace DAO
             }
         }
 
-        public void ModificaciónUsuario(string Usuario, string Email, string Telefono, string Direccion, int IdUsuario)
+        public void ModificaciónUsuario(string Nombre, string Apellido, string Telefono, string Direccion, string RazonSocial, int EdoCivil, int IdUsuario)
         {
             try
             {
@@ -1599,12 +1599,14 @@ namespace DAO
 
                 comandoSQL = conector.CreateCommand();
 
-                comandoSQL.CommandText = string.Format("SELECT Modificación_Usuario(@usuario, @email, @telefono, @direccion, @IdUsuario)");
+                comandoSQL.CommandText = string.Format("SELECT Modificación_Usuario(@nombre, @apellido, @telefono, @direccion, @razonSocial, @edoCivil, @IdUsuario)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuario", IdUsuario));
-                comandoSQL.Parameters.Add(new NpgsqlParameter("usuario", Usuario));
-                comandoSQL.Parameters.Add(new NpgsqlParameter("email", Email));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("nombre", Nombre));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("apellido", Apellido));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("telefono", Telefono));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("direccion", Direccion));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("razonSocial", RazonSocial));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("edoCivil", EdoCivil));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
                 if (lectorTablaSQL.Read())
                 {

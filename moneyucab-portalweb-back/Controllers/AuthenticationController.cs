@@ -210,7 +210,7 @@ namespace moneyucab_portalweb_back.Controllers
         {
             try
             {
-                var result = await FabricaComandos.Fabricar_Cmd_Modificar_Usuario(Formulario.usuario, Formulario.email, Formulario.telefono, Formulario.direccion, Formulario.idUsuario).Ejecutar();
+                var result = await FabricaComandos.Fabricar_Cmd_Modificar_Usuario(Formulario.nombre, Formulario.apellido, Formulario.telefono, Formulario.direccion, Formulario.razonSocial, Formulario.idEstadoCivil, Formulario.idUsuario).Ejecutar();
                 return Ok(new { key = "ModificationSuccess", message = "¡Modificación exitosa!" , result});
             }
             catch (MoneyUcabException ex)
