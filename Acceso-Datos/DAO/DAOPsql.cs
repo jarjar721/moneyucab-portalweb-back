@@ -5,8 +5,8 @@ using System;
 namespace DAO
 {
     /// <summary>
-    /// Class <c>DAO</c>
-    /// Establece la estructura y el medio para poder actuar y conectarse con la base de datos para poder manejar inforamción necesario para el sistema.
+    /// Class <c>DAOPsql</c>
+    /// Establece la estructura y el medio para poder actuar y conectarse con la base de datos para poder manejar información necesario para el sistema.
     /// Contiene todos los atributos necesarios para su buena operatividad.
     /// </summary>
     public class DAOPsql

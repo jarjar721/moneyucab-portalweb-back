@@ -4,11 +4,26 @@ using NpgsqlTypes;
 
 namespace Comunes.Comun
 {
+    /// <summary>
+    /// Entidad común que establece la identificación e información de una persona dentro de la aplicación.
+    /// </summary>
     public class ComPersona : EntidadComun, IEntidadComun, IFormularioRegistro
     {
+        /// <summary>
+        /// Establece el estado civil de la persona.
+        /// </summary>
         public ComEstadoCivil estadoCivil = new ComEstadoCivil();
+        /// <summary>
+        /// Establece el nombre de la persona como identificación dentro de la aplicación.
+        /// </summary>
         public string nombre { get; set; }
+        /// <summary>
+        /// Entidad común Estado civil que establece el apellido de identificación para la persona.
+        /// </summary>
         public string apellido { get; set; }
+        /// <summary>
+        /// Establece la fecha de nacimiento de dicha persona.
+        /// </summary>
         public NpgsqlDate fechaNacimiento { get; set; }
 
         public ComPersona()
@@ -16,6 +31,13 @@ namespace Comunes.Comun
 
         }
 
+        /// <summary>
+        /// Constructor con objetivo de simplificar el llenado para la asignación de un banco a través de un método específico.
+        /// </summary>
+        /// <param name="EstadoCivil">Establece el estado civil de la persona.</param>
+        /// <param name="Nombre">Establece el nombre de la persona como identificación.</param>
+        /// <param name="Apellido">Establece el apellido de la persona como identificación.</param>
+        /// <param name="FechaNacimiento">Establece la fecha de nacimiento de dicha persona</param>
         public ComPersona(ComEstadoCivil EstadoCivil, string Nombre, string Apellido, NpgsqlDate FechaNacimiento)
         {
             this.estadoCivil = EstadoCivil;

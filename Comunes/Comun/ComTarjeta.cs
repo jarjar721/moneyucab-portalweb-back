@@ -4,16 +4,42 @@ using System;
 
 namespace Comunes.Comun
 {
+    /// <summary>
+    /// Entidad común que establece el uso de billetera tarjeta en vinculación con un usuario.
+    /// </summary>
     public class ComTarjeta : EntidadComun, IEntidadComun, IFormularioInsert
     {
-
+        /// <summary>
+        /// Establece el tipo de tarjeta sobre la entidad de tarjeta.
+        /// </summary>
         public ComTipoTarjeta tipoTarjeta = new ComTipoTarjeta();
+        /// <summary>
+        /// Establece la fuente de banco relacionado con una tarjeta.
+        /// </summary>
         public ComBanco banco = new ComBanco();
+        /// <summary>
+        /// Identificador único relacionado directamente con la tarjeta dentro de la aplicación.
+        /// </summary>
         public int idTarjeta { get; set; }
+        /// <summary>
+        /// Identificador del usuario propietario de dicha tarjeta.
+        /// </summary>
         public int idUsuario { get; set; }
+        /// <summary>
+        /// Numero que identifica funciones de la tarjeta dentro de la entidad bancaria.
+        /// </summary>
         public int numero { get; set; }
+        /// <summary>
+        /// Establece la fecha de vencimiento de la tarjeta dentro de la entidad bancaria.
+        /// </summary>
         public NpgsqlDate fechaVencimiento { get; set; }
+        /// <summary>
+        /// Establece el código de seguridad para operaciones de dicha tarjeta.
+        /// </summary>
         public int cvc { get; set; }
+        /// <summary>
+        /// Estatus de uso para dicha tarjeta dentro de la aplicación.
+        /// </summary>
         public int estatus { get; set; }
 
         public ComTarjeta()
@@ -21,6 +47,16 @@ namespace Comunes.Comun
 
         }
 
+        /// <summary>
+        /// Constructor con objetivo de simplificar el llenado para la asignación de un banco a través de un método específico.
+        /// </summary>
+        /// <param name="TipoTarjeta">Establece el tipo de tarjeta relacionado a la tarjeta determinada.</param>
+        /// <param name="Banco">Establece la entidad bancaria vinculada con la tarjeta.</param>
+        /// <param name="IdUsuario">Establece el identificador del usuario propietario de dicha tarjeta.</param>
+        /// <param name="Numero">Identificador de la tarjeta dentro de la entidad bancaria.</param>
+        /// <param name="FechaVencimiento">Establece la fecha de vencimiento de dicha tarjeta dentro de la entidad bancaria.</param>
+        /// <param name="Cvc">Establece el código de seguridad para la tarjeta.</param>
+        /// <param name="Estatus">Estatus de uso para dicha tarjeta dentro de la aplicación</param>
         public ComTarjeta(ComTipoTarjeta Tipotarjeta, ComBanco Banco, int IdUsuario, int Numero, NpgsqlDate FechaVencimiento, int Cvc, int Estatus)
         {
             this.tipoTarjeta = Tipotarjeta;

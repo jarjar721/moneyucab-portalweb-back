@@ -3,10 +3,22 @@ using System;
 
 namespace Comunes.Comun
 {
+    /// <summary>
+    /// Entidad común que establece el tipo de cuenta clasificando su uso dentro de la aplicación.
+    /// </summary>
     public class ComTipoCuenta : EntidadComun, IEntidadComun
     {
+        /// <summary>
+        /// Identificador único para el tipo de tarjeta clasicador de las cuentas.
+        /// </summary>
         public int idTipoCuenta { get; set; }
+        /// <summary>
+        /// Descripción de uso de tipo de cuenta dentro de la aplicación.
+        /// </summary>
         public string descripcion { get; set; }
+        /// <summary>
+        /// Establece el estatus de uso con este tipo de cuenta.
+        /// </summary>
         public int estatus { get; set; }
 
         public ComTipoCuenta()
@@ -14,6 +26,10 @@ namespace Comunes.Comun
 
         }
 
+        /// <summary>
+        /// Constructor con objetivo de simplificar el llenado para la asignación de un banco a través de un método específico.
+        /// </summary>
+        /// <param name="IdTipoCuenta">Establece el tipo de cuenta por el cual se realiza la creación.</param>
         public ComTipoCuenta(int IdTipoCuenta)
         {
             this.idTipoCuenta = IdTipoCuenta;

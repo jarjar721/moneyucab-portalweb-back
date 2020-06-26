@@ -3,6 +3,7 @@
     /// <summary>
     /// Class <c>FabricaDAO</c>
     /// Establece el medio de acción para realizar una creación específica de la implementación de acceso a datos sea por distintos sistemas.
+    /// La aplicación del patrón Fábrica nos permita asegurarnos crear una instancia únicamente para una ejecución determinada o para la realización de determinadas tareas únicamente en un scope determinado.
     /// </summary>
     public class FabricaDAO
     {

@@ -4,16 +4,44 @@ using System;
 
 namespace Comunes.Comun
 {
+
+    /// <summary>
+    /// Establece la entidad que define las operaciones que se han realizado en un monedero
+    /// </summary>
     public class ComOperacionMonedero : EntidadComun, IEntidadComun
     {
+        /// <summary>
+        /// Tipo de operación que se realizó en el monedero.
+        /// </summary>
         public ComTipoOperacion tipoOperacion = new ComTipoOperacion();
+        /// <summary>
+        /// Operacion Tarjeta vinculada a la operación de monedero.
+        /// </summary>
         public ComOperacionTarjeta operacionTarjeta = new ComOperacionTarjeta();
+        /// <summary>
+        /// Operacion Cuenta vinculada a la operación de monedero.
+        /// </summary>
         public ComOperacionCuenta operacionCuenta = new ComOperacionCuenta();
+        /// <summary>
+        /// Identificador único de la operación de monedero dentro de la base de datos.
+        /// </summary>
         public int idOperacionMonedero { get; set; }
+        /// <summary>
+        /// Identificador del usuario que vincula la operación de monedero.
+        /// </summary>
         public int idUsuario { get; set; }
+        /// <summary>
+        /// Monto que ejecuta una operación monetaria dentro del monedero.
+        /// </summary>
         public double monto { get; set; }
+        /// <summary>
+        /// Fecha la cual se realiza dicha operación.
+        /// </summary>
         public NpgsqlDate fecha { get; set; }
         //private NpgsqlDateTime _hora{ get; set; }
+        /// <summary>
+        /// Referencia o valor identificador único a través de una operación monetaria vinculada con el monedero.
+        /// </summary>
         public string referencia { get; set; }
 
         public ComOperacionMonedero()

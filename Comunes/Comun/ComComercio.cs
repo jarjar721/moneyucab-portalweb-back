@@ -4,10 +4,22 @@ using System;
 
 namespace Comunes.Comun
 {
+    /// <summary>
+    /// Entidad común Comercio vinculado directamente a la entidad de base de datos para manipulación de formularios y acciones particulares del mismo.
+    /// </summary>
     public class ComComercio : EntidadComun, IEntidadComun, IFormularioRegistro
     {
+        /// <summary>
+        /// Nombre del comercio al cual se está vinculando al usuario.
+        /// </summary>
         public string razonSocial { get; set; }
+        /// <summary>
+        /// Nombre del representante del comercio vinculado al usuario.
+        /// </summary>
         public string nombreRepresentante { get; set; }
+        /// <summary>
+        /// Apellido del representante del comercio vinculado al usuario.
+        /// </summary>
         public string apellidoRepresentante { get; set; }
 
         public ComComercio()
@@ -15,6 +27,12 @@ namespace Comunes.Comun
 
         }
 
+        /// <summary>
+        /// Constructor con objetivo de simplificar el llenado para la asignación de un banco a traés de un método específico.
+        /// </summary>
+        /// <param name="RazonSocial">Nombre del comercio al cual se está vinculando al usuario.</param>
+        /// <param name="NombreRepresentante">Nombre del representante del comercio vinculado al usuario.</param>
+        /// <param name="ApellidoRepresentante">Apellido del representante del comercio vinculado al usuario.</param>
         public ComComercio(string RazonSocial, string NombreRepresentante, string ApellidoRepresentante)
         {
             this.razonSocial = RazonSocial;
