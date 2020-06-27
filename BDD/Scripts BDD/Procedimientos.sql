@@ -241,7 +241,7 @@ LANGUAGE plpgsql;
 --//////////////////////////////////////////////////////////////////////////////////////////////////
 --[x]
 CREATE OR REPLACE FUNCTION Tarjetas(INT)
-			RETURNS TABLE(idtarjeta int, idusuario int, idtipotarjeta_tarjeta int, idbanco_tarjeta int, numero int, fecha_vencimiento date, cvc int, estatus int, 
+			RETURNS TABLE(idtarjeta int, idusuario int, idtipotarjeta_tarjeta int, idbanco_tarjeta int, numero bigint, fecha_vencimiento date, cvc int, estatus int, 
 						 idbanco int, nombre_banco varchar, estatus_banco int,
 						 idtipotarjeta int, descripcion_tipo_tarjeta varchar, estatus_tipo_tarjeta int) AS $BODY$
 DECLARE

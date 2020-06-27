@@ -265,7 +265,7 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
 
-                return Ok(FabricaComandos.Fabricar_Cmd_Cuentas(IdUsuario).Ejecutar());
+                return Ok(await FabricaComandos.Fabricar_Cmd_Cuentas(IdUsuario).Ejecutar());
             }
             catch (MoneyUcabException ex)
             {

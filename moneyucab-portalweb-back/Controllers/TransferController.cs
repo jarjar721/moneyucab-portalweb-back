@@ -62,7 +62,7 @@ namespace moneyucab_portalweb_back.Controllers
         [HttpPost]
         [Authorize]
         [Route("CancelarCobro")]
-        public async Task<Object> CancelarCobro([FromBody] int IdCobro) //No estoy claro de si aca se usa [frombody] o [fromform]
+        public async Task<Object> CancelarCobro([FromQuery] int IdCobro) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try
             {

@@ -1,32 +1,40 @@
 ﻿using Npgsql;
 using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace Comunes.Comun
 {
     /// <summary>
     /// Entidad común Cuenta vinculados directamente a la entidad común para sus respectivas acciones dentro de la aplicación y manejo de formularios.
     /// </summary>
+    [DataContract]
     public class ComCuenta : EntidadComun, IEntidadComun, IFormularioInsert
     {
         /// <summary>
         /// Establece el tipo de cuenta al cual está vinculada esta entidad.
         /// </summary>
+        [DataMember]
         public ComTipoCuenta _tipoCuenta = new ComTipoCuenta();
         /// <summary>
         /// Entidad al cual hace rteferencia el origen de dicha cuenta dentro de la aplicación.
         /// </summary>
+        [DataMember]
         public ComBanco _banco = new ComBanco();
         /// <summary>
         /// Identificador único para la cuenta establecido a través de la base de datos
         /// </summary>
+        [DataMember]
         public int _idCuenta { get; set; }
         /// <summary>
         /// Identificador único para el usuario que posee la cuenta.
         /// </summary>
+        [DataMember]
         public int _idUsuario { get; set; }
         /// <summary>
         /// Identificador que establece la cuenta respecto al banco relacionado.
         /// </summary>
+        [DataMember]
         public string _numero { get; set; }
 
         public ComCuenta()

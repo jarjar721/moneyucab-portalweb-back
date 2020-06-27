@@ -418,9 +418,9 @@ namespace DAO
 
                 comandoSQL.CommandText = string.Format("SELECT * FROM Cuentas(@UsuarioId);");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("UsuarioId", IdUsuario));
-                lectorTablaSQL = comandoSQL.ExecuteReader();
                 List<ComCuenta> cuentas = new List<ComCuenta>();
                 ComCuenta row;
+                lectorTablaSQL = comandoSQL.ExecuteReader();
                 while (lectorTablaSQL.Read())
                 {
                     row = new ComCuenta();

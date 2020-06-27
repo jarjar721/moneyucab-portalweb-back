@@ -21,10 +21,19 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 			this._idUsuario = IdUsuario;
 		}
 
-		async public Task<List<ComCuenta>> Ejecutar()
+		async public Task<List<Object>> Ejecutar()
 		{
 			DAOBase dao = FabricaDAO.CrearDaoBase();
-			return dao.Cuentas(this._idUsuario);
+			List<ComCuenta> cuentas = dao.Cuentas(this._idUsuario);
+			List<Object> cuentasResponse = new List<Object>();
+			for (int i = 0; i < cuentas.Count; i++)
+            {
+				var infoAdicional = new { cuentas[i]._tipoCuenta, cuentas[i]._banco };
+				var elementResponse = new { cuentas[i]._idCuenta, cuentas[i]._idUsuario, cuentas[i]._numero, infoAdicional };
+				cuentasResponse.Add(elementResponse);
+				
+            }
+			return cuentasResponse;
 		}
 		
 		
