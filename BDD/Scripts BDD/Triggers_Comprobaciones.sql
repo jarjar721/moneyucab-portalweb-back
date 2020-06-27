@@ -80,7 +80,7 @@ END;
 $BODY$;
 
 CREATE TRIGGER validar_usuarioT
-BEFORE INSERT OR UPDATE
+BEFORE INSERT
    ON Usuario
        FOR EACH ROW EXECUTE PROCEDURE validar_usuario();
 	   

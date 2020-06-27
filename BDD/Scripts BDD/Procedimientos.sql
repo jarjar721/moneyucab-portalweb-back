@@ -732,8 +732,8 @@ tipo_cuenta int;
 banco int;
 BEGIN
 		UPDATE Usuario SET telefono=$3, direccion=$4 WHERE Usuario.idUsuario = $7;
-		UPDATE Comercio SET nombre_representante = $1, apellido_representante = $2, Razon_Social = $5 WHERE Usuario.idUsuario = $7;
-		UPDATE Persona SET nombre = $1, apellido = $2, idEstadoCivil=$6 WHERE Usuario.idUsuario = $7;
+		UPDATE Comercio SET nombre_representante = $1, apellido_representante = $2, Razon_Social = $5 WHERE Comercio.idUsuario = $7;
+		UPDATE Persona SET nombre = $1, apellido = $2, idEstadoCivil=$6 WHERE Persona.idUsuario = $7;
 		RETURN TRUE;
 END;
 $$;
