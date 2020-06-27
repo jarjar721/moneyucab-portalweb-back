@@ -449,7 +449,7 @@ namespace moneyucab_portalweb_back.Controllers
             try
             {
                 var result = await FabricaComandos.Fabricar_Cmd_Informacion_Persona(Usuario).Ejecutar();
-                return Ok(new { result, result.persona, result.comercio });
+                return Ok(new { result, result.tipoIdentificacion, result.persona, result.persona.estadoCivil, result.comercio });
             }
             catch (MoneyUcabException ex)
             {
