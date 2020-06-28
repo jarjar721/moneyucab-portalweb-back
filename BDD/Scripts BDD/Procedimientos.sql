@@ -304,11 +304,11 @@ BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
-							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
 	ELSE 
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud,
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
-							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
 	END IF;
 END
 $BODY$
@@ -321,11 +321,11 @@ BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
-							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
 	ELSE
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
-							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
 	END IF;
 END
 $BODY$
@@ -338,11 +338,11 @@ BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
-							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro  WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Consolidado');
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia  WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Consolidado');
 	ELSE
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud,
 							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
-							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Consolidado');
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Consolidado');
 	END IF;
 END
 $BODY$

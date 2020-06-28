@@ -278,14 +278,14 @@ DECLARE
 	parametros CURSOR FOR SELECT A.validacion as validacion, A.estatus as estatus, TipoParametro.descripcion as tipo_parametro, Frecuencia.descripcion as frecuencia,
 						A.idUsuario as idUsuario, A.idParametro as idParametro
 						FROM Usuario_Parametro A
-						JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
+						JOIN Parametro ON Parametro.idParametro = A.idParametro
 						JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro
 						JOIN Frecuencia ON Frecuencia.idFrecuencia = Parametro.idFrecuencia
 						JOIN Cuenta ON Cuenta.idCuenta = new.idCuenta AND A.idUsuario = Cuenta.idUsuario;
 	parametros_destino CURSOR FOR SELECT A.validacion as validacion, A.estatus as estatus, TipoParametro.descripcion as tipo_parametro, Frecuencia.descripcion as frecuencia,
 						A.idUsuario as idUsuario, A.idParametro as idParametro
 						FROM Usuario_Parametro A
-						JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
+						JOIN Parametro ON Parametro.idParametro = A.idParametro
 						JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro
 						JOIN Frecuencia ON Frecuencia.idFrecuencia = Parametro.idFrecuencia
 						WHERE A.idUsuario = new.idUsuarioReceptor;
@@ -299,14 +299,6 @@ BEGIN
 		
 		RAISE EXCEPTION 'No hay un registro de cuenta origen';
 	END IF;
-	IF NOT EXISTS (SELECT * FROM Cuenta WHERE idCuenta = new.idCuenta and (estatus > 1 OR fecha_vencimiento >= current_date)) THEN
-		IF EXISTS (SELECT * FROM Cuenta WHERE idCuenta = new.idCuenta and (fecha_vencimiento >= current_date)) THEN
-			UPDATE Cuenta SET estatus = 4 WHERE idCuenta = new.idCuenta;
-		END IF;
-		
-		RAISE EXCEPTION 'No hay estatus válido para la realización de operación o cuenta vencida.';
-		RETURN NULL;
-	END IF;
 	IF EXISTS (SELECT * FROM Banco JOIN Cuenta ON Cuenta.idCuenta = new.idCuenta AND Banco.idBanco = Cuenta.idBanco
 				  								WHERE Banco.estatus > 1) THEN
 		UPDATE Cuenta SET estatus = 4 WHERE idCuenta = new.idCuenta;
@@ -319,8 +311,8 @@ BEGIN
 		RAISE EXCEPTION 'El usuario tiene un estatus inválido para realizar dichos procedimientos.';
 		RETURN NULL;
 	END IF;
-	SELECT idUsuario FROM Cuenta WHERE Cuenta.idCuenta = new.idCuenta;
-	SELECT Saldo_Monedero(idUsuario) into monto_acum;
+	SELECT idUsuario FROM Cuenta into id_usuario WHERE Cuenta.idCuenta = new.idCuenta;
+	SELECT Saldo_Monedero(id_usuario) into monto_acum;
 	SELECT descripcion FROM TipoCuenta into tipo_cuenta
 		JOIN Cuenta ON TipoCuenta.idTipoCuenta= Cuenta.idTipoCuenta
 		WHERE Cuenta.idCuenta = new.idCuenta AND Descripcion = 'Monedero';
