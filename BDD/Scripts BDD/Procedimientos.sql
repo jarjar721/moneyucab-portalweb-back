@@ -298,45 +298,51 @@ LANGUAGE plpgsql;
 --Segundo parámetro: 1 - Solicitante, 2 - Receptor
 --[x]
 CREATE OR REPLACE FUNCTION Reintegros_Activos(INT, INT)
-			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus varchar) AS $BODY$
+			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus varchar, monto varchar) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
-							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
 	ELSE 
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud,
-							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('En Proceso', 'Solicitado');
 	END IF;
 END
 $BODY$
 LANGUAGE plpgsql;
 --[x]
 CREATE OR REPLACE FUNCTION Reintegros_Cancelados(INT, INT)
-			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus varchar) AS $BODY$
+			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus varchar, monto varchar) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
-							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
 	ELSE
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
-							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Cancelado', 'Caducado');
 	END IF;
 END
 $BODY$
 LANGUAGE plpgsql;
 --[x]
 CREATE OR REPLACE FUNCTION Reintegros_Exitosos(INT, INT)
-			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus varchar) AS $BODY$
+			RETURNS TABLE(idreintegro int, idusuario_solicitante int, idusuario_receptor int, fecha_solicitud date, referencia_Reintegro varchar, referencia varchar, estatus varchar, monto varchar) AS $BODY$
 DECLARE
 BEGIN
 	IF ($2 = 1) THEN
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud, 
-							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Consolidado');
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro  WHERE Reintegro.idUsuario_Solicitante = $1 AND Reintegro.estatus IN ('Consolidado');
 	ELSE
 		RETURN QUERY SELECT Reintegro.idReintegro, Reintegro.idusuario_solicitante, Reintegro.idusuario_receptor, Reintegro.fecha_solicitud,
-							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus FROM Reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Consolidado');
+							 COALESCE(Reintegro.referencia_reintegro, ''), COALESCE(Reintegro.referencia, ''), Reintegro.estatus , Pago.monto
+							 FROM Reintegro JOIN Pago ON Pago.Referencia = Reintegro.Referencia_reintegro WHERE Reintegro.idUsuario_Receptor = $1 AND Reintegro.estatus IN ('Consolidado');
 	END IF;
 END
 $BODY$

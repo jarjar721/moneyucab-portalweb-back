@@ -37,6 +37,10 @@ namespace Comunes.Comun
         /// Identifica los estatus de procedimiento de dicho reintegro.
         /// </summary>
         public string estatus { get; set; }
+        /// <summary>
+        /// Identifica el monto del reintegro.
+        /// </summary>
+        public string monto { get; set; }
 
         public ComReintegro()
         {
@@ -59,6 +63,7 @@ namespace Comunes.Comun
                 this.referencia = null;
             }
             this.estatus = Data.GetString(6 + offset);
+            this.monto = Data.GetString(7 + offset);
         }
     }
 }
