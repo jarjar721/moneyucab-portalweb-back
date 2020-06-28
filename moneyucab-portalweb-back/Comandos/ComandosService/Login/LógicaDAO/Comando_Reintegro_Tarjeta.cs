@@ -24,7 +24,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 		async public Task<Boolean> Ejecutar()
 		{
 			DAOBase dao = new DAOBase();
-			dao.Pago_Tarjeta(_idUsuarioReceptor, _idMedioPaga, _monto, _idOperacion);
+			dao.ReintegroTarjeta(_idUsuarioReceptor, _idMedioPaga, _monto, _idOperacion);
 			return true;
 		}
 	}

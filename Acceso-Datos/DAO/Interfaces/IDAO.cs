@@ -389,7 +389,7 @@ namespace DAO.Interfaces
         /// <exception cref="PGSQLException">Tira excepción relacionado a la base de datos.</exception>
         /// <exception cref="MoneyUcabException">Tira excepción relacionado a lógica de negocio que se esté manejando en este punto.</exception>
         /// <exception cref="Exception">Exception para controlar cualquier error inesperado y no controlado por el backend.</exception>
-        void Pago_Tarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro);
+        void PagoTarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro);
 
         /// <summary>
         /// Se realiza un pago con la cuenta.

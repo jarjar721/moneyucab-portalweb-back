@@ -208,7 +208,7 @@ namespace moneyucab_portalweb_back.Controllers
 
         [HttpPost]
         [Authorize]
-        [Route("RealizarPagoMonedero")]
+        [Route("RealizarReintegroMonedero")]
         public async Task<Object> Realizar_Reintegro_Monedero([FromBody] Transferencia Formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
         {
             try

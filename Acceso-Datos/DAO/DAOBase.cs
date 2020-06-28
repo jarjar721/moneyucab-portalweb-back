@@ -1327,7 +1327,7 @@ namespace DAO
             }
         }
 
-        public void Pago_Tarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro)
+        public void PagoTarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto, int IdCobro)
         {
             try
             {

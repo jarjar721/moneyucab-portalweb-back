@@ -157,14 +157,16 @@ DECLARE
 	parametros CURSOR FOR SELECT A.validacion as validacion, A.estatus as estatus, TipoParametro.descripcion as tipo_parametro, Frecuencia.descripcion as frecuencia,
 						A.idUsuario as idUsuario, A.idParametro as idParametro
 						FROM Usuario_Parametro A
-						JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
+						JOIN Parametro ON Parametro.idParametro = A.idParametro
 						JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro
+						JOIN Frecuencia ON Frecuencia.idFrecuencia = Parametro.idFrecuencia
 						JOIN Tarjeta ON Tarjeta.idTarjeta = new.idTarjeta AND A.idUsuario = Tarjeta.idUsuario;
 	parametros_destino CURSOR FOR SELECT A.validacion as validacion, A.estatus as estatus, TipoParametro.descripcion as tipo_parametro, Frecuencia.descripcion as frecuencia,
 						A.idUsuario as idUsuario, A.idParametro as idParametro
 						FROM Usuario_Parametro A
-						JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
+						JOIN Parametro ON Parametro.idParametro = A.idParametro
 						JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro
+						JOIN Frecuencia ON Frecuencia.idFrecuencia = Parametro.idFrecuencia
 						WHERE A.idUsuario = new.idUsuarioReceptor;
 BEGIN
 	IF NOT EXISTS (SELECT * FROM Usuario WHERE idUsuario = new.idUsuarioReceptor) THEN
@@ -278,12 +280,14 @@ DECLARE
 						FROM Usuario_Parametro A
 						JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
 						JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro
+						JOIN Frecuencia ON Frecuencia.idFrecuencia = Parametro.idFrecuencia
 						JOIN Cuenta ON Cuenta.idCuenta = new.idCuenta AND A.idUsuario = Cuenta.idUsuario;
 	parametros_destino CURSOR FOR SELECT A.validacion as validacion, A.estatus as estatus, TipoParametro.descripcion as tipo_parametro, Frecuencia.descripcion as frecuencia,
 						A.idUsuario as idUsuario, A.idParametro as idParametro
 						FROM Usuario_Parametro A
 						JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
 						JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro
+						JOIN Frecuencia ON Frecuencia.idFrecuencia = Parametro.idFrecuencia
 						WHERE A.idUsuario = new.idUsuarioReceptor;
 BEGIN
 	IF NOT EXISTS (SELECT * FROM Usuario WHERE idUsuario = new.idUsuarioReceptor) THEN
@@ -398,18 +402,17 @@ AS $BODY$
 DECLARE
 	
 BEGIN
-	IF NOT EXISTS (SELECT * FROM OperacionCuenta WHERE referencia = new.referencia) AND  
-		NOT EXISTS (SELECT * FROM OperacionTarjeta WHERE referencia = new.referencia) AND new.estatus = 'Consolidado' THEN
+	IF NOT EXISTS (SELECT * FROM OperacionCuenta WHERE referencia = new.referencia_reintegro) AND  
+		NOT EXISTS (SELECT * FROM OperacionTarjeta WHERE referencia = new.referencia_reintegro) AND new.estatus = 'Consolidado' THEN
 		
 		RAISE EXCEPTION 'No hay referencia indicada para una operación';
 		RETURN NULL;
 	END IF;
-	IF new.estatus = 'Solicitado' and new.referencia is not null THEN
-		
+	IF new.estatus = 'Solicitado' and new.referencia_reintegro is not null THEN
 		RAISE EXCEPTION 'Reintegro inválido';
 		RETURN NULL;
 	END IF;
-	IF new.estatus = 'Cancelado' and old.referencia is not null THEN
+	IF new.estatus = 'Cancelado' and old.referencia_reintegro is not null THEN
 		
 		RAISE EXCEPTION 'Reintegro de pago inválido';
 		RETURN NULL;
