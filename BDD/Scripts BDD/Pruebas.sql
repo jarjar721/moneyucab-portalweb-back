@@ -17,6 +17,6 @@ SELECT Reintegro_Tarjeta(2, 2, 100, --Debes colocar el id del reintegro acá
 						 2);
 						 rollback;
 						 
-						 select reintegros_act
+						 select * from reintegros_activos(2,0)
 						 
 						 select ejecutar_cierre(2);
