@@ -1646,13 +1646,12 @@ namespace DAO
 
                 comandoSQL = conector.CreateCommand();
 
-                comandoSQL.CommandText = string.Format("SELECT Ejecutar_Cierre(@IdUsuario)");
+                comandoSQL.CommandText = string.Format("SELECT * FROM Ejecutar_Cierre(@IdUsuario)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuario", IdUsuario));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
-                if (lectorTablaSQL.HasRows)
+                if (lectorTablaSQL.Read())
                 {
                     ComOperacionMonedero operacion_monedero = new ComOperacionMonedero();
-                    lectorTablaSQL.Read();
                     operacion_monedero.LlenadoDataCierreNpgsql(lectorTablaSQL);
                     return operacion_monedero;
                 }
