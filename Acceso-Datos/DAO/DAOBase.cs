@@ -54,6 +54,10 @@ namespace DAO
                 }
                 return estadosCiviles;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -93,6 +97,10 @@ namespace DAO
                 }
                 return tiposTarjetas;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -129,6 +137,10 @@ namespace DAO
                     bancos.Add(row);
                 }
                 return bancos;
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
             }
             catch (NpgsqlException ex)
             {
@@ -167,6 +179,10 @@ namespace DAO
                 }
                 return tiposCuentas;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -203,6 +219,10 @@ namespace DAO
                     tiposParametros.Add(row);
                 }
                 return tiposParametros;
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
             }
             catch (NpgsqlException ex)
             {
@@ -242,6 +262,10 @@ namespace DAO
                 }
                 return frecuencias;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -278,6 +302,10 @@ namespace DAO
                     parametros.Add(row);
                 }
                 return parametros;
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
             }
             catch (NpgsqlException ex)
             {
@@ -316,6 +344,10 @@ namespace DAO
                 }
                 return tiposOperaciones;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -352,6 +384,10 @@ namespace DAO
                     tiposIdentificaciones.Add(row);
                 }
                 return tiposIdentificaciones;
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
             }
             catch (NpgsqlException ex)
             {
@@ -391,6 +427,10 @@ namespace DAO
                 }
                 return tarjetas;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -428,6 +468,10 @@ namespace DAO
                     cuentas.Add(row);
                 }
                 return cuentas;
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
             }
             catch (NpgsqlException ex)
             {
@@ -468,6 +512,10 @@ namespace DAO
                 }
                 return reintegros;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -506,6 +554,10 @@ namespace DAO
                     reintegros.Add(row);
                 }
                 return reintegros;
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
             }
             catch (NpgsqlException ex)
             {
@@ -547,6 +599,10 @@ namespace DAO
                 }
                 return reintegros;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -585,6 +641,10 @@ namespace DAO
                     cobros.Add(row);
                 }
                 return cobros;
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
             }
             catch (NpgsqlException ex)
             {
@@ -625,6 +685,10 @@ namespace DAO
                 }
                 return cobros;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -664,6 +728,10 @@ namespace DAO
                 }
                 return cobros;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -701,6 +769,10 @@ namespace DAO
                     parametrosUsuario.Add(row);
                 }
                 return parametrosUsuario;
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
             }
             catch (NpgsqlException ex)
             {
@@ -742,6 +814,10 @@ namespace DAO
                     return null;
                 }
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -774,6 +850,10 @@ namespace DAO
                 lectorTablaSQL.Read();
                 saldo = lectorTablaSQL.GetDouble(0);
                 return saldo;
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
             }
             catch (NpgsqlException ex)
             {
@@ -814,6 +894,10 @@ namespace DAO
                 }
                 return operacionesTarjeta;
             }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
             catch (NpgsqlException ex)
             {
                 Desconectar();
@@ -852,6 +936,10 @@ namespace DAO
                     operacionesCuenta.Add(row);
                 }
                 return operacionesCuenta;
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
             }
             catch (NpgsqlException ex)
             {
