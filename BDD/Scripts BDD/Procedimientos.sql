@@ -152,7 +152,11 @@ LANGUAGE plpgsql
 AS $$
 DECLARE
 BEGIN
-		INSERT INTO Usuario_Parametro(idUsuario, idParametro, validacion, estatus) VALUES ($1, $2, $3, $4);
+		IF NOT EXISTS (SELECT * FROM Usuario_Parametro A WHERE A.idUsuario = $1 AND A.idParametro = $2) THEN
+			INSERT INTO Usuario_Parametro(idUsuario, idParametro, validacion, estatus) VALUES ($1, $2, $3, $4);
+		ELSE
+			UPDATE Usuario_Parametro SET Estatus = $4, Validacion = $3 WHERE idUsuario = $1 AND idParametro = $2;
+		END IF;
 		RETURN TRUE;
 END;
 $$;
