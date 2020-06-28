@@ -28,7 +28,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 			List<Object> parametrosResponse = new List<Object>();
 			for (int i = 0; i < parametros.Count; i++)
 			{
-				var infoAdicional = new { parametros[i].parametro};
+				var infoAdicional = new { parametros[i].parametro, parametros[i].parametro.frecuencia, parametros[i].parametro.tipoParametro};
 				var elementResponse = new { parametros[i].idUsuario, parametros[i].estatus, parametros[i].validacion, infoAdicional };
 				parametrosResponse.Add(elementResponse);
 
