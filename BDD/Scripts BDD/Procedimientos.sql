@@ -719,8 +719,8 @@ BEGIN
 		SELECT COALESCE(OperacionTarjeta.idOperacionTarjeta, 0) FROM OperacionTarjeta into op_limit_tarjeta
 													JOIN OperacionesMonedero ON OperacionesMonedero.referencia = referenciaValid and OperacionTarjeta.referencia = OperacionesMonedero.referencia || 'TARJ'||OperacionTarjeta.idTarjeta
 													WHERE OperacionesMonedero.idTipoOperacion = tipoOperacion ORDER BY OperacionTarjeta.Fecha DESC LIMIT 1;
-		SELECT SUM(COALESCE(OperacionCuenta.monto,0)) FROM OperacionCuenta INTO Totalizacion_Cuenta WHERE OperacionCuenta.idOperacionCuenta > op_limit_cuenta AND OperacionCuenta.idUsuarioReceptor = $1;
-		SELECT SUM(COALESCE(OperacionTarjeta.monto,0)) FROM OperacionTarjeta INTO Totalizacion_Tarjeta WHERE OperacionTarjeta.idOperacionTarjeta > op_limit_tarjeta AND OperacionTarjeta.idUsuarioReceptor = $1;
+		SELECT SUM(COALESCE(OperacionCuenta.monto,0)) FROM OperacionCuenta INTO Totalizacion_Cuenta WHERE OperacionCuenta.idOperacionCuenta >COALESCE(op_limit_cuenta,0) AND OperacionCuenta.idUsuarioReceptor = $1;
+		SELECT SUM(COALESCE(OperacionTarjeta.monto,0)) FROM OperacionTarjeta INTO Totalizacion_Tarjeta WHERE OperacionTarjeta.idOperacionTarjeta > COALESCE(op_limit_tarjeta,0) AND OperacionTarjeta.idUsuarioReceptor = $1;
 		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
 			VALUES ($1, tipoOperacion, COALESCE(Totalizacion_Cuenta + Totalizacion_Tarjeta, 0), current_date, current_time, referenciaValid);
 		RETURN QUERY SELECT * FROM OperacionesMonedero JOIN TipoOperacion ON TipoOperacion.idTipoOperacion = OperacionesMonedero.idTipoOperacion
