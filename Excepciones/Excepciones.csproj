@@ -130,6 +130,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Excepciones\Exepciones_Especificas\CambioContraseñaException.cs" />
     <Compile Include="Excepciones\Exepciones_Especificas\AutenticaciónAppException.cs" />
     <Compile Include="Excepciones\Exepciones_Especificas\PGSQLException.cs" />
     <Compile Include="Excepciones\Exepciones_Especificas\UsuarioBloqueadoException.cs" />

@@ -1643,7 +1643,7 @@ namespace DAO
 
                 comandoSQL = conector.CreateCommand();
 
-                comandoSQL.CommandText = string.Format("SELECT Pago_Tarjeta(@IdUsuarioReceptor, @IdUsuarioPago, @Monto, @IdCobro)");
+                comandoSQL.CommandText = string.Format("SELECT Reintegro_Monedero(@IdUsuarioReceptor, @IdUsuarioPago, @Monto, @IdCobro)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioPago", IdUsuarioPago));
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
