@@ -302,5 +302,10 @@ namespace moneyucab_portalweb_back.Comandos
         {
             return new Comando_Recarga_Monedero_Tarjeta(IdUsuario, IdMedioPaga, Monto);
         }
+        
+        public static Comando_Cambio_Contraseña Fabricar_Cmd_Cambio_Contraseña(UserManager<Usuario> UserManager, string Usuario, string PasswordActual, string PasswordCambio)
+        {
+            return new Comando_Cambio_Contraseña(UserManager, Usuario, PasswordActual, PasswordCambio);
+        }
     }
 }

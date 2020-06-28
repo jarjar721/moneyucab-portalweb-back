@@ -204,6 +204,29 @@ namespace moneyucab_portalweb_back.Controllers
         }
 
         [HttpPost]
+        [Route("ChangePassword")]
+        //Post: /api/Authentication/ResetPassword
+        public async Task<IActionResult> ChangePassword(ResetPasswordModel Model)
+        {
+            try
+            {
+                // Busco al usuario por su ID
+                var result = await FabricaComandos.Fabricar_Cmd_Cambio_Contraseña(_userManager, Model.idUsuario, Model.resetPasswordToken, Model.newPassword).Ejecutar();
+
+                return Ok(new { key = "ChangePasswordSuccess", message = "¡Contraseña cambiada!", result });
+            }
+            catch (MoneyUcabException ex)
+            {
+                return BadRequest(ex.Response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
+            }
+
+        }
+
+        [HttpPost]
         [Authorize]
         [Route("Modification")]
         public async Task<IActionResult> Modification([FromBody]ModificacionUsuario Formulario)
