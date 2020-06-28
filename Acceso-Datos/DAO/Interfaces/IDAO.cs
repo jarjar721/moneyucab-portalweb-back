@@ -452,6 +452,28 @@ namespace DAO.Interfaces
         void ReintegroMonedero(int IdUsuarioReceptor, int IdUsuarioPago, double Monto, int IdCobro);
 
         /// <summary>
+        /// Se realiza una recarga con la cuenta.
+        /// </summary>
+        /// <param name="IdUsuarioReceptor">Especifica el id del usuario receptor de la recarga</param>
+        /// <param name="IdCuentaPago">Especifica el id de la cuenta que realiza el pago</param>
+        /// <param name="Monto">Especifica el monto de la recarga</param>
+        /// <exception cref="PGSQLException">Tira excepción relacionado a la base de datos.</exception>
+        /// <exception cref="MoneyUcabException">Tira excepción relacionado a lógica de negocio que se esté manejando en este punto.</exception>
+        /// <exception cref="Exception">Exception para controlar cualquier error inesperado y no controlado por el backend.</exception>
+        bool RecargaMonederoCuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto);
+
+        /// <summary>
+        /// Se realiza una recarga con la tarjeta.
+        /// </summary>
+        /// <param name="IdUsuarioReceptor">Especifica el id del usuario receptor de la recarga</param>
+        /// <param name="IdTarjetaPago">Especifica el id de la tarjeta que realiza el pago</param>
+        /// <param name="Monto">Especifica el monto de la recarga</param>
+        /// <exception cref="PGSQLException">Tira excepción relacionado a la base de datos.</exception>
+        /// <exception cref="MoneyUcabException">Tira excepción relacionado a lógica de negocio que se esté manejando en este punto.</exception>
+        /// <exception cref="Exception">Exception para controlar cualquier error inesperado y no controlado por el backend.</exception>
+        bool RecargaMonederoTarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto);
+
+        /// <summary>
         /// Se realiza la edición de datos con los parámetros colocados para dicho usuario, sin embargo, usuario e email no funcionan como edición.
         /// </summary>
         /// <param name="Nombre">Especifica el nombre de usuario para la aplicación</param>

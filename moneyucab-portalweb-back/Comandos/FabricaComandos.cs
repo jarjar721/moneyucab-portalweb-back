@@ -292,5 +292,15 @@ namespace moneyucab_portalweb_back.Comandos
         {
             return new Comando_Registro_Comercio(Comercio);
         }
+
+        public static Comando_Recarga_Monedero_Cuenta Fabricar_Cmd_Recarga_Monedero_Cuenta(int IdUsuario, int IdMedioPaga, double Monto)
+        {
+            return new Comando_Recarga_Monedero_Cuenta(IdUsuario, IdMedioPaga, Monto);
+        }
+
+        public static Comando_Recarga_Monedero_Tarjeta Fabricar_Cmd_Recarga_Monedero_Tarjeta(int IdUsuario, int IdMedioPaga, double Monto)
+        {
+            return new Comando_Recarga_Monedero_Tarjeta(IdUsuario, IdMedioPaga, Monto);
+        }
     }
 }

@@ -1775,7 +1775,7 @@ namespace DAO
 
                 comandoSQL = conector.CreateCommand();
 
-                comandoSQL.CommandText = string.Format("SELECT Eliminar_Cuenta(@CuentaId)");
+                comandoSQL.CommandText = string.Format("SELECT * FROM Eliminar_Cuenta(@CuentaId)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("CuentaId", IdCuenta));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
                 if (lectorTablaSQL.Read())
@@ -1816,7 +1816,7 @@ namespace DAO
 
                 comandoSQL = conector.CreateCommand();
 
-                comandoSQL.CommandText = string.Format("SELECT Eliminar_Tarjeta(@IdTarjeta)");
+                comandoSQL.CommandText = string.Format("SELECT * FROM Eliminar_Tarjeta(@IdTarjeta)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("IdTarjeta", IdTarjeta));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
                 if (lectorTablaSQL.Read())
@@ -1857,7 +1857,7 @@ namespace DAO
 
                 comandoSQL = conector.CreateCommand();
 
-                comandoSQL.CommandText = string.Format("SELECT Comercio_Usuario(@Usuario)");
+                comandoSQL.CommandText = string.Format("SELECT * FROM Comercio_Usuario(@Usuario)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Usuario", Usuario));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
                 if (lectorTablaSQL.Read())
@@ -1896,7 +1896,7 @@ namespace DAO
 
                 comandoSQL = conector.CreateCommand();
 
-                comandoSQL.CommandText = string.Format("SELECT Persona_Usuario(@Usuario)");
+                comandoSQL.CommandText = string.Format("SELECT * FROM Persona_Usuario(@Usuario)");
                 comandoSQL.Parameters.Add(new NpgsqlParameter("Usuario", Usuario));
                 lectorTablaSQL = comandoSQL.ExecuteReader();
                 if (lectorTablaSQL.Read())
@@ -1925,6 +1925,88 @@ namespace DAO
                 Desconectar();
             }
             throw new MoneyUcabException("No se pudo determinar qué tipo de usuario era", 220);
+        }
+
+        public bool RecargaMonederoCuenta(int IdUsuarioReceptor, int IdCuentaPago, double Monto)
+        {
+            try
+            {
+                Conectar();
+
+                comandoSQL = conector.CreateCommand();
+
+                comandoSQL.CommandText = string.Format("SELECT * FROM Recarga_Monedero_Cuenta(@IdUsuarioReceptor, @IdCuentaPago, @Monto)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdCuentaPago", IdCuentaPago));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    return lectorTablaSQL.GetBoolean(0);
+                }
+                else
+                    throw new MoneyUcabException("No se pudo realizar la recarga", 240);
+            }
+            catch (NpgsqlException ex)
+            {
+                Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 0);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            throw new MoneyUcabException("No se pudo realizar la recarga", 240);
+        }
+
+        public bool RecargaMonederoTarjeta(int IdUsuarioReceptor, int IdTarjetaPago, double Monto)
+        {
+            try
+            {
+                Conectar();
+
+                comandoSQL = conector.CreateCommand();
+
+                comandoSQL.CommandText = string.Format("SELECT * FROM Recarga_Monedero_Tarjeta(@IdUsuarioReceptor, @IdTarjetaPago, @Monto)");
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdUsuarioReceptor", IdUsuarioReceptor));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("IdTarjetaPago", IdTarjetaPago));
+                comandoSQL.Parameters.Add(new NpgsqlParameter("Monto", Monto));
+                lectorTablaSQL = comandoSQL.ExecuteReader();
+                if (lectorTablaSQL.Read())
+                {
+                    return lectorTablaSQL.GetBoolean(0);
+                }
+                else
+                    throw new MoneyUcabException("No se pudo realizar la recarga", 240);
+            }
+            catch (NpgsqlException ex)
+            {
+                Desconectar();
+                PGSQLException.ProcesamientoException(ex);
+            }
+            catch (MoneyUcabException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Desconectar();
+                throw new MoneyUcabException(ex, "Error Desconocido", 0);
+            }
+            finally
+            {
+                Desconectar();
+            }
+            throw new MoneyUcabException("No se pudo realizar la recarga", 240);
         }
     }
 }

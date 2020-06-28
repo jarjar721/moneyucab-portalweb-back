@@ -35,5 +35,49 @@ namespace moneyucab_portalweb_back.Controllers
                 return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
             }
         }
+
+        [HttpPost]
+        [Authorize]
+        [Route("RecargaMonederoTarjeta")]
+        public async Task<Object> Recarga_Monedero_Tarjeta([FromBody] Transferencia Formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
+        {
+            try
+            {
+                var result = await FabricaComandos.Fabricar_Cmd_Recarga_Monedero_Tarjeta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto).Ejecutar();
+                return Ok(new { key = "RealizarRecargaMonedero", message = "Recarga realizada", result });
+
+            }
+            catch (MoneyUcabException ex)
+            {
+                return BadRequest(ex.Response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
+            }
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("RecargaMonederoCuenta")]
+        public async Task<Object> Recarga_Monedero_Cuenta([FromBody] Transferencia Formulario) //No estoy claro de si aca se usa [frombody] o [fromform]
+        {
+            try
+            {
+                var result = await FabricaComandos.Fabricar_Cmd_Recarga_Monedero_Cuenta(Formulario.idUsuarioReceptor, Formulario.idMedioPaga, Formulario.monto).Ejecutar();
+                return Ok(new { key = "RealizarRecargaMonedero", message = "Recarga realizada", result });
+
+            }
+            catch (MoneyUcabException ex)
+            {
+                return BadRequest(ex.Response());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(MoneyUcabException.ResponseErrorDesconocido(ex));
+            }
+
+        }
     }
 }
