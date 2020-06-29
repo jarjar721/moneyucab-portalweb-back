@@ -204,6 +204,7 @@ namespace moneyucab_portalweb_back.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [Route("ChangePassword")]
         //Post: /api/Authentication/ResetPassword
         public async Task<IActionResult> ChangePassword(ResetPasswordModel Model)

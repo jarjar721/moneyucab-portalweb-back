@@ -22,7 +22,7 @@ namespace DAO
         {
             NpgsqlConnectionStringBuilder conn_string = new NpgsqlConnectionStringBuilder();
             conn_string.Host = "127.0.0.1";
-            conn_string.Port = 5432;
+            conn_string.Port = 5450;
             conn_string.Username = "postgres";
             //conn_string.Password = "lolazo123";
             conn_string.Password = "lolazo123";                
