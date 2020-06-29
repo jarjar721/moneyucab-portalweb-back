@@ -33,13 +33,14 @@ namespace moneyucab_portalweb_back.IdentityExtentions
         public override async Task<IdentityResult> CreateAsync(Usuario User, string Password)
         {
             await base.CreateAsync(User, Password);
-            await AddToPreviousPasswordsAsync(User, Password);
+            var user = await FindByEmailAsync(User.Email);
+            await AddToPreviousPasswordsAsync(user, user.PasswordHash);
             return await Task.FromResult(IdentityResult.Success);
         }
 
         public override async Task<IdentityResult> ChangePasswordAsync(Usuario User, string CurrentPassword, string NewPassword)
         {
-            if (await IsPreviousPassword(User.Id, NewPassword))
+            if (await IsPreviousPassword(User.Id, NewPassword, CurrentPassword))
             {
                 return await Task.FromResult(IdentityResult.Failed());
             }
@@ -81,14 +82,24 @@ namespace moneyucab_portalweb_back.IdentityExtentions
         {
             var user = await FindByIdAsync(IdUsuario);
             var hashedPassword = user.PasswordHash;
+            var newHashedPassword = PasswordHasher.HashPassword(user, NewPassword);
             if (
                 user.PreviousUserPasswords
                 .OrderByDescending(x => x.FechaCreacion)
                 .Select(x => x.PasswordHash)
                 .Take(PASSWORD_HISTORY_LIMIT)
-                .Where(x => PasswordHasher.VerifyHashedPassword(user, hashedPassword, NewPassword) != PasswordVerificationResult.Failed)
+                .Where(x => PasswordHasher.VerifyHashedPassword(user, hashedPassword, newHashedPassword) == PasswordVerificationResult.Success)
                 .Any()
             )
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private async Task<bool> IsPreviousPassword(string IdUsuario, string NewPassword, string CurrentPassword)
+        {
+            if ( NewPassword == CurrentPassword)
             {
                 return true;
             }
