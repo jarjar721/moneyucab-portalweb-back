@@ -31,7 +31,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
 
             try
             {
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, _model.email, _model.email, " ").Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, _model.email, _model.email, _model.email).Ejecutar();
             }
             catch (UsuarioExistenteException ex)
             {
