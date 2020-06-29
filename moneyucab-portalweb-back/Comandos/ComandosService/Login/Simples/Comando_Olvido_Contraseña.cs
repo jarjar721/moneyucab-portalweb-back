@@ -23,6 +23,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             this._appSettings = AppSettings;
             this._userManager = UserManager;
             this._model = Model;
+            this._emailSender = EmailSender;
         }
 
         async public Task<Boolean> Ejecutar()
@@ -70,7 +71,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             };
 
             // Se envía el mensaje al correo del usuario registrado
-            await _emailSender.SendEmailAsync(emailDetails);
+            _emailSender.SendEmailAsync(emailDetails);
             return true;
         }
 

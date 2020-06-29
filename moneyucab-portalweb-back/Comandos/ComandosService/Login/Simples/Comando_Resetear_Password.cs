@@ -22,7 +22,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
         {
             try
             {
-                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, " ", " ", _model.idUsuario).Ejecutar();
+                await FabricaComandos.Fabricar_Cmd_Existencia_Usuario(_userManager, _model.idUsuario, _model.idUsuario, _model.idUsuario).Ejecutar();
             }
             catch (UsuarioExistenteException ex)
             {
@@ -35,6 +35,14 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
             var decodedToken = _model.resetPasswordToken.Replace("_", "/").Replace("-", "+").Replace(".", "=");
 
             var usuario = await _userManager.FindByIdAsync(_model.idUsuario);
+            if (usuario == null)
+            {
+                usuario = await _userManager.FindByEmailAsync(_model.idUsuario);
+                if(usuario == null)
+                {
+                    usuario = await _userManager.FindByNameAsync(_model.idUsuario);
+                }
+            }
             // Cambia la contraseña del usuario
             var result = await _userManager.ResetPasswordAsync(usuario, decodedToken, _model.newPassword);
 
