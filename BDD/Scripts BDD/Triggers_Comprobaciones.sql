@@ -316,7 +316,7 @@ BEGIN
 	SELECT descripcion FROM TipoCuenta into tipo_cuenta
 		JOIN Cuenta ON TipoCuenta.idTipoCuenta= Cuenta.idTipoCuenta
 		WHERE Cuenta.idCuenta = new.idCuenta AND Descripcion = 'Monedero';
-	IF (new.monto > monto_acum AND tipo_cuenta = 'Monedero' AND new.idtipoOperacion <> 2) THEN
+	IF (new.monto > monto_acum AND tipo_cuenta = 'Monedero' AND NOT EXISTS (SELECT * FROM OperacionesMonedero A WHERE A.idTipoOperacion = 2 AND A.referencia = new.referencia)) THEN
 		
 		RAISE EXCEPTION 'Monto excede cantidad disponible, no se puede realizar el pago.';
 		RETURN NULL;
