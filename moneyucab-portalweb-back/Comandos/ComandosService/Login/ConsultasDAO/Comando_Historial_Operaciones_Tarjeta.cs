@@ -21,10 +21,10 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.ConsultasDAO
 			this._idTarjeta = IdTarjeta;
 		}
 
-		async public Task<List<ComOperacionCuenta>> Ejecutar()
+		async public Task<List<ComOperacionTarjeta>> Ejecutar()
 		{
 			DAOBase dao = FabricaDAO.CrearDaoBase();
-			return dao.HistorialOperacionesCuenta(this._idTarjeta);
+			return dao.HistorialOperacionesTarjeta(this._idTarjeta);
 		}
 		
 		
