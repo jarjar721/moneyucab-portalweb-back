@@ -677,11 +677,11 @@ DECLARE
 BEGIN
 		referenciaValid:= ($1 || '' || current_date || '' || current_time || '' ||$2);
 		SELECT TipoOperacion.idTipoOperacion FROM TipoOperacion into tipoOperacion WHERE descripcion = 'Recarga';
-		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
-			VALUES ($1, tipoOperacion, $3, current_date, current_time, referenciaValid);
 		--Cuando se ejecuta el procedimiento de pago, se debe tener un numero de referencia por parte del e-commerce, por eso se cambia la referencia
 		INSERT INTO OperacionCuenta(idUsuarioReceptor, idCuenta, fecha, hora, monto, referencia)
 			VALUES ($1, $2, current_date, current_time, $3, referenciaValid);
+		INSERT INTO OperacionesMonedero (idUsuario, idTipoOperacion, monto, fecha, hora, referencia)
+			VALUES ($1, tipoOperacion, $3, current_date, current_time, referenciaValid);
 		RETURN TRUE;
 END;
 $$;
