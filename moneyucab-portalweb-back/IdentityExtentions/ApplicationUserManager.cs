@@ -5,6 +5,7 @@ using moneyucab_portalweb_back.EntitiesForm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace moneyucab_portalweb_back.IdentityExtentions
@@ -34,20 +35,20 @@ namespace moneyucab_portalweb_back.IdentityExtentions
         {
             await base.CreateAsync(User, Password);
             var user = await FindByEmailAsync(User.Email);
-            await AddToPreviousPasswordsAsync(user, user.PasswordHash);
+            await AddToPreviousPasswordsAsync(user, Password);
             return await Task.FromResult(IdentityResult.Success);
         }
 
         public override async Task<IdentityResult> ChangePasswordAsync(Usuario User, string CurrentPassword, string NewPassword)
         {
-            if (await IsPreviousPassword(User.Id, NewPassword, CurrentPassword))
+            if (await IsPreviousPassword(User.Id, NewPassword))
             {
                 return await Task.FromResult(IdentityResult.Failed());
             }
             var result = await base.ChangePasswordAsync(User, CurrentPassword, NewPassword);
             if (result.Succeeded)
             {
-                await AddToPreviousPasswordsAsync(await FindByIdAsync(User.Id), PasswordHasher.HashPassword(User, NewPassword));
+                await AddToPreviousPasswordsAsync(await FindByIdAsync(User.Id), NewPassword);
             }
             return result;
         }
@@ -61,7 +62,7 @@ namespace moneyucab_portalweb_back.IdentityExtentions
             var result = await base.ResetPasswordAsync(User, Token, NewPassword);
             if (result.Succeeded)
             {
-                await AddToPreviousPasswordsAsync(await FindByIdAsync(User.Id), PasswordHasher.HashPassword(User, NewPassword));
+                await AddToPreviousPasswordsAsync(await FindByIdAsync(User.Id), NewPassword);
             }
             return result;
         }
@@ -81,25 +82,14 @@ namespace moneyucab_portalweb_back.IdentityExtentions
         private async Task<bool> IsPreviousPassword(string IdUsuario, string NewPassword)
         {
             var user = await FindByIdAsync(IdUsuario);
-            var hashedPassword = user.PasswordHash;
-            var newHashedPassword = PasswordHasher.HashPassword(user, NewPassword);
             if (
                 user.PreviousUserPasswords
                 .OrderByDescending(x => x.FechaCreacion)
                 .Select(x => x.PasswordHash)
                 .Take(PASSWORD_HISTORY_LIMIT)
-                .Where(x => PasswordHasher.VerifyHashedPassword(user, hashedPassword, newHashedPassword) == PasswordVerificationResult.Success)
+                .Where(x => x.Equals(NewPassword))
                 .Any()
             )
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private async Task<bool> IsPreviousPassword(string IdUsuario, string NewPassword, string CurrentPassword)
-        {
-            if ( NewPassword == CurrentPassword)
             {
                 return true;
             }
