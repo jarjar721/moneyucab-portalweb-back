@@ -4,14 +4,14 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://66.42.95.58:49684",
+      "applicationUrl": "http://localhost:49683",
       "sslPort": 0
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": false,
+      "launchBrowser": true,
       "launchUrl": "api/dashboard/elements",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -19,9 +19,9 @@
     },
     "moneyucab_portalweb_back": {
       "commandName": "Project",
-      "launchBrowser": false,
+      "launchBrowser": true,
       "launchUrl": "api/dashboard/elements",
-      "applicationUrl": "http://localhost:5000",
+      "applicationUrl": "http://localhost:49683",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -12,12 +12,17 @@ using NpgsqlTypes;
 namespace moneyucab_portalweb_back.Comandos
 {
     /// <summary>
-    /// Class <c>FabricaComandos</c>
-    /// Clase que se encarga de la fábrica de los comandos simples para la lógica del backend.
+    /// Clase que se encarga de la fábrica de los comandos simples para la lógica del backend, controlando de esta forma la instanciación y prolongación de vida de dichas clases.
     /// </summary>
     public static class FabricaComandos
     {
 
+        /// <summary>
+        /// Instanciación y fábrica del comando establecido con la lógica definida en sí mismo.
+        /// </summary>
+        /// <param name="UserManager">Es el administrador de acciones por parte del servidor a través del framework de entity.</param>
+        /// <param name="Registration">Es el formulario usado para dicha acción dentro del comando.</param>
+        /// <returns>Retorna la lógica de verificar registro de usuario.</returns>
         public static Comando_Verificar_Registro_Usuario Fabricar_Cmd_Verificar_Registro_Usuario(UserManager<Usuario> UserManager, RegistrationModel Registration)
         {
             return new Comando_Verificar_Registro_Usuario(UserManager, Registration);
