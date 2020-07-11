@@ -18,7 +18,7 @@ namespace moneyucab_portalweb_back.Comandos.ComandosService.Login.Simples
         private readonly ApplicationSettings _appSettings;
         private IEmailSender _emailSender;
 
-        private readonly string _clientBaseURI = "http://localhost:4200/#/";
+        private readonly string _clientBaseURI = "https://localhost:4200/#/";
 
         public Comando_Registro_Usuario(UserManager<Usuario> UserManager, RegistrationModel UserModel, ApplicationSettings AppSettings, IEmailSender EmailSender)
         {

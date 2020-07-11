@@ -779,8 +779,15 @@ LANGUAGE plpgsql
 AS $$
 DECLARE
 	retorno DATE;
+	parametro text;
 BEGIN
-	SELECT current_date - INTERVAL '' || Usuario_Parametro.validacion || ' ' || frecuencia.descripcion FROM Usuario_Parametro
+	SELECT Usuario_Parametro.validacion|| ' ' || frecuencia.descripcion FROM Usuario_Parametro
+			INTO parametro
+			JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
+			JOIN Frecuencia ON Parametro.idFrecuencia = Frecuencia.idFrecuencia
+			JOIN TipoParametro ON TipoParametro.idTipoParametro = Parametro.idTipoParametro AND TipoParametro.descripcion = $3
+			WHERE Usuario_Parametro.idParametro = $2 AND USUARIO_PARAMETRO.idUsuario = $1;
+	SELECT (current_date - cast(parametro as interval)) FROM Usuario_Parametro
 			INTO retorno
 			JOIN Parametro ON Parametro.idParametro = Usuario_Parametro.idParametro
 			JOIN Frecuencia ON Parametro.idFrecuencia = Frecuencia.idFrecuencia
