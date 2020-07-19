@@ -342,6 +342,7 @@ CREATE TABLE IF NOT EXISTS Public.Usuario (
   telefono VARCHAR(12) NOT NULL,
   direccion VARCHAR(500) NOT NULL,
   estatus INT NOT NULL,
+  idUsuarioF INT,
   PRIMARY KEY (idUsuario),
   CONSTRAINT "FK_Usuario_TipoUsuario" FOREIGN KEY (idTipoUsuario)
         REFERENCES public.TipoUsuario (idTipoUsuario) MATCH SIMPLE
@@ -405,6 +406,7 @@ CREATE TABLE IF NOT EXISTS Public.Comercio (
   razon_social VARCHAR(200) NOT NULL,
   nombre_representante VARCHAR(45) NOT NULL,
   apellido_representante VARCHAR(45) NOT NULL,
+  comision DOUBLE PRECISION NOT NULL,
   PRIMARY KEY (idUsuario),
 	CONSTRAINT "FK_Comercio_Usuario" FOREIGN KEY (idUsuario)
         REFERENCES public.Usuario (idUsuario) MATCH SIMPLE
@@ -749,6 +751,7 @@ CREATE TABLE IF NOT EXISTS Public.Parametro (
   idFrecuencia INT NOT NULL,
   nombre VARCHAR(45) NOT NULL,
   estatus INT NOT NULL,
+  limite varchar,
   PRIMARY KEY (idParametro),
 	CONSTRAINT "FK_Parametro_TipoParametro" FOREIGN KEY (idTipoParametro)
         REFERENCES public.TipoParametro (idTipoParametro) MATCH SIMPLE
